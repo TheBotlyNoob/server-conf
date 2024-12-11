@@ -138,9 +138,9 @@ services:
         labels:
             - "traefik.enable=true"
             ## HTTP Routers
-            - "traefik.http.routers.whoami-individual-rtr.rule=Host(`whoami.${DOMAINNAME}`)"
+            - "traefik.http.routers.whoami-secure-rtr.rule=Host(`whoami.${DOMAINNAME}`)"
             ## Middlewares
-            - "traefik.http.routers.whoami-individual-rtr.middlewares=middlewares-authentik@file"
+            - "traefik.http.routers.whoami-secure-rtr.middlewares=middlewares-authentik@file"
 
     whoami-insecure:
         image: traefik/whoami:latest
@@ -157,4 +157,4 @@ services:
         labels:
             - "traefik.enable=true"
             ## HTTP Routers
-            - "traefik.http.routers.whoami-catchall-rtr.rule=Host(`whoami-insecure.${DOMAINNAME}`)"
+            - "traefik.http.routers.whoami-insecure-rtr.rule=Host(`whoami-insecure.${DOMAINNAME}`)"
