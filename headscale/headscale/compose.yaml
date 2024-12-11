@@ -14,11 +14,12 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.headscale-rtr.rule=Host(`headscale.${DOMAINNAME}`)"
-            - "traefik.http.services.headscale-rtr.loadbalancer.server.port=8080"
     headscale-ui:
         image: ghcr.io/gurucomputing/headscale-ui:latest
         restart: unless-stopped
         container_name: headscale-ui
+        volumes:
+            - "../headscale/config/ui:/data"
         networks:
             - traefik
         labels:
