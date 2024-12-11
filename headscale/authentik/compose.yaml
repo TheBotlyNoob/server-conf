@@ -39,6 +39,7 @@ services:
     authentik_redis:
         image: docker.io/library/redis:alpine
         container_name: authentik_redis
+        user: ${PUID}:${PGID}
         command: --save 60 1 --loglevel warning
         restart: unless-stopped
         healthcheck:
@@ -74,6 +75,8 @@ services:
             AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
             AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS:?database password required}
 
+            AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+        env_file: ../.env
         volumes:
             - "../${APP_ROOT}/authentik/media:/media"
             - "../${APP_ROOT}/authentik/custom-templates:/templates"
