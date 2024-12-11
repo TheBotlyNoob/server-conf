@@ -1,35 +1,8 @@
-services:
-    headscale:
-        image: headscale/headscale:stable
-        container_name: headscale
-        user: ${PUID}:${PGID}
-        volumes:
-            - ./headscale/config:/etc/headscale
-            - ${APP_ROOT}/headscale/data:/var/lib/headscale
-            - ${APP_ROOT}/headscale/sock:/var/run/headscale
-
-        ports:
-            - 27896:8080
-            - 9090:9090
-        networks:
-            - headscale
-        command: serve
-        restart: unless-stopped
-    headscale-ui:
-        image: ghcr.io/gurucomputing/headscale-ui:latest
-        restart: unless-stopped
-        container_name: headscale-ui
-        volumes:
-            - ./ui/config:/data
-        user: ${PUID}:${PGID}
-        networks:
-            - headscale
-        ports:
-            - 8080:8080
-
 include:
+    - ./headscale/compose.yaml
+    - ./traefik/compose.yaml
     - ./authentik/compose.yaml
 
 networks:
-    headscale:
+    traefik:
         driver: bridge

@@ -1,0 +1,26 @@
+services:
+    headscale:
+        image: headscale/headscale:stable
+        container_name: headscale
+        user: ${PUID}:${PGID}
+        volumes:
+            - ../headscale/config:/etc/headscale
+            - ../${APP_ROOT}/headscale/data:/var/lib/headscale
+            - ../${APP_ROOT}/headscale/sock:/var/run/headscale
+
+        ports:
+            - 27896:8080
+            - 9090:9090
+        networks:
+            - traefik
+        command: serve
+        restart: unless-stopped
+    headscale-ui:
+        image: ghcr.io/gurucomputing/headscale-ui:latest
+        restart: unless-stopped
+        container_name: headscale-ui
+        user: ${PUID}:${PGID}
+        networks:
+            - traefik
+        ports:
+            - 8080:8080
