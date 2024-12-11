@@ -7,17 +7,13 @@ services:
             - ../headscale/config:/etc/headscale
             - ../${APP_ROOT}/headscale/data:/var/lib/headscale
             - ../${APP_ROOT}/headscale/sock:/var/run/headscale
-
-        ports:
-            - 27896:8080
-            - 9090:9090
         networks:
             - traefik
         command: serve
         restart: unless-stopped
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.headscale.rule=Host(`headscale.${DOMAINNAME}`)"
+            - "traefik.http.routers.headscale-rtr.rule=Host(`headscale.${DOMAINNAME}`)"
     headscale-ui:
         image: ghcr.io/gurucomputing/headscale-ui:latest
         restart: unless-stopped
@@ -25,8 +21,6 @@ services:
         user: ${PUID}:${PGID}
         networks:
             - traefik
-        ports:
-            - 8080:8080
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.headscale-ui.rule=Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/web`)"
+            - "traefik.http.routers.headscale-ui-rtr.rule=Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/web`)"
