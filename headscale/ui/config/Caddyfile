@@ -1,8 +1,11 @@
 :8080 {
-    uri strip_prefix /web
-	file_server {
-		root /web
-	}
+	handle_path /web* {
+	    file_server {
+	    	root /web
+	    }
+    }
 
-	reverse_proxy * http://headscale:8080
+    handle {
+		reverse_proxy * http://headscale:8080
+	}
 }
