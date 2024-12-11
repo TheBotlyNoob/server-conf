@@ -111,5 +111,3 @@ networks:
 include:
     - ./traefik/compose.yaml
     - ./socket-proxy/compose.yaml
-    - ./authentik/compose.yaml
-    - ./whoami/compose.yaml

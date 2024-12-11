@@ -28,6 +28,9 @@ services:
             - 8443:8443
             - 8080:8080
 
+include:
+    - ./authentik/compose.yaml
+
 networks:
     headscale:
         driver: bridge

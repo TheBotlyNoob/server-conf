@@ -72,7 +72,10 @@ services:
             AUTHENTIK_POSTGRESQL__HOST: postgresql
             AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
             AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
-            AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+            AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS:?database password required}
+
+            AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+        env_file: ../.env
         volumes:
             - "../${APP_ROOT}/authentik/media:/media"
             - "../${APP_ROOT}/authentik/custom-templates:/templates"
@@ -107,7 +110,7 @@ services:
             AUTHENTIK_POSTGRESQL__HOST: postgresql
             AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
             AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
-            AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+            AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS:?database password required}
         volumes:
             - "../${APP_ROOT}/authentik/media:/media"
             - "../${APP_ROOT}/authentik/custom-templates:/templates"
