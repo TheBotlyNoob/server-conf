@@ -121,9 +121,9 @@ services:
             # - /var/run/docker.sock:/var/run/docker.sock # Uncomment if NOT using socket-proxy
             #- "./traefik/cert_export:/certs:ro" # If NOT using reverse proxy, manually map in certificates
 
-    whoami-secure:
+    whoami:
         image: traefik/whoami:latest
-        container_name: whoami-secure
+        container_name: whoami
         restart: unless-stopped
         security_opt:
             - no-new-privileges:true
@@ -141,20 +141,3 @@ services:
             - "traefik.http.routers.whoami-secure-rtr.rule=Host(`whoami.${DOMAINNAME}`)"
             ## Middlewares
             - "traefik.http.routers.whoami-secure-rtr.middlewares=middlewares-authentik@file"
-
-    whoami-insecure:
-        image: traefik/whoami:latest
-        container_name: whoami-insecure
-        restart: unless-stopped
-        security_opt:
-            - no-new-privileges:true
-        depends_on:
-            - traefik
-        networks:
-            - traefik
-        environment:
-            - TZ
-        labels:
-            - "traefik.enable=true"
-            ## HTTP Routers
-            - "traefik.http.routers.whoami-insecure-rtr.rule=Host(`whoami-insecure.${DOMAINNAME}`)"

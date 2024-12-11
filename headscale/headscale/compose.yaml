@@ -15,6 +15,9 @@ services:
             - traefik
         command: serve
         restart: unless-stopped
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.headscale.rule=Host(`headscale.${DOMAIN}`)"
     headscale-ui:
         image: ghcr.io/gurucomputing/headscale-ui:latest
         restart: unless-stopped
@@ -24,3 +27,6 @@ services:
             - traefik
         ports:
             - 8080:8080
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.headscale-ui.rule=Host(`headscale.${DOMAIN}`) && PathPrefix(`/web`)"
