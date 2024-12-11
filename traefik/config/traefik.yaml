@@ -6,7 +6,7 @@
 ################################################################
 global:
     checkNewVersion: false
-    sendAnonymousUsage: false
+    sendAnonymousUsage: true
 
 ################################################################
 # Entrypoints - https://doc.traefik.io/traefik/routing/entrypoints/
@@ -60,7 +60,7 @@ entryPoints:
 ################################################################
 log:
     level: INFO # Options: DEBUG, PANIC, FATAL, ERROR (Default), WARN, and INFO
-    filePath: /logs/traefik-container.log # Default is to STDOUT
+    # filePath: /logs/traefik-container.log # Default is to STDOUT
     # format: json # Uses text format (common) by default
     noColor: false # Recommended to be true when using common
     maxSize: 100 # In megabytes
@@ -113,9 +113,9 @@ providers:
 certificatesResolvers:
     le:
         acme:
-            email: "CHANGEME@gmail.com"
+            email: "letsencrypt@jjay.dev"
             storage: "/data/acme.json"
-            #caServer: "https://acme-staging-v02.api.letsencrypt.org/directory" # Comment out when going prod
+            caServer: "https://acme-staging-v02.api.letsencrypt.org/directory" # Comment out when going prod
             dnsChallenge:
                 provider: cloudflare
                 #delayBeforeCheck: 30 # Default is 2m0s.  This changes the delay (in seconds)

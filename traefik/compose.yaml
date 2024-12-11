@@ -53,10 +53,10 @@ services:
             - TZ=${TZ}
             - DOMAINNAME
         volumes:
-            - "./traefik/config:/config" # traefik.yaml
-            - "./traefik/data:/data" # acme.json defined in traefik.yaml
-            - "./traefik/rules:/rules" # Dynamic File Provider directory
-            - "./traefik:/logs"
+            - "../traefik/config:/config" # traefik.yaml
+            - "../traefik/data:/data" # acme.json defined in traefik.yaml
+            - "../traefik/rules:/rules" # Dynamic File Provider directory
+            - "../traefik/logs:/logs"
             ## When using Docker Socket Proxy, comment out the below direct socket access
             ## Ensure traefik.yaml matches chosen method
             # - "/var/run/docker.sock:/var/run/docker.sock:ro"

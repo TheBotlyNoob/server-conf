@@ -6,10 +6,7 @@
 # Dynamic configuration
 ################################################################
 http:
-  middlewares:
-    # Compress to save bandwidth
-    middlewares-compress:
-      compress: {}
-
------------------------
- middlewares-https-redirectscheme.yaml
+    middlewares:
+        # Compress to save bandwidth
+        middlewares-compress:
+            compress: {}

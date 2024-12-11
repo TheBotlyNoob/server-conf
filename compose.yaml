@@ -35,13 +35,14 @@ services:
     jellyseerr:
         image: fallenbagel/jellyseerr:latest
         container_name: jellyseerr
+        user: ${PUID}:${PGID}
         environment:
             - LOG_LEVEL=info
             - TZ=${TZ:-Etc/UTC}
         ports:
             - 5055:5055
         volumes:
-            - ./jellyseerr/app/config:/app/config
+            - ${APP_ROOT}/jellyseerr/app/config:/app/config
         networks:
             - jellyfin
             - arrs
