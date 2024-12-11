@@ -10,7 +10,7 @@
 #
 # https://myheadscale.example.com:443
 #
-server_url: http://0.0.0.0:8080
+server_url: http://stuff.jjay.dev
 
 # Address to listen to / bind to on the server
 #
@@ -22,7 +22,7 @@ listen_addr: 0.0.0.0:8080
 # to keep this endpoint private to your internal
 # network
 #
-metrics_listen_addr: http://stuff.jjay.dev
+metrics_listen_addr: 0.0.0.0:9090
 
 # Address to listen for gRPC.
 # gRPC is used for controlling a headscale server
