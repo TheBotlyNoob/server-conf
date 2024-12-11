@@ -25,3 +25,4 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.headscale-ui-rtr.rule=Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/web`)"
+            - "traefik.http.routers.headscale-ui-rtr.loadBalancer.server.port=8080"
