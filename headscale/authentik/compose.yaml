@@ -121,9 +121,9 @@ services:
             # - /var/run/docker.sock:/var/run/docker.sock # Uncomment if NOT using socket-proxy
             #- "./traefik/cert_export:/certs:ro" # If NOT using reverse proxy, manually map in certificates
 
-    whoami-individual:
+    whoami-secure:
         image: traefik/whoami:latest
-        container_name: whoami-individual
+        container_name: whoami-secure
         restart: unless-stopped
         security_opt:
             - no-new-privileges:true
@@ -138,20 +138,18 @@ services:
         labels:
             - "traefik.enable=true"
             ## HTTP Routers
-            - "traefik.http.routers.whoami-individual-rtr.rule=Host(`whoami-individual.${DOMAINNAME}`)"
+            - "traefik.http.routers.whoami-individual-rtr.rule=Host(`whoami.${DOMAINNAME}`)"
             ## Middlewares
             - "traefik.http.routers.whoami-individual-rtr.middlewares=middlewares-authentik@file"
 
-    whoami-catchall:
+    whoami-insecure:
         image: traefik/whoami:latest
-        container_name: whoami-catchall
+        container_name: whoami-insecure
         restart: unless-stopped
         security_opt:
             - no-new-privileges:true
         depends_on:
             - traefik
-            - authentik_server
-            - authentik_worker
         networks:
             - traefik
         environment:
@@ -159,6 +157,4 @@ services:
         labels:
             - "traefik.enable=true"
             ## HTTP Routers
-            - "traefik.http.routers.whoami-catchall-rtr.rule=Host(`whoami-catchall.${DOMAINNAME}`)"
-            ## Middlewares
-            - "traefik.http.routers.whoami-catchall-rtr.middlewares=middlewares-authentik@file"
+            - "traefik.http.routers.whoami-catchall-rtr.rule=Host(`whoami-insecure.${DOMAINNAME}`)"
