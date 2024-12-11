@@ -1,4 +1,10 @@
-0.0.0.0:8080 {
+{
+    auto_https off
+}
+
+:8080 {
+    bind 0.0.0.0
+
 	redir / /web
 	uri strip_prefix /web
 	file_server {
