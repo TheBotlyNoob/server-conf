@@ -2,17 +2,32 @@ services:
     headscale:
         image: headscale/headscale:stable
         container_name: headscale
+        user: 1000:100
         volumes:
-            - ./apps/headscale/config:/etc/headscale
+            - ./headscale/config:/etc/headscale
             - ./apps/headscale/data:/var/lib/headscale
+            - ./apps/headscale/sock:/var/run/headscale
+
         ports:
             - 27896:8080
+            - 9090:9090
+        networks:
+            - headscale
         command: serve
         restart: unless-stopped
     headscale-ui:
         image: ghcr.io/gurucomputing/headscale-ui:latest
         restart: unless-stopped
         container_name: headscale-ui
+        volumes:
+            - ./ui/config:/data
+        user: 1000:100
+        networks:
+            - headscale
         ports:
             - 8443:8443
             - 8080:8080
+
+networks:
+    headscale:
+        driver: bridge
