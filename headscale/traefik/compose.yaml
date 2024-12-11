@@ -54,7 +54,6 @@ services:
             - DOMAINNAME
 
             - CF_API_EMAIL=${CF_API_EMAIL:?needs cloudflare email}
-            - CF_API_KEY=${CF_API_KEY:?needs cloudflare key}
             - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN:?needs cloudflare dns token}
         volumes:
             - "../traefik/config:/config" # traefik.yaml
