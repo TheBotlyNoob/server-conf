@@ -2,11 +2,11 @@ services:
     headscale:
         image: headscale/headscale:stable
         container_name: headscale
-        user: 1000:100
+        user: ${PUID}:${PGID}
         volumes:
             - ./headscale/config:/etc/headscale
-            - ./apps/headscale/data:/var/lib/headscale
-            - ./apps/headscale/sock:/var/run/headscale
+            - ${APP_DATA}/headscale/data:/var/lib/headscale
+            - ${APP_DATA}/headscale/sock:/var/run/headscale
 
         ports:
             - 27896:8080
@@ -21,7 +21,7 @@ services:
         container_name: headscale-ui
         volumes:
             - ./ui/config:/data
-        user: 1000:100
+        user: ${PUID}:${PGID}
         networks:
             - headscale
         ports:
