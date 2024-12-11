@@ -5,8 +5,8 @@ services:
         user: ${PUID}:${PGID}
         volumes:
             - ./headscale/config:/etc/headscale
-            - ${APP_DATA}/headscale/data:/var/lib/headscale
-            - ${APP_DATA}/headscale/sock:/var/run/headscale
+            - ${APP_ROOT}/headscale/data:/var/lib/headscale
+            - ${APP_ROOT}/headscale/sock:/var/run/headscale
 
         ports:
             - 27896:8080
