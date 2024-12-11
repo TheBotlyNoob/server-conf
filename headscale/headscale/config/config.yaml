@@ -10,7 +10,7 @@
 #
 # https://myheadscale.example.com:443
 #
-server_url: http://stuff.jjay.dev
+server_url: https://stuff.jjay.dev
 
 # Address to listen to / bind to on the server
 #
