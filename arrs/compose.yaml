@@ -1,0 +1,79 @@
+services:
+    sonarr:
+        image: ghcr.io/linuxserver/sonarr:latest
+        container_name: sonarr
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ:-Etc/UTC}
+            - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:sonarr
+            - TP_THEME=${TP_THEME}
+        volumes:
+            - ${APP_ROOT}/sonarr/config:/config
+            - ${APP_ROOT}/sonarr/scripts:/scripts
+            - ${DATA_MOUNT_DIR}:/data:rshared
+        depends_on:
+            []
+            #rclone:
+            #                   condition: service_healthy
+        ports:
+            - 8989:8989
+        networks:
+            - arrs
+        labels:
+            - traefik.http.routers.sonarr.rule=Host(`sonarr.${DOMAINNAME}`)
+        restart: unless-stopped
+
+    radarr:
+        image: linuxserver/radarr:latest
+        container_name: radarr
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ:-Etc/UTC}
+            - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:radarr
+            - TP_THEME=${TP_THEME}
+        volumes:
+            - ${APP_ROOT}/radarr/config:/config
+            - ${APP_ROOT}/radarr/scripts:/scripts
+            - ./remotes:/remotes:rshared
+        depends_on:
+            []
+            #rclone:
+            #                   condition: service_healthy
+        networks:
+            - arrs
+        ports:
+            - 7676:7878
+        restart: unless-stopped
+
+    prowlarr:
+        image: ghcr.io/linuxserver/prowlarr:latest
+        container_name: prowlarr
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ:-Etc/UTC}
+            - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:prowlarr
+            - TP_THEME=${TP_THEME}
+        volumes:
+            - ${APP_ROOT}/prowlarr/config:/config
+        networks:
+            - arrs
+        ports:
+            - 9696:9696
+        restart: unless-stopped
+
+    flaresolverr:
+        image: flaresolverr/flaresolverr:latest
+        container_name: flaresolverr
+        environment:
+            - LOG_LEVEL=${LOG_LEVEL:-info}
+            - LOG_HTML=${LOG_HTML:-false}
+            - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+            - TZ=${TZ:-Etc/UTC}
+        ports:
+            - 8191:8191
+        networks:
+            - arrs
+        restart: unless-stopped

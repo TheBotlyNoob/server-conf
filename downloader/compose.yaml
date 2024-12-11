@@ -1,0 +1,85 @@
+services:
+    ### torrenting stuffs ###
+    # qbittorrent:
+    #     container_name: qbittorrent
+    #     volumes:
+    #         - ./remotes:/remotes:rshared
+    #         - ${QBITTORRENT_INCOMPLETE_MOUNT}:/downloads
+    #         - ./qbittorrent/config:/config
+    #     environment:
+    #         - PUID=${PUID}
+    #         - PGID=${PGID}
+    #         - TZ=${TZ:-Etc/UTC}
+    #         - WEBBUI_PORT=8080
+    #         - TORRENTING_PORT=${TORRENT_PORT}
+    #         - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:qbittorrent
+    #         - TP_THEME=${TP_THEME}
+    #     depends_on:
+    #         rclone:
+    #             condition: service_healthy
+    #     logging:
+    #         driver: json-file
+    #         options:
+    #             max-size: 10m
+    #     image: lscr.io/linuxserver/qbittorrent:latest
+    #     network_mode: "service:gluetun"
+    #     restart: unless-stopped
+
+    cross-seed:
+        image: ghcr.io/cross-seed/cross-seed
+        container_name: cross-seed
+        user: ${PUID}:${PGID} # optional but recommended
+        volumes:
+            - ./cross-seed/config:/config
+            - ./qbittorrent/config/qBittorrent/BT_backup:/torrents:ro # your torrent clients .torrent cache, can and should be mounted read-only (e.g. qbit: `BT_Backup` | deluge: `state` | transmission: `transmission/torrents` | rtorrent: session dir from `.rtorrent.rc`)
+            - ./cross-seed/torrents:/cross-seeds
+            # - ./remotes:/remotes:rshared # OPTIONAL!!! this is location of your data (used for data-based searches or linking)
+            # will need to mirror your torrent client's path (like Arr's do)
+        networks:
+            arrs:
+                ipv4_address: 10.125.0.96
+        command: daemon # this enables the daemon, change to search to specifically run a search ONLY
+        restart: unless-stopped # make sure to not enable it in search mode, otherwise it will keep rerunning constantly
+
+    autobrr:
+        container_name: autobrr
+        image: ghcr.io/autobrr/autobrr:latest
+        restart: unless-stopped
+        #logging:
+        #  driver: json-file
+        #  options:
+        #    max-file: ${DOCKERLOGGING_MAXFILE}
+        #    max-size: ${DOCKERLOGGING_MAXSIZE}
+        user: ${PUID}:${PGID}
+        environment:
+            - TZ=${TZ:-Etc/UTC}
+        volumes:
+            - ./autobrr/config:/config
+        networks:
+            - arrs
+        ports:
+            - 7474:7474
+
+    gluetun:
+        image: qmcgaw/gluetun
+        container_name: gluetun
+        cap_add:
+            - NET_ADMIN
+        devices:
+            - /dev/net/tun:/dev/net/tun
+        environment:
+            - VPN_SERVICE_PROVIDER=${WIREGUARD_PROVIDER}
+
+            - VPN_TYPE=wireguard
+            - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+            - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+            - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
+
+            # IMPORTANT FOR SPEEDS
+            - SERVER_REGIONS=${WIREGUARD_SERVER_REGIONS}
+
+            - FIREWALL_VPN_INPUT_PORTS=${TORRENT_PORT}
+        networks:
+            - arrs
+        ports:
+            - 9092:8080/tcp
