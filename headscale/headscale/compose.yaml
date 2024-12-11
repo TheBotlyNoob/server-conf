@@ -11,6 +11,8 @@ services:
             - traefik
         command: serve
         restart: unless-stopped
+        expose:
+            - 8080
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.headscale-rtr.rule=Host(`headscale.${DOMAINNAME}`)"
@@ -22,6 +24,8 @@ services:
             - "../headscale/config/ui:/data"
         networks:
             - traefik
+        expose:
+            - 8080
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.headscale-ui-rtr.rule=Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/web`)"
