@@ -19,6 +19,8 @@ services:
         restart: unless-stopped
         container_name: headscale-ui
         user: ${PUID}:${PGID}
+        volumes:
+            - ../${APP_ROOT}/headscale-ui:/data
         networks:
             - traefik
         labels:
