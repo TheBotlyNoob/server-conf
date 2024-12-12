@@ -8,7 +8,7 @@ services:
             - TS_EXTRA_ARGS=--advertise-tags=tag:container --advertise-exit-node
             - TS_HOSTNAME=windscribe
             - TS_STATE_DIR=/var/lib/tailscale
-            - TS_USERSPACE=true
+            - TS_USERSPACE=false
             - HEADSCALE_HOST=headscale.${DOMAINNAME}
         volumes:
             - ../${APP_ROOT}/tailscale/data:/var/lib/tailscale
@@ -16,25 +16,13 @@ services:
             - ../headscale/config:/etc/headscale
             - ../${APP_ROOT}/headscale/data:/var/lib/headscale
             - ../${APP_ROOT}/headscale/sock:/var/run/headscale
-        depends_on:
-            - headscale
-        network_mode: service:gluetun
-        restart: unless-stopped
-
-    gluetun:
-        image: qmcgaw/gluetun
-        container_name: gluetun
-        cap_add:
-            - NET_ADMIN
+        network_mode: host
         devices:
             - /dev/net/tun:/dev/net/tun
-        environment:
-            - VPN_SERVICE_PROVIDER=${WIREGUARD_PROVIDER}
+        cap_add:
+            - net_admin
+            - sys_module
 
-            - VPN_TYPE=wireguard
-            - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-            - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
-            - WIREGUARD_PRESHARED_KEY=${WIREGUARD_PRESHARED_KEY}
-
-            # IMPORTANT FOR SPEEDS
-            - SERVER_CITIES=${WIREGUARD_SERVER_CITIES}
+        depends_on:
+            - headscale
+        restart: unless-stopped

@@ -8,9 +8,8 @@ services:
             - ../${APP_ROOT}/headscale/data:/var/lib/headscale
             - ../${APP_ROOT}/headscale/sock:/var/run/headscale
         networks:
-            traefik:
-            headscale:
-                ipv4_address: 10.125.0.81
+            - traefik
+            - headscale
         command: serve
         restart: unless-stopped
         expose:
