@@ -13,6 +13,10 @@ services:
             - ../${APP_ROOT}/headscale/sock:/var/run/headscale
         devices:
             - /dev/net/tun:/dev/net/tun
+        depends_on:
+            - headscale
+        networks:
+            - headscale
         cap_add:
             - net_admin
             - sys_module

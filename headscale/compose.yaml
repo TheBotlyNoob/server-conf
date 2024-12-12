@@ -19,3 +19,7 @@ networks:
         ipam:
             config:
                 - subnet: 10.255.224.0/24
+
+    headscale:
+        name: headscale
+        driver: bridge
