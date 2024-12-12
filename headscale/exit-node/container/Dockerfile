@@ -1,6 +1,6 @@
 FROM headscale/headscale:stable as headscale
 
-FROM tailscale/alpine-base:latest
+FROM tailscale/tailscale:latest
 
 RUN apk add --no-cache jq
 
