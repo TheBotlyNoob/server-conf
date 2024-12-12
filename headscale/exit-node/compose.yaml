@@ -10,6 +10,9 @@ services:
             - TS_USERSPACE=false
         volumes:
             - ../${APP_ROOT}/tailscale/data:/var/lib/tailscale
+            # headscale stuff
+            - ../headscale/config:/etc/headscale
+            - ../${APP_ROOT}/headscale/data:/var/lib/headscale
             - ../${APP_ROOT}/headscale/sock:/var/run/headscale
         devices:
             - /dev/net/tun:/dev/net/tun
