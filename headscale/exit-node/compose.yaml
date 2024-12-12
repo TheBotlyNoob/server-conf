@@ -6,7 +6,7 @@ services:
         container_name: tailscale-exit-node
         environment:
             - TS_EXTRA_ARGS=--advertise-tags=tag:container --advertise-exit-node
-            - TS_HOSTNAME=windscribe
+            - TS_HOSTNAME=outside
             - TS_STATE_DIR=/var/lib/tailscale
             - TS_USERSPACE=false
             - HEADSCALE_HOST=headscale.${DOMAINNAME}
