@@ -38,5 +38,3 @@ services:
 
             # IMPORTANT FOR SPEEDS
             - SERVER_REGIONS=${WIREGUARD_SERVER_REGIONS}
-
-            - FIREWALL_VPN_INPUT_PORTS=${TORRENT_PORT}
