@@ -18,19 +18,34 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.headscale-rtr.rule=Host(`headscale.${DOMAINNAME}`)"
 
-    headscale-ui:
-        image: ghcr.io/gurucomputing/headscale-ui:latest
+    headplane:
+        container_name: headplane
+        image: ghcr.io/tale/headplane:0.3.9
         restart: unless-stopped
-        container_name: headscale-ui
         volumes:
-            - "../headscale/config/ui:/data"
+            - "../${APP_ROOT}/headscale/data:/var/lib/headscale"
+            - "../headscale/config:/etc/headscale"
+        environment:
+            # This is always required for Headplane to work
+            COOKIE_SECRET: "${HEADPLANE_COOKIE_SECRET:?headplane_cookie_secret is required}"
+
+            DOCKER_SOCK: "tcp://socket-proxy:2375"
+            HEADSCALE_INTEGRATION: "docker"
+            HEADSCALE_CONTAINER: "headscale"
+            DISABLE_API_KEY_LOGIN: "true"
+            HOST: "0.0.0.0"
+            PORT: "3000"
+
+            # Only set this to false if you aren't behind a reverse proxy
+            COOKIE_SECURE: "true"
+        expose:
+            - 3000
         networks:
             - traefik
-        expose:
-            - 8080
+            - headscale
+            - socket_proxy
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.headscale-ui-rtr.rule=Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/web`)"
-            - "traefik.http.services.headscale-ui-svc.loadbalancer.server.port=8080"
+            - "traefik.http.routers.headplane-rtr.rule=Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/admin`)"
             ## Middlewares
-            - "traefik.http.routers.headscale-ui-rtr.middlewares=middlewares-authentik@file"
+            - "traefik.http.routers.headplane-rtr.middlewares=middlewares-authentik@file"
