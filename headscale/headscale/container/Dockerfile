@@ -1,6 +1,6 @@
-FROM headscale/headscale:stable AS headscale
+FROM headplane/headplane AS headplane
 
-FROM tailscale/tailscale:latest
+FROM ghcr.io/tale/headplane:0.3.9
 
 RUN apk add --no-cache jq
 

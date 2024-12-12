@@ -17,7 +17,7 @@ services:
 
             - HEADSCALE_OIDC_CLIENT_ID=${HEADSCALE_OIDC_CLIENT_ID:?err}
             - HEADSCALE_OIDC_CLIENT_SECRET=${HEADSCALE_OIDC_CLIENT_SECRET:?err}
-            - HEADSCALE_OICD_ISSUER=${HEADSCALE_OICD_ISSUER:?err}
+            - HEADSCALE_OIDC_ISSUER=${HEADSCALE_OIDC_ISSUER:?err}
         command: serve
         restart: unless-stopped
         expose:
@@ -31,9 +31,17 @@ services:
         image: ghcr.io/tale/headplane:0.3.9
         restart: unless-stopped
         volumes:
-            - "../${APP_ROOT}/headscale/data:/var/lib/headscale"
-            - "../headscale/config:/etc/headscale"
+            - ../headscale/config:/etc/headscale
+            - ../${APP_ROOT}/headscale/data:/var/lib/headscale
+            - ../${APP_ROOT}/headscale/sock:/var/run/headscale
         environment:
+            HEADSCALE_PUBLIC_URL: https://headscale.${DOMAINNAME}
+            HEADSCALE_URL: http://headscale:8080
+
+            OIDC_CLIENT_ID: ${HEADSCALE_OIDC_CLIENT_ID:?err}
+            OIDC_CLIENT_SECRET: ${HEADSCALE_OIDC_CLIENT_SECRET:?err}
+            OIDC_ISSUER: ${HEADSCALE_OIDC_ISSUER:?err}
+
             # This is always required for Headplane to work
             COOKIE_SECRET: "${HEADPLANE_COOKIE_SECRET:?headplane_cookie_secret is required}"
 

@@ -110,7 +110,6 @@ providers:
 certificatesResolvers:
     le:
         acme:
-            email: "letsencrypt@jjay.dev"
             storage: "/data/acme.json"
             # caServer: "https://acme-staging-v02.api.letsencrypt.org/directory" # Comment out when going prod
             dnsChallenge:

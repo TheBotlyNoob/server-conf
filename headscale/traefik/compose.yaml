@@ -55,6 +55,7 @@ services:
 
             - TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_MAIN=${DOMAINNAME:?needs domain name}
             - TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS=*.${DOMAINNAME:?needs domain name}
+            - TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL=${CF_API_EMAIL?needs cloudflare email}
 
             - CF_API_EMAIL=${CF_API_EMAIL:?needs cloudflare email}
             - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN:?needs cloudflare dns token}
