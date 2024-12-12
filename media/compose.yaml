@@ -7,7 +7,6 @@ services:
     #     network_mode: "bridge"
     #     build:
     #         context: ./rclone/rclone
-    #         dockerfile: Dockerfile
     #     volumes:
     #         - ./rclone/config:/config/rclone
     #         - ./rclone/log:/log

@@ -16,6 +16,7 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.headscale-rtr.rule=Host(`headscale.${DOMAINNAME}`)"
+
     headscale-ui:
         image: ghcr.io/gurucomputing/headscale-ui:latest
         restart: unless-stopped
@@ -30,3 +31,5 @@ services:
             - "traefik.enable=true"
             - "traefik.http.routers.headscale-ui-rtr.rule=Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/web`)"
             - "traefik.http.services.headscale-ui-svc.loadbalancer.server.port=8080"
+            ## Middlewares
+            - "traefik.http.routers.headscale-ui-rtr.middlewares=middlewares-authentik@file"

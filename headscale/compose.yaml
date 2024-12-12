@@ -1,5 +1,6 @@
 include:
     - ./headscale/compose.yaml
+    - ./exit-node/compose.yaml
     - ./socket-proxy/compose.yaml
     - ./traefik/compose.yaml
     - ./authentik/compose.yaml
