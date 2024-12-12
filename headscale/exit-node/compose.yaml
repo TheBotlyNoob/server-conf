@@ -29,6 +29,8 @@ services:
             - NET_ADMIN
         devices:
             - /dev/net/tun:/dev/net/tun
+        networks:
+            - headscale
         environment:
             - VPN_SERVICE_PROVIDER=${WIREGUARD_PROVIDER}
 
