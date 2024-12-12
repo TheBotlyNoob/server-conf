@@ -115,7 +115,7 @@ certificatesResolvers:
         acme:
             email: "letsencrypt@jjay.dev"
             storage: "/data/acme.json"
-            caServer: "https://acme-staging-v02.api.letsencrypt.org/directory" # Comment out when going prod
+            # caServer: "https://acme-staging-v02.api.letsencrypt.org/directory" # Comment out when going prod
             dnsChallenge:
                 provider: cloudflare
                 #delayBeforeCheck: 30 # Default is 2m0s.  This changes the delay (in seconds)
