@@ -10,7 +10,8 @@
 #
 # https://myheadscale.example.com:443
 #
-server_url: https://headscale.stuff.jjay.dev
+
+# set in environment
 
 # Address to listen to / bind to on the server
 #
@@ -191,39 +192,7 @@ database:
     #   # in the 'ssl' field. Refers to https://www.postgresql.org/docs/current/libpq-ssl.html Table 34.1.
     #   ssl: false
 
-### TLS configuration
-#
-## Let's encrypt / ACME
-#
-# headscale supports automatically requesting and setting up
-# TLS for a domain with Let's Encrypt.
-#
-# URL to ACME directory
-acme_url: https://acme-v02.api.letsencrypt.org/directory
-
-# Email to register with ACME provider
-acme_email: ""
-
-# Domain name to request a TLS certificate for:
-tls_letsencrypt_hostname: ""
-
-# Path to store certificates and metadata needed by
-# letsencrypt
-# For production:
-tls_letsencrypt_cache_dir: /var/lib/headscale/cache
-
-# Type of ACME challenge to use, currently supported types:
-# HTTP-01 or TLS-ALPN-01
-# See: docs/ref/tls.md for more information
-tls_letsencrypt_challenge_type: HTTP-01
-# When HTTP-01 challenge is chosen, letsencrypt must set up a
-# verification endpoint, and it will be listening on:
-# :http = port 80
-tls_letsencrypt_listen: ":http"
-
-## Use already defined certificates:
-tls_cert_path: ""
-tls_key_path: ""
+### TLS configuration is already done by traefik
 
 log:
     # Output formatting for logs: text or json
@@ -272,7 +241,8 @@ dns:
     # `base_domain` must be a FQDN, without the trailing dot.
     # The FQDN of the hosts will be
     # `hostname.base_domain` (e.g., _myhost.example.com_).
-    base_domain: example.com
+
+    # set in environment variable
 
     # List of DNS servers to expose to clients.
     nameservers:
@@ -320,58 +290,26 @@ unix_socket_permission: "0770"
 # it is still being tested and might have some bugs, please
 # help us test it.
 # OpenID Connect
-# oidc:
-#   only_start_if_oidc_is_available: true
-#   issuer: "https://your-oidc.issuer.com/path"
-#   client_id: "your-oidc-client-id"
-#   client_secret: "your-oidc-client-secret"
-#   # Alternatively, set `client_secret_path` to read the secret from the file.
-#   # It resolves environment variables, making integration to systemd's
-#   # `LoadCredential` straightforward:
-#   client_secret_path: "${CREDENTIALS_DIRECTORY}/oidc_client_secret"
-#   # client_secret and client_secret_path are mutually exclusive.
-#
-#   # The amount of time from a node is authenticated with OpenID until it
-#   # expires and needs to reauthenticate.
-#   # Setting the value to "0" will mean no expiry.
-#   expiry: 180d
-#
-#   # Use the expiry from the token received from OpenID when the user logged
-#   # in, this will typically lead to frequent need to reauthenticate and should
-#   # only been enabled if you know what you are doing.
-#   # Note: enabling this will cause `oidc.expiry` to be ignored.
-#   use_expiry_from_token: false
-#
-#   # Customize the scopes used in the OIDC flow, defaults to "openid", "profile" and "email" and add custom query
-#   # parameters to the Authorize Endpoint request. Scopes default to "openid", "profile" and "email".
-#
-#   scope: ["openid", "profile", "email", "custom"]
-#   extra_params:
-#     domain_hint: example.com
-#
-#   # List allowed principal domains and/or users. If an authenticated user's domain is not in this list, the
-#   # authentication request will be rejected.
-#
-#   allowed_domains:
-#     - example.com
-#   # Note: Groups from keycloak have a leading '/'
-#   allowed_groups:
-#     - /headscale
-#   allowed_users:
-#     - alice@example.com
-#
-#   # Map legacy users from pre-0.24.0 versions of headscale to the new OIDC users
-#   # by taking the username from the legacy user and matching it with the username
-#   # provided by the OIDC. This is useful when migrating from legacy users to OIDC
-#   # to force them using the unique identifier from the OIDC and to give them a
-#   # proper display name and picture if available.
-#   # Note that this will only work if the username from the legacy user is the same
-#   # and ther is a posibility for account takeover should a username have changed
-#   # with the provider.
-#   # Disabling this feature will cause all new logins to be created as new users.
-#   # Note this option will be removed in the future and should be set to false
-#   # on all new installations, or when all users have logged in with OIDC once.
-#   map_legacy_users: true
+oidc:
+    only_start_if_oidc_is_available: true
+    # client id, client secret, and issuer for the OIDC flow
+    # are set in environment variables.
+
+    # The amount of time from a node is authenticated with OpenID until it
+    # expires and needs to reauthenticate.
+    # Setting the value to "0" will mean no expiry.
+    expiry: 180d
+
+    # Use the expiry from the token received from OpenID when the user logged
+    # in, this will typically lead to frequent need to reauthenticate and should
+    # only been enabled if you know what you are doing.
+    # Note: enabling this will cause `oidc.expiry` to be ignored.
+    use_expiry_from_token: false
+
+    # Customize the scopes used in the OIDC flow, defaults to "openid", "profile" and "email" and add custom query
+    # parameters to the Authorize Endpoint request. Scopes default to "openid", "profile" and "email".
+
+    scope: ["openid", "profile", "email", "custom"]
 
 # Logtail configuration
 # Logtail is Tailscales logging and auditing infrastructure, it allows the control panel

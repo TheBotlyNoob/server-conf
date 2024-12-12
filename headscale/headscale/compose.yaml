@@ -10,6 +10,14 @@ services:
         networks:
             - traefik
             - headscale
+        environment:
+            - HEADSCALE_SERVER_URL=https://headscale.${DOMAINNAME}
+
+            - HEADSCALE_DNS_BASE_DOMAIN=m.${DOMAINNAME}
+
+            - HEADSCALE_OIDC_CLIENT_ID=${HEADSCALE_OIDC_CLIENT_ID:?err}
+            - HEADSCALE_OIDC_CLIENT_SECRET=${HEADSCALE_OIDC_CLIENT_SECRET:?err}
+            - HEADSCALE_OICD_ISSUER=${HEADSCALE_OICD_ISSUER:?err}
         command: serve
         restart: unless-stopped
         expose:

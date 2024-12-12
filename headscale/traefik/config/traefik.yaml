@@ -27,10 +27,7 @@ entryPoints:
             tls:
                 options: tls-opts@file
                 certResolver: le
-                domains:
-                    - main: "stuff.jjay.dev"
-                      sans:
-                          - "*.stuff.jjay.dev"
+                # domain set in environment variables
         forwardedHeaders:
             trustedIPs:
                 # Cloudflare (https://www.cloudflare.com/ips-v4)
