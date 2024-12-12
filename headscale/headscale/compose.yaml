@@ -27,8 +27,9 @@ services:
             - "traefik.http.routers.headscale-rtr.rule=Host(`headscale.${DOMAINNAME}`)"
 
     headplane:
+        build:
+            context: ./container
         container_name: headplane
-        image: ghcr.io/tale/headplane:0.3.9
         restart: unless-stopped
         volumes:
             - ../headscale/config:/etc/headscale
