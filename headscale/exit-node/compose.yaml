@@ -18,8 +18,6 @@ services:
             - ../${APP_ROOT}/headscale/sock:/var/run/headscale
         depends_on:
             - headscale
-        networks:
-            - headscale
         network_mode: service:gluetun
         restart: unless-stopped
 
