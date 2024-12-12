@@ -1,4 +1,4 @@
-FROM headplane/headplane AS headplane
+FROM headscale/headscale AS headscale
 
 FROM ghcr.io/tale/headplane:0.3.9
 
