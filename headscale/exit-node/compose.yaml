@@ -9,7 +9,7 @@ services:
             - TS_HOSTNAME=windscribe
             - TS_STATE_DIR=/var/lib/tailscale
             - TS_USERSPACE=true
-            - HEADSCALE_HOST=10.125.0.81:8080
+            - HEADSCALE_HOST=headscale.${DOMAINNAME}
         volumes:
             - ../${APP_ROOT}/tailscale/data:/var/lib/tailscale
             # headscale stuff
@@ -28,8 +28,6 @@ services:
             - NET_ADMIN
         devices:
             - /dev/net/tun:/dev/net/tun
-        networks:
-            - headscale
         environment:
             - VPN_SERVICE_PROVIDER=${WIREGUARD_PROVIDER}
 
