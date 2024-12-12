@@ -12,7 +12,6 @@ services:
             - HEADSCALE_HOST=10.125.0.81:8080
         volumes:
             - ../${APP_ROOT}/tailscale/data:/var/lib/tailscale
-            - ../${APP_ROOT}/tailscale/logs:/logs
             # headscale stuff
             - ../headscale/config:/etc/headscale
             - ../${APP_ROOT}/headscale/data:/var/lib/headscale
