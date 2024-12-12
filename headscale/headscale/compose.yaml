@@ -20,6 +20,8 @@ services:
             - HEADSCALE_OIDC_ISSUER=${HEADSCALE_OIDC_ISSUER:?err}
         command: serve
         restart: unless-stopped
+        depends_on:
+            - authentik_server
         expose:
             - 8080
         labels:
@@ -36,6 +38,8 @@ services:
             - ../${APP_ROOT}/headscale/data:/var/lib/headscale
             - ../${APP_ROOT}/headscale/sock:/var/run/headscale
             - ../${APP_ROOT}/headplane/cache:/var/cache/headplane
+        depends_on:
+            - headscale
         environment:
             HEADSCALE_PUBLIC_URL: https://headscale.${DOMAINNAME}
             HEADSCALE_URL: http://headscale:8080
