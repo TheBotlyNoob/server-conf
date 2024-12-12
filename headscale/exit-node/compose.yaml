@@ -12,6 +12,7 @@ services:
             - HEADSCALE_HOST=headscale.${DOMAINNAME}
         volumes:
             - ../${APP_ROOT}/tailscale/data:/var/lib/tailscale
+            - ../${APP_ROOT}/tailscale/cache:/var/cache/tailscale
             # headscale stuff
             - ../headscale/config:/etc/headscale
             - ../${APP_ROOT}/headscale/data:/var/lib/headscale

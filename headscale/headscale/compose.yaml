@@ -35,6 +35,7 @@ services:
             - ../headscale/config:/etc/headscale
             - ../${APP_ROOT}/headscale/data:/var/lib/headscale
             - ../${APP_ROOT}/headscale/sock:/var/run/headscale
+            - ../${APP_ROOT}/headplane/cache:/var/cache/headplane
         environment:
             HEADSCALE_PUBLIC_URL: https://headscale.${DOMAINNAME}
             HEADSCALE_URL: http://headscale:8080
