@@ -10,8 +10,5 @@ services:
         environment:
             - FRP_OIDC_ISSUER=${FRP_OIDC_ISSUER:?err}
             - FRP_OIDC_AUDIENCE=${FRP_OIDC_AUDIENCE:?err}
-        labels:
-            traefik.enable: true
-            traefik.http.routers.frps-rtr.rule: Host(`frps.${DOMAINNAME}`)
-            traefik.http.services.frps-svc.loadbalancer.server.port: "7500"
-            traefik.http.routers.whoami-secure-rtr.middlewares: middlewares-authentik@file
+
+        # traefik config in traefik config file
