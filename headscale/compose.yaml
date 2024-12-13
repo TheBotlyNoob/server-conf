@@ -3,6 +3,7 @@ include:
     - ./exit-node/compose.yaml
     - ./socket-proxy/compose.yaml
     - ./traefik/compose.yaml
+    - ./frp/compose.yaml
     - ./authentik/compose.yaml
 
 networks:
