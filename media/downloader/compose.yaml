@@ -1,29 +1,26 @@
 services:
     ### torrenting stuffs ###
-    # qbittorrent:
-    #     container_name: qbittorrent
-    #     volumes:
-    #         - ./remotes:/remotes:rshared
-    #         - ${QBITTORRENT_INCOMPLETE_MOUNT}:/downloads
-    #         - ./qbittorrent/config:/config
-    #     environment:
-    #         - PUID=${PUID}
-    #         - PGID=${PGID}
-    #         - TZ=${TZ:-Etc/UTC}
-    #         - WEBBUI_PORT=8080
-    #         - TORRENTING_PORT=${TORRENT_PORT}
-    #         - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:qbittorrent
-    #         - TP_THEME=${TP_THEME}
-    #     depends_on:
-    #         rclone:
-    #             condition: service_healthy
-    #     logging:
-    #         driver: json-file
-    #         options:
-    #             max-size: 10m
-    #     image: lscr.io/linuxserver/qbittorrent:latest
-    #     network_mode: "service:gluetun"
-    #     restart: unless-stopped
+    qbittorrent:
+        container_name: qbittorrent
+        volumes:
+            - ./remotes:/remotes:rshared
+            - ${QBITTORRENT_INCOMPLETE_MOUNT}:/downloads
+            - ./qbittorrent/config:/config
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ:-Etc/UTC}
+            - WEBBUI_PORT=8080
+            - TORRENTING_PORT=${TORRENT_PORT}
+            - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:qbittorrent
+            - TP_THEME=${TP_THEME}
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        image: lscr.io/linuxserver/qbittorrent:latest
+        network_mode: "service:gluetun"
+        restart: unless-stopped
 
     cross-seed:
         image: ghcr.io/cross-seed/cross-seed
@@ -57,8 +54,12 @@ services:
             - ./autobrr/config:/config
         networks:
             - arrs
-        ports:
-            - 7474:7474
+            - traefik
+        expose:
+            - 7474
+        labels:
+            traefik.enable: true
+            traefik.http.routers.autobrr-rtr.rule: Host(`autobrr.${DOMAINNAME}`)
 
     gluetun:
         image: qmcgaw/gluetun
@@ -81,5 +82,12 @@ services:
             - FIREWALL_VPN_INPUT_PORTS=${TORRENT_PORT}
         networks:
             - arrs
-        ports:
-            - 9092:8080/tcp
+            - traefik
+        expose:
+            - 8080
+        labels:
+            traefik.enable: true
+            traefik.http.routers.qbittorrent-rtr.rule: Host(`qbit.${DOMAINNAME}`)
+
+            traefik.http.routers.qbittorrent-rtr.middlewares: middlewares-authentik@file
+        restart: unless-stopped

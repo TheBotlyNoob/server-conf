@@ -1,0 +1,44 @@
+services:
+    # jellyseerr and jellyfin have custom themes--no themepark needed
+    jellyseerr:
+        image: fallenbagel/jellyseerr:latest
+        container_name: jellyseerr
+        user: ${PUID}:${PGID}
+        environment:
+            - LOG_LEVEL=info
+            - TZ=${TZ:-Etc/UTC}
+        ports:
+            - 5055:5055
+        volumes:
+            - ${APP_ROOT}/jellyseerr/app/config:/app/config
+        networks:
+            - jellyfin
+            - arrs
+        restart: unless-stopped
+
+    jellyfin:
+        image: jellyfin/jellyfin
+        container_name: jellyfin
+        user: ${PUID}:${PGID}
+        environment:
+            - TZ=${TZ:-Etc/UTC}
+            - JELLYFIN_PublishedServerUrl=https://${DOMAINNAME}
+        volumes:
+            - ${APP_ROOT}/jellyfin/config:/config
+            - ${APP_ROOT}/jellyfin/cache:/cache
+            - /dev/dri/renderD128:/dev/dri/renderD128
+            - ./remotes:/remotes:rshared
+        depends_on: []
+        ports:
+            - 8096:8096
+        group_add:
+            - "303"
+        networks:
+            - jellyfin
+            - traefik
+        restart: unless-stopped
+        expose:
+            - 8096
+        labels:
+            traefik.enable: true
+            traefik.http.routers.jellyfin-rtr.rule: Host(`jellyfin.${DOMAINNAME}`)

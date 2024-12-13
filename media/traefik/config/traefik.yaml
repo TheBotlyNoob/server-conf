@@ -14,23 +14,7 @@ global:
 entryPoints:
     web:
         address: ":80"
-        # Global HTTP to HTTPS redirection
-        http:
-            redirections:
-                entrypoint:
-                    to: websecure
-                    scheme: https
 
-    websecure:
-        address: ":443"
-        http:
-            tls:
-                options: tls-opts@file
-                certResolver: le
-                domains:
-                    - main: "stuff.local"
-                      sans:
-                          - "*.stuff.local"
         forwardedHeaders:
             trustedIPs:
                 # Cloudflare (https://www.cloudflare.com/ips-v4)
@@ -71,7 +55,6 @@ log:
 ################################################################
 accessLog:
     addInternals: true # things like ping@internal
-    filePath: /logs/traefik-access.log # In the Common Log Format (CLF) by default
     bufferingSize: 100 # Number of log lines
     fields:
         names:
@@ -106,20 +89,3 @@ providers:
         # Apps, LoadBalancers, TLS Options, Middlewares, Middleware Chains
         directory: /rules
         watch: true
-
-################################################################
-# Let's Encrypt (ACME)
-################################################################
-certificatesResolvers:
-    le:
-        acme:
-            email: "letsencrypt@jjay.dev"
-            storage: "/data/acme.json"
-            caServer: "https://acme-staging-v02.api.letsencrypt.org/directory" # Comment out when going prod
-            dnsChallenge:
-                provider: cloudflare
-                #delayBeforeCheck: 30 # Default is 2m0s.  This changes the delay (in seconds)
-                # Custom DNS server resolution
-                resolvers:
-                    - "1.1.1.1:53"
-                    - "8.8.8.8:53"

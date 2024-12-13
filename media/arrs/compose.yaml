@@ -9,15 +9,12 @@ services:
             - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:sonarr
             - TP_THEME=${TP_THEME}
         volumes:
-            - ${APP_ROOT}/sonarr/config:/config
-            - ${APP_ROOT}/sonarr/scripts:/scripts
-            - ${DATA_MOUNT_DIR}:/data:rshared
-        depends_on:
-            []
-            #rclone:
-            #                   condition: service_healthy
-        ports:
-            - 8989:8989
+            - ../${APP_ROOT}/sonarr/config:/config
+            - ../${APP_ROOT}/sonarr/scripts:/scripts
+            - ../${DATA_MOUNT_DIR}:/data:rshared
+        depends_on: []
+        expose:
+            - 8989
         networks:
             - arrs
         labels:

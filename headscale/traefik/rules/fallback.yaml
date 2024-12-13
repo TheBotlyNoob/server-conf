@@ -1,0 +1,12 @@
+http:
+    routers:
+        fallback-rtr:
+            rule: PathPrefix(`/`)
+            service: fallback-svc
+            priority: 1
+
+    services:
+        fallback-svc:
+            loadBalancer:
+                servers:
+                    - url: "http://host.docker.internal:8090"

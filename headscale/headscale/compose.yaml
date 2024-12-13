@@ -22,6 +22,7 @@ services:
         restart: unless-stopped
         depends_on:
             - authentik_server
+            - traefik
         expose:
             - 8080
         labels:
