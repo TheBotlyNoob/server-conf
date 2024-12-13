@@ -49,6 +49,8 @@ services:
               protocol: tcp
               app_protocol: https
               mode: host
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         environment:
             - TZ=${TZ}
             - DOMAINNAME

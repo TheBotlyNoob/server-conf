@@ -79,6 +79,18 @@ accessLog:
             - "400-499"
             - "500-599"
 
+http:
+    routers:
+        fallback-rtr:
+            rule: PathPrefix(`/`)
+            service: fallback-svc
+            priority: 1
+    services:
+        fallback-svc:
+            loadBalancer:
+                servers:
+                    - url: "http://host.docker.interal:8090"
+
 ################################################################
 # API and Dashboard
 ################################################################
