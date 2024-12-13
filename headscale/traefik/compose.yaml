@@ -82,3 +82,6 @@ services:
             #- "traefik.http.routers.traefik-rtr.tls.domains[0].sans=*.$DOMAINNAME"
             ## Services - API
             - "traefik.http.routers.traefik-rtr.service=api@internal"
+
+            # HACK
+            - "traefik.http.routers.frps-rtr.rule=Host(`frps.${DOMAINNAME}`)"

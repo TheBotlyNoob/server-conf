@@ -86,7 +86,7 @@ http:
             service: fallback-svc
             priority: 1
         frps-rtr:
-            rule: Host(`frps.${DOMAINNAME}`)
+            # rule set in environment
             service: frps-svc
             middlewares:
                 - middlewares-authentik@file
@@ -132,6 +132,7 @@ providers:
 certificatesResolvers:
     le:
         acme:
+            # email set in environment
             storage: "/data/acme.json"
             # caServer: "https://acme-staging-v02.api.letsencrypt.org/directory" # Comment out when going prod
             dnsChallenge:
