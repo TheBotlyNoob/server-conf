@@ -79,6 +79,7 @@ services:
         env_file: ../.env
         volumes:
             - "../${APP_ROOT}/authentik/media:/media"
+            - "../${APP_ROOT}/authentik/static:/web/custom" # static files hosted at https://authentik.domain.tld/static/custom/
             - "../${APP_ROOT}/authentik/custom-templates:/templates"
         labels:
             - "traefik.enable=true"
