@@ -88,6 +88,8 @@ http:
         frps-rtr:
             rule: Host(`frps.${DOMAINNAME}`)
             service: frps-svc
+            middlewares:
+                - middlewares-authentik@file
 
     services:
         fallback-svc:
