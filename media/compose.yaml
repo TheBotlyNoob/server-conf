@@ -71,18 +71,6 @@ services:
             - jellyfin
         restart: unless-stopped
 
-    ### media finders ###
-
-    ### extra services
-    frps:
-        image: snowdreamtech/frps
-        container_name: frps
-        user: ${PUID}:${PGID}
-        network_mode: host
-        volumes:
-            - ./frp:/etc/frp
-        restart: unless-stopped
-
 networks:
     arrs:
         driver: bridge
