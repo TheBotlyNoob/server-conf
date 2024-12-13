@@ -85,21 +85,12 @@ http:
             rule: PathPrefix(`/`)
             service: fallback-svc
             priority: 1
-        frps-rtr:
-            # rule set in environment
-            service: frps-svc
-            middlewares:
-                - middlewares-authentik@file
 
     services:
         fallback-svc:
             loadBalancer:
                 servers:
-                    - url: "http://host.docker.interal:8090"
-        frps-svc:
-            loadBalancer:
-                servers:
-                    - url: "http://host.docker.internal:7500"
+                    - url: "http://host.docker.internal:8090"
 
 ################################################################
 # API and Dashboard
