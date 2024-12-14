@@ -4,7 +4,7 @@
 services:
     traefik-tls:
         extends:
-            file: ../common/traefik/compose.yaml
+            file: ../../common/traefik/compose.yaml
             service: traefik
         ports:
             - name: websecure
