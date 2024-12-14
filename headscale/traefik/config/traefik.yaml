@@ -29,9 +29,9 @@ entryPoints:
                 - middlewares-rate-limit@file
                 - middlewares-compress@file
                 - middlewares-secure-headers@file
-            # tls:
-            #     options: tls-opts@file
-            #     certResolver: le
+            tls:
+                options: tls-opts@file
+                certResolver: le
             # domain set in environment variables
         forwardedHeaders:
             trustedIPs:

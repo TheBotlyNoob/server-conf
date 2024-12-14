@@ -1,6 +1,0 @@
-entryPoints:
-    websecure:
-        http:
-            tls:
-                options: tls-opts@file
-                certResolver: le
