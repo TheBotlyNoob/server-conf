@@ -1,0 +1,13 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/service-widgets
+
+- resources:
+      cpu: true
+      memory: true
+      disk: /
+
+- widget:
+      type: uptimekuma
+      url: http://uptime-kuma:3001
+      slug: stuff

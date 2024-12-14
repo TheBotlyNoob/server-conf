@@ -83,14 +83,19 @@ services:
             - "../${APP_ROOT}/authentik/static/background.png:/web/dist/assets/images/flow_background.jpg" # set the background image for flows
             - "../${APP_ROOT}/authentik/custom-templates:/templates"
         labels:
-            - "traefik.enable=true"
+            traefik.enable: true
             ## HTTP Routers
-            - "traefik.http.routers.authentik-rtr.rule=Host(`authentik.${DOMAINNAME}`)"
+            traefik.http.routers.authentik-rtr.rule: Host(`authentik.${DOMAINNAME}`)
             ## Individual Application forwardAuth regex (catch any subdomain using individual application forwardAuth)
-            - "traefik.http.routers.authentik-output-rtr.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.${DOMAINNAME}`) && PathPrefix(`/outpost.goauthentik.io/`)"
+            traefik.http.routers.authentik-output-rtr.rule: HostRegexp(`{subdomain:[a-z0-9-]+}.${DOMAINNAME}`) && PathPrefix(`/outpost.goauthentik.io/`)
             ## HTTP Services
-            - "traefik.http.routers.authentik-rtr.service=authentik-svc"
-            - "traefik.http.services.authentik-svc.loadBalancer.server.port=9000"
+            traefik.http.routers.authentik-rtr.service: authentik-svc
+            traefik.http.services.authentik-svc.loadBalancer.server.port: 9000
+
+            homepage.group: internal
+            homepage.name: Authentik
+            homepage.href: https://authentik.${DOMAINNAME}
+            homepage.icon: sh-authentik.svg
 
     authentik_worker:
         image: ghcr.io/goauthentik/server:latest
@@ -138,8 +143,8 @@ services:
         environment:
             - TZ
         labels:
-            - "traefik.enable=true"
+            traefik.enable: true
             ## HTTP Routers
-            - "traefik.http.routers.whoami-secure-rtr.rule=Host(`whoami.${DOMAINNAME}`)"
+            traefik.http.routers.whoami-rtr.rule: Host(`whoami.${DOMAINNAME}`)
             ## Middlewares
-            - "traefik.http.routers.whoami-secure-rtr.middlewares=middlewares-authentik@file"
+            traefik.http.routers.whoami-rtr.middlewares: middlewares-authentik@file

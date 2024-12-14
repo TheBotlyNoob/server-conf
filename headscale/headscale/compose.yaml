@@ -68,7 +68,12 @@ services:
             - headscale
             - socket_proxy
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.headplane-rtr.rule=Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/admin`)"
+            traefik.enable: true
+            traefik.http.routers.headplane-rtr.rule: Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/admin`)
             ## Middlewares
-            - "traefik.http.routers.headplane-rtr.middlewares=middlewares-authentik@file"
+            traefik.http.routers.headplane-rtr.middlewares: middlewares-authentik@file
+
+            homepage.group: internal
+            homepage.name: Headscale
+            homepage.icon: sh-headscale.svg
+            homepage.href: https://headscale.${DOMAINNAME}/admin

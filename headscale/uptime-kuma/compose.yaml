@@ -18,3 +18,4 @@ services:
             homepage.group: stuff
             homepage.name: Uptime Kuma
             homepage.icon: sh-uptime-kuma.svg
+            homepage.href: https://uptime.${DOMAINNAME}

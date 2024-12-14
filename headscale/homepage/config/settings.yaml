@@ -1,8 +1,12 @@
-title: stuff :)
+title: stuff
 
 layout:
     stuff:
         style: row
         columns: 1
+    internal (you can't use these):
+        style: row
+        columns: 1
+        initiallyCollapsed: true
 
 headerStyle: boxed

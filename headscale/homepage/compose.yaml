@@ -10,6 +10,7 @@ services:
             - PGID=${PGID}
         volumes:
             - ../homepage/config:/app/config # Make sure your local config directory exists
+            - ../${APP_ROOT}/homepage/logs:/app/config/logs
         expose:
             - 3000
         labels:
