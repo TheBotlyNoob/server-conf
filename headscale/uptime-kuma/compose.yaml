@@ -2,6 +2,7 @@ services:
     uptime-kuma:
         image: louislam/uptime-kuma:latest
         container_name: uptime-kuma
+        user: ${PUID}:${PGID}
         networks:
             - traefik
             - socket_proxy

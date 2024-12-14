@@ -4,6 +4,7 @@ services:
             context: ./container
 
         container_name: tailscale-exit-node
+        user: ${PUID}:${PGID}
         environment:
             TS_EXTRA_ARGS: --advertise-tags=tag:internal --advertise-exit-node
             TS_HOSTNAME: outside
@@ -17,11 +18,6 @@ services:
             - ../headscale/config:/etc/headscale
             - ${APP_ROOT}/headscale/data:/var/lib/headscale
             - ${APP_ROOT}/headscale/sock:/var/run/headscale
-        devices:
-            - /dev/net/tun:/dev/net/tun
-        cap_add:
-            - net_admin
-            - sys_module
 
         depends_on:
             - headscale

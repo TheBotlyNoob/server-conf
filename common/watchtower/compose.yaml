@@ -2,6 +2,7 @@ services:
     watchtower:
         image: containrrr/watchtower:latest
         container_name: watchtower
+        user: ${PUID}:${PGID}
         networks:
             - socket_proxy
         environment:
