@@ -4,6 +4,7 @@ services:
         container_name: uptime-kuma
         networks:
             - traefik
+            - socket_proxy
         volumes:
             - ../${APP_ROOT}/uptime-kuma:/app/data
         expose:
