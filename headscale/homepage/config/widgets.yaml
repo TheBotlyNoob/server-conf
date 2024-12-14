@@ -6,8 +6,3 @@
       cpu: true
       memory: true
       disk: /
-
-- widget:
-      type: uptimekuma
-      url: http://uptime-kuma:3001
-      slug: stuff

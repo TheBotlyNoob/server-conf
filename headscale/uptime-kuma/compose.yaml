@@ -19,3 +19,6 @@ services:
             homepage.name: Uptime Kuma
             homepage.icon: sh-uptime-kuma.svg
             homepage.href: https://uptime.${DOMAINNAME}
+            homepage.widget.type: uptimekuma
+            homepage.widget.url: http://uptime-kuma:3001
+            homepage.widget.slug: ${UPTIME_KUMA_SLUG:?err}
