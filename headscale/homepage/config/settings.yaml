@@ -4,7 +4,7 @@ layout:
     stuff:
         style: row
         columns: 1
-    internal (you can't use these):
+    internal:
         style: row
         columns: 1
         initiallyCollapsed: true
