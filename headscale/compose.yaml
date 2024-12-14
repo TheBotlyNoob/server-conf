@@ -5,6 +5,7 @@ include:
     - ./traefik/compose.yaml
     - ./homepage/compose.yaml
     - ./uptime-kuma/compose.yaml
+    - ./watchtower/compose.yaml
     - ./frp/compose.yaml
     - ./authentik/compose.yaml
 
