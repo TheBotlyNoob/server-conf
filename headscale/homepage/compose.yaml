@@ -1,0 +1,18 @@
+services:
+    homepage:
+        image: ghcr.io/gethomepage/homepage:latest
+        container_name: homepage
+        networks:
+            - traefik
+            - socket_proxy
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+        volumes:
+            - ../homepage/config:/app/config # Make sure your local config directory exists
+        expose:
+            - 3000
+        labels:
+            traefik.enable: true
+            traefik.http.routers.homepage-rtr.rule: Host(`${DOMAINNAME}`)
+            traefik.http.routers.homepage-rtr.middlewares: middlewares-authentik@file

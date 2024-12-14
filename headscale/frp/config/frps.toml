@@ -80,7 +80,7 @@ log.level = "info"
 log.maxDays = 3
 
 # Max ports can be used for each client, default value is 0 means no limit
-maxPortsPerClient = 0
+maxPortsPerClient = 3
 
 auth.method = "oidc"
 auth.oidc.issuer = "{{ .Envs.FRP_OIDC_ISSUER }}"
