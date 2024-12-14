@@ -31,8 +31,6 @@ services:
                 #ipv4_address: 10.255.224.2
             socket_proxy:
                 #ipv4_address: 172.16.224.2
-        command:
-            - "--configFile=/config/traefik.yaml"
         ports:
             - name: web
               host_ip: 0.0.0.0 # All interfaces, not a specific one
@@ -46,6 +44,42 @@ services:
         environment:
             TZ: ${TZ}
             DOMAINNAME: ${DOMAINNAME}
+
+            # Global configuration
+            TRAEFIK_GLOBAL_CHECKNEWVERSION: false
+            TRAEFIK_GLOBAL_SENDANONYMOUSUSAGE: true
+
+            # Entrypoints
+            TRAEFIK_ENTRYPOINTS_WEB_ADDRESS: ":80"
+
+            # Logs
+            TRAEFIK_LOG_LEVEL: DEBUG
+            TRAEFIK_LOG_NOCOLOR: false
+            TRAEFIK_LOG_MAXSIZE: 100
+            TRAEFIK_LOG_COMPRESS: true
+
+            # Access logs
+            TRAEFIK_ACCESSLOG_ADDINTERNAL: =true
+            TRAEFIK_ACCESSLOG_FILEPATH: /logs/traefik-access.log
+            TRAEFIK_ACCESSLOG_BUFFERINGSIZE: 100
+            TRAEFIK_ACCESSLOG_FIELDS_NAMES_STARTUTC: drop
+            TRAEFIK_ACCESSLOG_FILTERS_STATUSCODES: "204-299,400-499,500-599"
+
+            # API and Dashboard
+            TRAEFIK_API_DASHBOARD=: rue
+
+            # Providers
+            TRAEFIK_PROVIDERS_DOCKER_ENDPOINT: "tcp://socket-proxy:2375"
+            TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT: false
+            TRAEFIK_PROVIDERS_DOCKER_NETWORK: traefik
+
+            TRAEFIK_PROVIDERS_FILE_DIRECTORY: /rules
+            TRAEFIK_PROVIDERS_FILE_WATCH: true
+
+            # Let's Encrypt (ACME)
+            TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_STORAGE: "/data/acme.json"
+            TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_DNSCHALLENGE_PROVIDER: cloudflare
+            TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_DNSCHALLENGE_RESOLVERS: "1.1.1.1:53,8.8.8.8:53"
         volumes:
             - "./config:/config" # traefik.yaml
             - "./rules:/rules" # Dynamic File Provider directory
