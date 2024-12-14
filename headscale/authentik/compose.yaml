@@ -51,7 +51,7 @@ services:
         networks:
             - authentik-backend
         volumes:
-            - "../${APP_ROOT}/authentik/redis:/data"
+            - "${APP_ROOT}/authentik/redis:/data"
 
     # Use the embedded outpost (2021.8.1+) instead of the seperate Forward Auth / Proxy Provider container
     authentik_server:
@@ -123,8 +123,8 @@ services:
             AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
         env_file: ../.env
         volumes:
-            - "../${APP_ROOT}/authentik/media:/media"
-            - "../${APP_ROOT}/authentik/custom-templates:/templates"
+            - "${APP_ROOT}/authentik/media:/media"
+            - "${APP_ROOT}/authentik/custom-templates:/templates"
             # - /var/run/docker.sock:/var/run/docker.sock # Uncomment if NOT using socket-proxy
             #- "./traefik/cert_export:/certs:ro" # If NOT using reverse proxy, manually map in certificates
 
