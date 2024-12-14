@@ -2,7 +2,7 @@
 # since this is the primary reverse proxy
 
 services:
-    traefik-tls:
+    traefik:
         extends:
             file: ../../common/traefik/compose.yaml
             service: traefik
