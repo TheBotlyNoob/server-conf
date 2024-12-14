@@ -12,7 +12,7 @@ services:
     # -- Updated 2024-June-04
     # ------------------------------
     traefik:
-        image: traefik:3.0.4
+        image: traefik:3.2.2
         container_name: traefik
         restart: unless-stopped
         user: ${PUID}:${PGID}
@@ -73,7 +73,6 @@ services:
             - "traefik.enable=true"
             ## HTTP Routers
             - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.${DOMAINNAME}`) "
-            - "traefik.http.routers.traefik-rtr.entrypoints=websecure" # Defined in traefik.yaml
             - "traefik.http.routers.traefik-rtr.middlewares=middlewares-authentik@file"
             #### Migrate individual service cert resolver to global resolution in traefik.yaml
             #- "traefik.http.routers.traefik-rtr.tls=true"

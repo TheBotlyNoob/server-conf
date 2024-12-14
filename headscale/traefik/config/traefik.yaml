@@ -25,10 +25,14 @@ entryPoints:
         address: ":443"
         asDefault: true
         http:
-            tls:
-                options: tls-opts@file
-                certResolver: le
-                # domain set in environment variables
+            middlewares:
+                - middlewares-rate-limit@file
+                - middlewares-compress@file
+                - middlewares-secure-headers@file
+            # tls:
+            #     options: tls-opts@file
+            #     certResolver: le
+            # domain set in environment variables
         forwardedHeaders:
             trustedIPs:
                 # Cloudflare (https://www.cloudflare.com/ips-v4)
