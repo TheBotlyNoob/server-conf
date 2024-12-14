@@ -7,3 +7,7 @@ services:
         expose:
             - 3001
         restart: unless-stopped
+        labels:
+            traefik.enable: true
+            traefik.http.routers.uptime-kuma-rtr.rule: Host(`uptime.${DOMAINNAME}`)
+            traefik.http.routers.uptime-kuma-rtr.middlewares: middlewares-authentik@file
