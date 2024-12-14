@@ -5,18 +5,18 @@ services:
 
         container_name: tailscale-exit-node
         environment:
-            - TS_EXTRA_ARGS=--advertise-tags=tag:internal --advertise-exit-node
-            - TS_HOSTNAME=outside
-            - TS_STATE_DIR=/var/lib/tailscale
-            - TS_USERSPACE=true
-            - HEADSCALE_HOST=headscale.${DOMAINNAME}
+            TS_EXTRA_ARGS: --advertise-tags=tag:internal --advertise-exit-node
+            TS_HOSTNAME: outside
+            TS_STATE_DIR: /var/lib/tailscale
+            TS_USERSPACE: true
+            HEADSCALE_HOST: headscale.${DOMAINNAME}
         volumes:
-            - ../${APP_ROOT}/tailscale/data:/var/lib/tailscale
-            - ../${APP_ROOT}/tailscale/cache:/var/cache/tailscale
+            - ${APP_ROOT}/tailscale/data:/var/lib/tailscale
+            - ${APP_ROOT}/tailscale/cache:/var/cache/tailscale
             # headscale stuff
             - ../headscale/config:/etc/headscale
-            - ../${APP_ROOT}/headscale/data:/var/lib/headscale
-            - ../${APP_ROOT}/headscale/sock:/var/run/headscale
+            - ${APP_ROOT}/headscale/data:/var/lib/headscale
+            - ${APP_ROOT}/headscale/sock:/var/run/headscale
         devices:
             - /dev/net/tun:/dev/net/tun
         cap_add:

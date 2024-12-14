@@ -4,20 +4,20 @@ services:
         container_name: headscale
         user: ${PUID}:${PGID}
         volumes:
-            - ../headscale/config:/etc/headscale
-            - ../${APP_ROOT}/headscale/data:/var/lib/headscale
-            - ../${APP_ROOT}/headscale/sock:/var/run/headscale
+            - ./config:/etc/headscale
+            - ${APP_ROOT}/headscale/data:/var/lib/headscale
+            - ${APP_ROOT}/headscale/sock:/var/run/headscale
         networks:
             - traefik
             - headscale
         environment:
-            - HEADSCALE_SERVER_URL=https://headscale.${DOMAINNAME}
+            HEADSCALE_SERVER_URL: https://headscale.${DOMAINNAME}
 
-            - HEADSCALE_DNS_BASE_DOMAIN=m.${DOMAINNAME}
+            HEADSCALE_DNS_BASE_DOMAIN: m.${DOMAINNAME}
 
-            - HEADSCALE_OIDC_CLIENT_ID=${HEADSCALE_OIDC_CLIENT_ID:?err}
-            - HEADSCALE_OIDC_CLIENT_SECRET=${HEADSCALE_OIDC_CLIENT_SECRET:?err}
-            - HEADSCALE_OIDC_ISSUER=${HEADSCALE_OIDC_ISSUER:?err}
+            HEADSCALE_OIDC_CLIENT_ID: ${HEADSCALE_OIDC_CLIENT_ID:?err}
+            HEADSCALE_OIDC_CLIENT_SECRET: ${HEADSCALE_OIDC_CLIENT_SECRET:?err}
+            HEADSCALE_OIDC_ISSUER: ${HEADSCALE_OIDC_ISSUER:?err}
         command: serve
         restart: unless-stopped
         depends_on:
@@ -35,10 +35,10 @@ services:
         container_name: headplane
         restart: unless-stopped
         volumes:
-            - ../headscale/config:/etc/headscale
-            - ../${APP_ROOT}/headscale/data:/var/lib/headscale
-            - ../${APP_ROOT}/headscale/sock:/var/run/headscale
-            - ../${APP_ROOT}/headplane/cache:/var/cache/headplane
+            - ./config:/etc/headscale
+            - ${APP_ROOT}/headscale/data:/var/lib/headscale
+            - ${APP_ROOT}/headscale/sock:/var/run/headscale
+            - ${APP_ROOT}/headplane/cache:/var/cache/headplane
         depends_on:
             - headscale
         environment:

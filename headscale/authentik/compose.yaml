@@ -29,7 +29,7 @@ services:
         networks:
             - authentik-backend
         volumes:
-            - "../${APP_ROOT}/authentik/postgres:/var/lib/postgresql/data"
+            - "${APP_ROOT}/authentik/postgres:/var/lib/postgresql/data"
 
         environment:
             POSTGRES_PASSWORD: ${PG_PASS:?database password required}
@@ -78,10 +78,10 @@ services:
             AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
         env_file: ../.env
         volumes:
-            - "../${APP_ROOT}/authentik/media:/media"
-            - "../${APP_ROOT}/authentik/static:/web/dist/custom" # static files hosted at https://authentik.domain.tld/static/dist/custom/
-            - "../${APP_ROOT}/authentik/static/background.png:/web/dist/assets/images/flow_background.jpg" # set the background image for flows
-            - "../${APP_ROOT}/authentik/custom-templates:/templates"
+            - "${APP_ROOT}/authentik/media:/media"
+            - "${APP_ROOT}/authentik/static:/web/dist/custom" # static files hosted at https://authentik.domain.tld/static/dist/custom/
+            - "${APP_ROOT}/authentik/static/background.png:/web/dist/assets/images/flow_background.jpg" # set the background image for flows
+            - "${APP_ROOT}/authentik/custom-templates:/templates"
         labels:
             traefik.enable: true
             ## HTTP Routers

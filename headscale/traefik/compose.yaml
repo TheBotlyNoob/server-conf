@@ -1,47 +1,12 @@
-###############################################################
-# Project Name
-#
-# https://docs.docker.com/compose/compose-file/05-services/#security_opt
-# https://docs.docker.com/compose/environment-variables/set-environment-variables/
-#
-###############################################################
-name: traefik
+# extends the common traefik with TLS config,
+# since this is the primary reverse proxy
+
 services:
-    # ------------------------------
-    # -- Traefik 3
-    # -- Updated 2024-June-04
-    # ------------------------------
-    traefik:
-        image: traefik:3.2.2
-        container_name: traefik
-        restart: unless-stopped
-        user: ${PUID}:${PGID}
-        security_opt:
-            - no-new-privileges=true
-        depends_on:
-            - socket-proxy # Comment out if not using socket-proxy
-        networks:
-            # This is ONLY defined this way so that Homepage can reach this container via DNS name due to StrictSNI.
-            # Meaning this container INTERNAL TO DOCKER is only traefik, by adding the alias it is now
-            # traefik AND traefik.domain.tld WITHOUT reaching to a DNS server
-            # Allows containers to reach each other internally without asking out
-            traefik:
-                aliases:
-                    - traefik.${DOMAINNAME}
-                #ipv4_address: 10.255.224.2
-            socket_proxy:
-                #ipv4_address: 172.16.224.2
-        command:
-            - "--configFile=/config/traefik.yaml"
+    traefik-tls:
+        extends:
+            file: ../../common/traefik/compose.yaml
+            service: traefik
         ports:
-            # - "80:80"           # SHORT Syntax of below verbose definition
-            - name: web
-              host_ip: 0.0.0.0 # All interfaces, not a specific one
-              target: 80 # Container Port
-              published: "80" # STRING
-              protocol: tcp # tcp or udp
-              app_protocol: http # OPTIONAL. Layer 7 Protocol used.  "Richer behavior"
-              mode: host # or Ingress for load balancing
             - name: websecure
               host_ip: 0.0.0.0
               target: 443
@@ -49,35 +14,53 @@ services:
               protocol: tcp
               app_protocol: https
               mode: host
-        extra_hosts:
-            - "host.docker.internal:host-gateway"
         environment:
-            - TZ=${TZ}
-            - DOMAINNAME
+            # heh... this looks disgusting
 
-            - TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_MAIN=${DOMAINNAME:?needs domain name}
-            - TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS=*.${DOMAINNAME:?needs domain name}
-            - TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL=${CF_API_EMAIL?needs cloudflare email}
+            # http -> https redirect
+            TRAEFIK_ENTRYPOINTS_WEB_HTTP_REDIRECTIONS_ENTRYPOINT_TO: websecure
+            TRAEFIK_ENTRYPOINTS_WEB_HTTP_REDIRECTIONS_ENTRYPOINT_SCHEME: https
 
-            - CF_API_EMAIL=${CF_API_EMAIL:?needs cloudflare email}
-            - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN:?needs cloudflare dns token}
-        volumes:
-            - "../traefik/config:/config" # traefik.yaml
-            - "../traefik/rules:/rules" # Dynamic File Provider directory
-            - "../${APP_ROOT}/traefik/logs:/logs"
-            - "../${APP_ROOT}/traefik/data:/data" # acme.json defined in traefik.yaml
-            ## When using Docker Socket Proxy, comment out the below direct socket access
-            ## Ensure traefik.yaml matches chosen method
-            # - "/var/run/docker.sock:/var/run/docker.sock:ro"
-        labels:
-            - "traefik.enable=true"
-            ## HTTP Routers
-            - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.${DOMAINNAME}`) "
-            - "traefik.http.routers.traefik-rtr.middlewares=middlewares-authentik@file"
-            #### Migrate individual service cert resolver to global resolution in traefik.yaml
-            #- "traefik.http.routers.traefik-rtr.tls=true"
-            #- "traefik.http.routers.traefik-rtr.tls.certresolver=le"
-            #- "traefik.http.routers.traefik-rtr.tls.domains[0].main=$DOMAINNAME"
-            #- "traefik.http.routers.traefik-rtr.tls.domains[0].sans=*.$DOMAINNAME"
-            ## Services - API
-            - "traefik.http.routers.traefik-rtr.service=api@internal"
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_ADDRESS: ":443"
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_ASDEFAULT: true
+
+            # general middlewares
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_MIDDLEWARES: >-
+                middlewares-rate-limit@file,
+                middlewares-compress@file,
+                middlewares-secure-headers@file
+
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_OPTIONS: "tls-opts@file"
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_CERTRESOLVER: "le"
+
+            # acme challenge domain
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_MAIN: ${DOMAINNAME:?needs domain name}
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS: "*.${DOMAINNAME:?needs domain name}"
+
+            # allowed IPs for forwarded headers
+            # Cloudflare and local networks
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_FORWARDEDHEADERS_TRUSTEDIPS: >-
+                173.245.48.0/20,
+                103.21.244.0/22,
+                103.22.200.0/22,
+                103.31.4.0/22,
+                141.101.64.0/18,
+                108.162.192.0/18,
+                190.93.240.0/20,
+                188.114.96.0/20,
+                197.234.240.0/22,
+                198.41.128.0/17,
+                162.158.0.0/15,
+                104.16.0.0/13,
+                104.24.0.0/14,
+                172.64.0.0/13,
+                131.0.72.0/22,
+                127.0.0.1/32,
+                10.0.0.0/8,
+                192.168.0.0/16,
+                172.16.0.0/12
+
+            TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL: ${CF_API_EMAIL?needs cloudflare email}
+
+            CF_API_EMAIL: ${CF_API_EMAIL:?needs cloudflare email}
+            CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN:?needs cloudflare dns token}

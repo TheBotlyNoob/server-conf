@@ -2,8 +2,6 @@ services:
     watchtower:
         image: containrrr/watchtower:latest
         container_name: watchtower
-        volumes:
-            - ../watchtower/config.json:/config.json
         networks:
             - socket_proxy
         environment:
@@ -11,4 +9,3 @@ services:
             WATCHTOWER_NOTIFICATION_URL: ${WATCHTOWER_NOTIFICATION_URL:?err}
             WATCHTOWER_POLL_INTERVAL: 86400
             WATCHTOWER_INCLUDE_RESTARTING: true
-        command: --include-restarting
