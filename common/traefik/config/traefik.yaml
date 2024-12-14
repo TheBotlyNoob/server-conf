@@ -14,12 +14,7 @@ global:
 entryPoints:
     web:
         address: ":80"
-        # Global HTTP to HTTPS redirection
-        http:
-            redirections:
-                entrypoint:
-                    to: websecure
-                    scheme: https
+        # possible redirection in headscale
 
     # websecure defined in environment on headscale
 
