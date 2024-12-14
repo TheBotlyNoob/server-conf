@@ -5,7 +5,7 @@ services:
 
         container_name: tailscale-exit-node
         environment:
-            - TS_EXTRA_ARGS=--advertise-tags=tag:container --advertise-exit-node
+            - TS_EXTRA_ARGS=--advertise-tags=tag:internal --advertise-exit-node
             - TS_HOSTNAME=outside
             - TS_STATE_DIR=/var/lib/tailscale
             - TS_USERSPACE=true
