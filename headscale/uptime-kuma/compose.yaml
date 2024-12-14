@@ -14,3 +14,7 @@ services:
             traefik.enable: true
             traefik.http.routers.uptime-kuma-rtr.rule: Host(`uptime.${DOMAINNAME}`)
             traefik.http.routers.uptime-kuma-rtr.middlewares: middlewares-authentik@file
+
+            homepage.group: stuff
+            homepage.name: Uptime Kuma
+            homepage.icon: sh-uptime-kuma.svg

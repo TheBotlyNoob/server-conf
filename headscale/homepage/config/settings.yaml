@@ -1,0 +1,8 @@
+title: stuff :)
+
+layout:
+    stuff:
+        style: row
+        columns: 1
+
+headerStyle: boxed
