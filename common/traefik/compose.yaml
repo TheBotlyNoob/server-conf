@@ -59,7 +59,7 @@ services:
             TRAEFIK_LOG_COMPRESS: true
 
             # Access logs
-            TRAEFIK_ACCESSLOG_ADDINTERNAL: true
+            TRAEFIK_ACCESSLOG_ADDINTERNALS: true
             TRAEFIK_ACCESSLOG_FILEPATH: /logs/traefik-access.log
             TRAEFIK_ACCESSLOG_BUFFERINGSIZE: 100
             TRAEFIK_ACCESSLOG_FIELDS_NAMES_STARTUTC: drop
