@@ -1,8 +1,8 @@
 include:
     # common
-    - ../../common/socket-proxy/compose.yaml
-    - ../../common/homepage/compose.yaml
-    - ../../common/watchtower/compose.yaml
+    - ../common/socket-proxy/compose.yaml
+    - ../common/homepage/compose.yaml
+    - ../common/watchtower/compose.yaml
 
     # traefik cuz it's special
     - ./traefik/compose.yaml
