@@ -1,6 +1,7 @@
 services:
     homepage:
-        image: ghcr.io/gethomepage/homepage:latest
+        build:
+            context: ./container
         container_name: homepage
         networks:
             - traefik
@@ -9,7 +10,8 @@ services:
             PUID: ${PUID}
             PGID: ${PGID}
         volumes:
-            - ./config:/app/config # Make sure your local config directory exists
+            # NOTE: this is copied to /app/config by init.sh
+            - ./config:/config # Make sure your local config directory exists
             - ${APP_ROOT}/homepage/logs:/app/config/logs
         expose:
             - 3000

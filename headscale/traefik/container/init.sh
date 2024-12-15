@@ -3,6 +3,7 @@
 SUBDOMAINS=$(echo "$PROXY_SUBDOMAINS" | tr "," "\n")
 
 for SUBDOMAIN in $SUBDOMAINS; do
+    _DOCKER_SOCKET_PORT=$(echo "$SUBDOMAIN" | cut -d':' -f3)
     PORT=$(echo "$SUBDOMAIN" | cut -d':' -f2)
     SUBDOMAIN=$(echo "$SUBDOMAIN" | cut -d':' -f1)
 

@@ -22,10 +22,11 @@ networks:
             config:
                 - subnet: 10.255.224.0/24
 
+# homepage is on root domain
+
 include:
     # common
     - ../common/socket-proxy/compose.yaml
-    - ../common/homepage/compose.yaml
 
     # maybe not so common after all
     - ./watchtower/compose.yaml

@@ -21,6 +21,11 @@ services:
             traefik.http.routers.jellyseerr-rtr.rule: Host(`jellyseerr.${DOMAINNAME}`)
             traefik.http.routers.jellyseerr-rtr.middlewares: middlewares-authentik@file
 
+            homepage.group: media
+            homepage.name: Jellyseer
+            homepage.icon: sh-jellyseer.svg
+            homepage.href: https://jellyseer.${DOMAINNAME}
+
     jellyfin:
         image: jellyfin/jellyfin
         container_name: jellyfin
@@ -45,3 +50,8 @@ services:
         labels:
             traefik.enable: true
             traefik.http.routers.jellyfin-rtr.rule: Host(`jellyfin.${DOMAINNAME}`)
+
+            homepage.group: media
+            homepage.name: Jellyfin
+            homepage.icon: sh-jellyfin.svg
+            homepage.href: https://jellyfin.${DOMAINNAME}

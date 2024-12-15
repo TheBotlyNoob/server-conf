@@ -17,8 +17,6 @@ services:
         privileged: true # true for VM.  false for unprivileged LXC container.
         #depends_on:
         #  - traefik
-        ports:
-            - "127.0.0.1:2375:2375"
         environment:
             - LOG_LEVEL=info # debug,info,notice,warning,err,crit,alert,emerg
             ## Variables match the URL prefix (i.e. AUTH blocks access to /auth/* parts of the API, etc.).
