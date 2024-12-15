@@ -12,6 +12,7 @@ services:
         volumes:
             - ${APP_ROOT}/jellyseerr/app/config:/app/config
         networks:
+            - traefik
             - jellyfin
             - arrs
         restart: unless-stopped
