@@ -22,8 +22,8 @@ services:
             traefik.http.routers.jellyseerr-rtr.middlewares: middlewares-authentik@file
 
             homepage.group: media
-            homepage.name: Jellyseer
-            homepage.icon: sh-jellyseer.svg
+            homepage.name: Jellyseerr
+            homepage.icon: sh-jellyseerr.svg
             homepage.href: https://jellyseer.${DOMAINNAME}
 
     jellyfin:
