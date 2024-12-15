@@ -1,13 +1,13 @@
 include:
     # common
     - ../common/socket-proxy/compose.yaml
-    - ../common/homepage/compose.yaml
 
     # traefik and watchtower cuz they're special
     - ./traefik/compose.yaml
     - ./watchtower/compose.yaml
 
     # more specials
+    - ./homepage/compose.yaml
     - ./headscale/compose.yaml
     - ./exit-node/compose.yaml
     - ./uptime-kuma/compose.yaml
