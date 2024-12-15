@@ -1,7 +1,7 @@
 http:
     routers:
         media-rtr:
-            rule: Host(`media.${DOMAINNAME}`)
+            rule: Host(`media.{{ env "DOMAINNAME" }}`)
             entrypoints:
                 - websecure
             service: media-svc
