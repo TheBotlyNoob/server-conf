@@ -2,10 +2,10 @@ include:
     # common
     - ../common/socket-proxy/compose.yaml
     - ../common/homepage/compose.yaml
-    - ../common/watchtower/compose.yaml
 
-    # traefik cuz it's special
+    # traefik and watchtower cuz they're special
     - ./traefik/compose.yaml
+    - ./watchtower/compose.yaml
 
     # more specials
     - ./headscale/compose.yaml

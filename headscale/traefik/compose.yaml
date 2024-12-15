@@ -15,7 +15,7 @@ services:
               app_protocol: https
               mode: host
         volumes:
-            - ./rules/media.yaml:/etc/traefik/rules/media.yaml
+            - ./rules/media.yaml:/rules/media.yaml
         environment:
             ROOT_DOMAINNAME: ${DOMAINNAME:?needs domain name}
 

@@ -26,10 +26,12 @@ include:
     # common
     - ../common/socket-proxy/compose.yaml
     - ../common/homepage/compose.yaml
-    - ../common/watchtower/compose.yaml
+
+    # maybe not so common after all
+    - ./watchtower/compose.yaml
+    - ./traefik/compose.yaml
 
     - ./frpc/compose.yaml
     - ./arrs/compose.yaml
     - ./downloader/compose.yaml
     - ./view/compose.yaml
-    - ./traefik/compose.yaml

@@ -10,3 +10,4 @@ services:
             WATCHTOWER_NOTIFICATION_URL: ${WATCHTOWER_NOTIFICATION_URL:?err}
             WATCHTOWER_POLL_INTERVAL: 86400
             WATCHTOWER_INCLUDE_RESTARTING: true
+# must add a depends-on clause to socket-proxy in extended config
