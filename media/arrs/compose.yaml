@@ -24,6 +24,11 @@ services:
             traefik.http.routers.sonarr-rtr.rule: Host(`sonarr.${DOMAINNAME}`)
             traefik.http.routers.sonarr-rtr.middlewares: middlewares-authentik@file
 
+            homepage.group: internal
+            homepage.name: Sonarr
+            homepage.icon: sh-sonarr.svg
+            homepage.href: https://sonarr.${DOMAINNAME}
+
     radarr:
         image: linuxserver/radarr:latest
         container_name: radarr
@@ -49,6 +54,11 @@ services:
             traefik.http.routers.radarr-rtr.rule: Host(`radarr.${DOMAINNAME}`)
             traefik.http.routers.radarr-rtr.middlewares: middlewares-authentik@file
 
+            homepage.group: internal
+            homepage.name: Radarr
+            homepage.icon: sh-radarr.svg
+            homepage.href: https://radarr.${DOMAINNAME}
+
     prowlarr:
         image: ghcr.io/linuxserver/prowlarr:latest
         container_name: prowlarr
@@ -70,6 +80,11 @@ services:
             traefik.enable: true
             traefik.http.routers.prowlarr-rtr.rule: Host(`prowlarr.${DOMAINNAME}`)
             traefik.http.routers.prowlarr-rtr.middlewares: middlewares-authentik@file
+
+            homepage.group: internal
+            homepage.name: Prowlarr
+            homepage.icon: sh-prowlarr.svg
+            homepage.href: https://prowlarr.${DOMAINNAME}
 
     flaresolverr:
         image: flaresolverr/flaresolverr:latest

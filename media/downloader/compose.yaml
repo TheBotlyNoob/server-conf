@@ -62,6 +62,11 @@ services:
             traefik.http.routers.autobrr-rtr.rule: Host(`autobrr.${DOMAINNAME}`)
             traefik.http.routers.autobrr-rtr.middlewares: middlewares-authentik@file
 
+            homepage.group: internal
+            homepage.name: AutoBRR
+            homepage.icon: sh-autobrr.svg
+            homepage.href: https://autobrr.${DOMAINNAME}
+
     gluetun:
         image: qmcgaw/gluetun
         container_name: gluetun
@@ -91,4 +96,9 @@ services:
             traefik.http.routers.qbittorrent-rtr.rule: Host(`qbit.${DOMAINNAME}`)
             traefik.http.routers.qbittorrent-rtr.middlewares: middlewares-authentik@file
             traefik.http.services.qbittorrent-svc.loadbalancer.server.port: 8080
+
+            homepage.group: internal
+            homepage.name: qBittorrent
+            homepage.icon: sh-qbittorrent.svg
+            homepage.href: https://qbit.${DOMAINNAME}
         restart: unless-stopped
