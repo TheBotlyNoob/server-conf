@@ -4,6 +4,9 @@ layout:
     stuff:
         style: row
         columns: 1
+    media:
+        style: row
+        columns: 1
     internal:
         style: row
         columns: 1
