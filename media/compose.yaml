@@ -23,8 +23,13 @@ networks:
                 - subnet: 10.255.224.0/24
 
 include:
+    # common
+    - ../common/socket-proxy/compose.yaml
+    - ../common/homepage/compose.yaml
+    - ../common/watchtower/compose.yaml
+
+    - ./frpc/compose.yaml
     - ./arrs/compose.yaml
     - ./downloader/compose.yaml
     - ./view/compose.yaml
     - ./traefik/compose.yaml
-    - ./socket-proxy/compose.yaml

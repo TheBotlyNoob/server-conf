@@ -1,12 +1,15 @@
 services:
-    frps:
-        image: snowdreamtech/frps
-        container_name: frps
+    frpc:
+        image: snowdreamtech/frpc
+        container_name: frpc
         user: ${PUID}:${PGID}
-        network_mode: host
+        networks:
+            - traefik
         volumes:
             - ./config:/etc/frp
         restart: unless-stopped
         environment:
             FRP_OIDC_ISSUER: ${FRP_OIDC_ISSUER:?err}
             FRP_OIDC_AUDIENCE: ${FRP_OIDC_AUDIENCE:?err}
+            FRP_OIDC_CLIENT_SECRET: ${FRP_OIDC_CLIENT_SECRET:?}
+            FRP_OIDC_TOKEN_ENDPOINT: ${FRP_OIDC_TOKEN_ENDPOINT:?}

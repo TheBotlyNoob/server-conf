@@ -11,7 +11,7 @@ include:
     - ./headscale/compose.yaml
     - ./exit-node/compose.yaml
     - ./uptime-kuma/compose.yaml
-    - ./frp/compose.yaml
+    - ./frps/compose.yaml
     - ./authentik/compose.yaml
 
 networks:

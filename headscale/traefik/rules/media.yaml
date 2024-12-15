@@ -1,0 +1,12 @@
+http:
+    routers:
+        media-rtr:
+            rule: Host(`media.${DOMAINNAME}`)
+            entrypoints:
+                - websecure
+            service: media-svc
+    services:
+        media-svc:
+            loadBalancer:
+                servers:
+                    - url: "http://frps-internal:9090"
