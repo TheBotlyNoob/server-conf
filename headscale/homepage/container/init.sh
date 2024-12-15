@@ -2,7 +2,7 @@
 
 SUBDOMAINS=$(echo "$PROXY_SUBDOMAINS" | tr "," "\n")
 
-cp -R /config /app/config
+cp -R /config /app
 
 for SUBDOMAIN in $SUBDOMAINS; do
     DOCKER_SOCKET_PORT=$(echo "$SUBDOMAIN" | cut -d':' -f3)
