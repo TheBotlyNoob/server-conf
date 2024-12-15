@@ -53,7 +53,7 @@ services:
             TRAEFIK_ENTRYPOINTS_WEB_ADDRESS: ":80"
 
             # Logs
-            TRAEFIK_LOG_LEVEL: DEBUG
+            TRAEFIK_LOG_LEVEL: INFO
             TRAEFIK_LOG_NOCOLOR: false
             TRAEFIK_LOG_MAXSIZE: 100
             TRAEFIK_LOG_COMPRESS: true
