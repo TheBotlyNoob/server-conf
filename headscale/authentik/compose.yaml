@@ -133,7 +133,8 @@ services:
         # Optionally specify which networks the container should be
         # might be needed to reach the core authentik server
         networks:
-            - authentik_backend
+            - traefik
+            - authentik-backend
         ports:
             - 389:3389
             - 636:6636
