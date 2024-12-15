@@ -1,7 +1,7 @@
 http:
     routers:
         media-rtr:
-            rule: Host(`^(.+\.)?media\.{{ env "DOMAINNAME" | regexp.QuoteMeta }}$`)
+            rule: Host(`^(.+\.)?media\.{{ env "DOMAINNAME" | regexQuoteMeta }}$`)
             entrypoints:
                 - websecure
             service: media-svc
