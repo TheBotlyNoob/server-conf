@@ -139,7 +139,6 @@ services:
             - 389:3389
             - 636:6636
         environment:
-            AUTHENTIK_HOST: http://authentik_server:9000
-            AUTHENTIK_HOST_BROWSER: https://authentik.${DOMAINNAME}
-            AUTHENTIK_INSECURE: "true"
+            AUTHENTIK_HOST: https://authentik.${DOMAINNAME}
+            AUTHENTIK_INSECURE: "false"
             AUTHENTIK_TOKEN: ${AUTHENTIK_LDAP_OUTPOST_TOKEN:?outpost token required}
