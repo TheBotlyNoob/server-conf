@@ -2,10 +2,11 @@ services:
     ### torrenting stuffs ###
     qbittorrent:
         container_name: qbittorrent
+        image: lscr.io/linuxserver/qbittorrent:latest
         volumes:
-            - ./remotes:/remotes:rshared
+            - ${DATA_MOUNT_DIR}:/data
             - ${QBITTORRENT_INCOMPLETE_MOUNT}:/downloads
-            - ./qbittorrent/config:/config
+            - ${APP_ROOT}/qbittorrent/config:/config
         environment:
             - PUID=${PUID}
             - PGID=${PGID}
@@ -18,7 +19,6 @@ services:
             driver: json-file
             options:
                 max-size: 10m
-        image: lscr.io/linuxserver/qbittorrent:latest
         network_mode: "service:gluetun"
         restart: unless-stopped
 
@@ -27,10 +27,9 @@ services:
         container_name: cross-seed
         user: ${PUID}:${PGID} # optional but recommended
         volumes:
-            - ./cross-seed/config:/config
-            - ./qbittorrent/config/qBittorrent/BT_backup:/torrents:ro # your torrent clients .torrent cache, can and should be mounted read-only (e.g. qbit: `BT_Backup` | deluge: `state` | transmission: `transmission/torrents` | rtorrent: session dir from `.rtorrent.rc`)
-            - ./cross-seed/torrents:/cross-seeds
-            # - ./remotes:/remotes:rshared # OPTIONAL!!! this is location of your data (used for data-based searches or linking)
+            - ${APP_ROOT}/cross-seed/config:/config
+            - ${APP_ROOT}/qbittorrent/config/qBittorrent/BT_backup:/torrents:ro # your torrent clients .torrent cache, can and should be mounted read-only (e.g. qbit: `BT_Backup` | deluge: `state` | transmission: `transmission/torrents` | rtorrent: session dir from `.rtorrent.rc`)
+            - ${APP_ROOT}/cross-seed/torrents:/cross-seeds
             # will need to mirror your torrent client's path (like Arr's do)
         networks:
             arrs:
@@ -51,7 +50,7 @@ services:
         environment:
             - TZ=${TZ:-Etc/UTC}
         volumes:
-            - ./autobrr/config:/config
+            - ${APP_ROOT}/autobrr/config:/config
         networks:
             - arrs
             - traefik
@@ -60,6 +59,7 @@ services:
         labels:
             traefik.enable: true
             traefik.http.routers.autobrr-rtr.rule: Host(`autobrr.${DOMAINNAME}`)
+            traefik.http.routers.autobrr-rtr.middlewares: middlewares-authentik@file
 
     gluetun:
         image: qmcgaw/gluetun
@@ -88,6 +88,6 @@ services:
         labels:
             traefik.enable: true
             traefik.http.routers.qbittorrent-rtr.rule: Host(`qbit.${DOMAINNAME}`)
-
             traefik.http.routers.qbittorrent-rtr.middlewares: middlewares-authentik@file
+            traefik.http.services.qbittorrent-svc.loadbalancer.server.port: 8080
         restart: unless-stopped

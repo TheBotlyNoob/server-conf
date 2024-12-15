@@ -7,14 +7,18 @@ services:
         environment:
             - LOG_LEVEL=info
             - TZ=${TZ:-Etc/UTC}
-        ports:
-            - 5055:5055
+        expose:
+            - 5055
         volumes:
             - ${APP_ROOT}/jellyseerr/app/config:/app/config
         networks:
             - jellyfin
             - arrs
         restart: unless-stopped
+        labels:
+            traefik.enable: true
+            traefik.http.routers.jellyseerr-rtr.rule: Host(`jellyseerr.${DOMAINNAME}`)
+            traefik.http.routers.jellyseerr-rtr.middlewares: middlewares-authentik@file
 
     jellyfin:
         image: jellyfin/jellyfin
@@ -26,19 +30,17 @@ services:
         volumes:
             - ${APP_ROOT}/jellyfin/config:/config
             - ${APP_ROOT}/jellyfin/cache:/cache
+            - ${DATA_MOUNT_DIR}:/data
             - /dev/dri/renderD128:/dev/dri/renderD128
-            - ./remotes:/remotes:rshared
         depends_on: []
-        ports:
-            - 8096:8096
+        expose:
+            - 8096
         group_add:
             - "303"
         networks:
             - jellyfin
             - traefik
         restart: unless-stopped
-        expose:
-            - 8096
         labels:
             traefik.enable: true
             traefik.http.routers.jellyfin-rtr.rule: Host(`jellyfin.${DOMAINNAME}`)

@@ -9,17 +9,20 @@ services:
             - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:sonarr
             - TP_THEME=${TP_THEME}
         volumes:
-            - ../${APP_ROOT}/sonarr/config:/config
-            - ../${APP_ROOT}/sonarr/scripts:/scripts
-            - ../${DATA_MOUNT_DIR}:/data:rshared
+            - ${APP_ROOT}/sonarr/config:/config
+            - ${APP_ROOT}/sonarr/scripts:/scripts
+            - ${DATA_MOUNT_DIR}:/data
         depends_on: []
         expose:
             - 8989
         networks:
+            - traefik
             - arrs
-        labels:
-            - traefik.http.routers.sonarr.rule=Host(`sonarr.${DOMAINNAME}`)
         restart: unless-stopped
+        labels:
+            traefik.enable: true
+            traefik.http.routers.sonarr-rtr.rule: Host(`sonarr.${DOMAINNAME}`)
+            traefik.http.routers.sonarr-rtr.middlewares: middlewares-authentik@file
 
     radarr:
         image: linuxserver/radarr:latest
@@ -33,16 +36,18 @@ services:
         volumes:
             - ${APP_ROOT}/radarr/config:/config
             - ${APP_ROOT}/radarr/scripts:/scripts
-            - ./remotes:/remotes:rshared
-        depends_on:
-            []
-            #rclone:
-            #                   condition: service_healthy
+            - ${DATA_MOUNT_DIR}:/data
+        depends_on: []
         networks:
+            - traefik
             - arrs
-        ports:
-            - 7676:7878
+        expose:
+            - 7676
         restart: unless-stopped
+        labels:
+            traefik.enable: true
+            traefik.http.routers.radarr-rtr.rule: Host(`radarr.${DOMAINNAME}`)
+            traefik.http.routers.radarr-rtr.middlewares: middlewares-authentik@file
 
     prowlarr:
         image: ghcr.io/linuxserver/prowlarr:latest
@@ -56,10 +61,15 @@ services:
         volumes:
             - ${APP_ROOT}/prowlarr/config:/config
         networks:
+            - traefik
             - arrs
-        ports:
-            - 9696:9696
+        expose:
+            - 9696
         restart: unless-stopped
+        labels:
+            traefik.enable: true
+            traefik.http.routers.prowlarr-rtr.rule: Host(`prowlarr.${DOMAINNAME}`)
+            traefik.http.routers.prowlarr-rtr.middlewares: middlewares-authentik@file
 
     flaresolverr:
         image: flaresolverr/flaresolverr:latest
@@ -69,8 +79,9 @@ services:
             - LOG_HTML=${LOG_HTML:-false}
             - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
             - TZ=${TZ:-Etc/UTC}
-        ports:
-            - 8191:8191
+        expose:
+            - 8191
         networks:
+            - traefik
             - arrs
         restart: unless-stopped
