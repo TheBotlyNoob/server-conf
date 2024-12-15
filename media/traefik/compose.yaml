@@ -4,5 +4,9 @@ services:
         extends:
             file: ../../common/traefik/compose.yaml
             service: traefik
+
+        # make sure this matches headscale/traefik/container/Dockerfile
+        image: traefik:3.2.2
+
         environment:
             ROOT_DOMAINNAME: ${ROOT_DOMAINNAME:?needs root domain name}

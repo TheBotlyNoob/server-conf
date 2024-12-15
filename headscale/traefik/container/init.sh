@@ -24,4 +24,4 @@ done
 
 export TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS
 
-traefik
+/traefik

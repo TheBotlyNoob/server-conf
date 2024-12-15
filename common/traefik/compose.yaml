@@ -12,7 +12,6 @@ services:
     # -- Updated 2024-June-04
     # ------------------------------
     traefik:
-        image: traefik:3.2.2
         container_name: traefik
         restart: unless-stopped
         user: ${PUID}:${PGID}
