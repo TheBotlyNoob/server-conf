@@ -16,9 +16,9 @@ services:
               protocol: tcp
               app_protocol: https
               mode: host
-        volumes:
-            - ./rules/media.yaml:/rules/media.yaml
         environment:
+            PROXY_SUBDOMAINS: ${PROXY_SUBDOMAINS:?needs proxy subdomains}
+
             ROOT_DOMAINNAME: ${DOMAINNAME:?needs domain name}
 
             # heh... this looks disgusting
