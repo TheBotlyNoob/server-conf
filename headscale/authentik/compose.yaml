@@ -135,10 +135,9 @@ services:
         networks:
             - traefik
             - authentik-backend
-        ports:
-            - 389:3389
-            - 636:6636
         environment:
             AUTHENTIK_HOST: https://authentik.${DOMAINNAME}
             AUTHENTIK_INSECURE: "false"
             AUTHENTIK_TOKEN: ${AUTHENTIK_LDAP_OUTPOST_TOKEN:?outpost token required}
+        ports:
+            - 636:6636
