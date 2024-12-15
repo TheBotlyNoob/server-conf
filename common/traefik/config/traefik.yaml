@@ -22,7 +22,7 @@ entryPoints:
 # Logs - https://doc.traefik.io/traefik/observability/logs/
 ################################################################
 log:
-    level: DEBUG # Options: DEBUG, PANIC, FATAL, ERROR (Default), WARN, and INFO
+    level: INFO # Options: DEBUG, PANIC, FATAL, ERROR (Default), WARN, and INFO
     # filePath: /logs/traefik-container.log # Default is to STDOUT
     # format: json # Uses text format (common) by default
     noColor: false # Recommended to be true when using common
