@@ -9,6 +9,8 @@ services:
         environment:
             PUID: ${PUID}
             PGID: ${PGID}
+
+            PROXY_SUBDOMAINS: ${PROXY_SUBDOMAINS:?}
         volumes:
             # NOTE: this is copied to /app/config by init.sh
             - ./config:/config # Make sure your local config directory exists
