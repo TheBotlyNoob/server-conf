@@ -24,7 +24,7 @@ services:
             homepage.group: media
             homepage.name: Jellyseerr
             homepage.icon: sh-jellyseerr.svg
-            homepage.href: https://jellyseer.${DOMAINNAME}
+            homepage.href: https://jellyseerr.${DOMAINNAME}
 
     jellyfin:
         image: jellyfin/jellyfin

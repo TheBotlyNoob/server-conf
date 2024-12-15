@@ -128,23 +128,17 @@ services:
             # - /var/run/docker.sock:/var/run/docker.sock # Uncomment if NOT using socket-proxy
             #- "./traefik/cert_export:/certs:ro" # If NOT using reverse proxy, manually map in certificates
 
-    whoami:
-        image: traefik/whoami:latest
-        container_name: whoami
-        restart: unless-stopped
-        security_opt:
-            - no-new-privileges:true
-        depends_on:
-            - traefik
-            - authentik_server
-            - authentik_worker
+    authentik_ldap:
+        image: ghcr.io/goauthentik/ldap
+        # Optionally specify which networks the container should be
+        # might be needed to reach the core authentik server
         networks:
-            - traefik
+            - authentik_backend
+        ports:
+            - 389:3389
+            - 636:6636
         environment:
-            - TZ
-        labels:
-            traefik.enable: true
-            ## HTTP Routers
-            traefik.http.routers.whoami-rtr.rule: Host(`whoami.${DOMAINNAME}`)
-            ## Middlewares
-            traefik.http.routers.whoami-rtr.middlewares: middlewares-authentik@file
+            AUTHENTIK_HOST: http://authentik_server:9000
+            AUTHENTIK_HOST_BROWSER: https://authentik.${DOMAINNAME}
+            AUTHENTIK_INSECURE: "true"
+            AUTHENTIK_TOKEN: ${AUTHENTIK_LDAP_OUTPOST_TOKEN:?outpost token required}
