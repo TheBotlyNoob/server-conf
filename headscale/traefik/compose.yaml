@@ -43,8 +43,7 @@ services:
             TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_MAIN: ${DOMAINNAME:?needs domain name}
 
             # modified by init.sh
-            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS: >-
-                *.${DOMAINNAME:?needs domain name}
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS: "*.${DOMAINNAME:?needs domain name}"
 
             # allowed IPs for forwarded headers
             # Cloudflare and local networks
