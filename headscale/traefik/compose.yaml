@@ -6,6 +6,8 @@ services:
         extends:
             file: ../../common/traefik/compose.yaml
             service: traefik
+        build:
+            context: ./container
         ports:
             - name: websecure
               host_ip: 0.0.0.0
@@ -39,9 +41,10 @@ services:
 
             # acme challenge domain
             TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_MAIN: ${DOMAINNAME:?needs domain name}
+
+            # modified by init.sh
             TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS: >-
-                *.${DOMAINNAME:?needs domain name},
-                *.media.${DOMAINNAME:?needs domain name}
+                *.${DOMAINNAME:?needs domain name}
 
             # allowed IPs for forwarded headers
             # Cloudflare and local networks
