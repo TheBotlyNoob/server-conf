@@ -35,4 +35,4 @@ http:
           X-Robots-Tag: "none,noarchive,nosnippet,notranslate,noimageindex,"
           server: ""
           # https://community.traefik.io/t/how-to-make-websockets-work-with-traefik-2-0-setting-up-rancher/1732
-          # X-Forwarded-Proto: "https"
+          X-Forwarded-Proto: "https"
