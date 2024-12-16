@@ -80,7 +80,6 @@ services:
         volumes:
             - "${APP_ROOT}/authentik/media:/media"
             - "${APP_ROOT}/authentik/static:/web/dist/custom" # static files hosted at https://authentik.domain.tld/static/dist/custom/
-            - "./config/custom.css:/web/dist/custom.css"
             - "${APP_ROOT}/authentik/static/background.png:/web/dist/assets/images/flow_background.jpg" # set the background image for flows
             - "${APP_ROOT}/authentik/custom-templates:/templates"
         labels:
