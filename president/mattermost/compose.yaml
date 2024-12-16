@@ -32,7 +32,9 @@ services:
             - mattermost_postgres
         build:
             context: ./container
+        container_name: mattermost
         restart: unless-stopped
+        user: ${PUID}:${PGID}
         networks:
             - mattermost_backend
             - traefik
@@ -70,6 +72,7 @@ services:
 
             # additional settings
             - MM_SERVICESETTINGS_SITEURL=${DOMAINNAME}
+        command: server
         expose:
             - 8080
         labels:
