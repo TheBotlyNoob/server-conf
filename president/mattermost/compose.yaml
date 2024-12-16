@@ -71,7 +71,7 @@ services:
             - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
 
             # additional settings
-            - MM_SERVICESETTINGS_SITEURL=${DOMAINNAME}
+            - MM_SERVICESETTINGS_SITEURL=https://${DOMAINNAME}
         command: mattermost server
         expose:
             - 8080
