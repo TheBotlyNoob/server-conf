@@ -72,7 +72,7 @@ services:
 
             # additional settings
             - MM_SERVICESETTINGS_SITEURL=${DOMAINNAME}
-        command: server
+        command: mattermost server
         expose:
             - 8080
         labels:
