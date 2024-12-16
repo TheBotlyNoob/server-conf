@@ -45,6 +45,8 @@ services:
             # timezone inside container
             - TZ
 
+            - HTTP_PORT=8080
+
             # necessary Mattermost options/variables (see env.example)
             - MM_SQLSETTINGS_DRIVERNAME=postgres
             - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:${MATTERMOST_PG_PASS}@mattermost_postgres:5432/mattermost?sslmode=disable&connect_timeout=10
@@ -54,3 +56,13 @@ services:
 
             # additional settings
             - MM_SERVICESETTINGS_SITEURL=${DOMAINNAME}
+        expose:
+            - 8080
+        labels:
+            traefik.enable: true
+            traefik.http.routers.mattermost.rule: Host(`mattermost.${DOMAINNAME}`)
+
+            homepage.group: stuff
+            homepage.name: Mattermost
+            homepage.icon: sh-mattermost.svg
+            homepage.href: https://mattermost.${DOMAINNAME}
