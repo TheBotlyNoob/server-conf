@@ -11,8 +11,8 @@ services:
             - ./config:/etc/frp
         restart: unless-stopped
         environment:
-            FRP_OIDC_ISSUER: ${FRP_OIDC_ISSUER:?err}
-            FRP_OIDC_AUDIENCE: ${FRP_OIDC_AUDIENCE:?err}
+            FRP_OIDC_ISSUER: ${FRP_OIDC_ISSUER}
+            FRP_OIDC_AUDIENCE: ${FRP_OIDC_AUDIENCE}
 
     frps-external:
         image: snowdreamtech/frps
@@ -23,5 +23,5 @@ services:
             - ./config:/etc/frp
         restart: unless-stopped
         environment:
-            FRP_OIDC_ISSUER: ${FRP_OIDC_ISSUER:?err}
-            FRP_OIDC_AUDIENCE: ${FRP_OIDC_AUDIENCE:?err}
+            FRP_OIDC_ISSUER: ${FRP_OIDC_ISSUER}
+            FRP_OIDC_AUDIENCE: ${FRP_OIDC_AUDIENCE}

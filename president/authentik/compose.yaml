@@ -139,6 +139,6 @@ services:
         environment:
             AUTHENTIK_HOST: https://authentik.${DOMAINNAME}
             AUTHENTIK_INSECURE: "false"
-            AUTHENTIK_TOKEN: ${AUTHENTIK_LDAP_OUTPOST_TOKEN:?outpost token required}
+            AUTHENTIK_TOKEN: ${AUTHENTIK_LDAP_OUTPOST_TOKEN}
         ports:
             - 636:6636

@@ -15,9 +15,9 @@ services:
 
             HEADSCALE_DNS_BASE_DOMAIN: m.${DOMAINNAME}
 
-            HEADSCALE_OIDC_CLIENT_ID: ${HEADSCALE_OIDC_CLIENT_ID:?err}
-            HEADSCALE_OIDC_CLIENT_SECRET: ${HEADSCALE_OIDC_CLIENT_SECRET:?err}
-            HEADSCALE_OIDC_ISSUER: ${HEADSCALE_OIDC_ISSUER:?err}
+            HEADSCALE_OIDC_CLIENT_ID: ${HEADSCALE_OIDC_CLIENT_ID}
+            HEADSCALE_OIDC_CLIENT_SECRET: ${HEADSCALE_OIDC_CLIENT_SECRET}
+            HEADSCALE_OIDC_ISSUER: ${HEADSCALE_OIDC_ISSUER}
         command: serve
         restart: unless-stopped
         depends_on:
@@ -45,9 +45,9 @@ services:
             HEADSCALE_PUBLIC_URL: https://headscale.${DOMAINNAME}
             HEADSCALE_URL: http://headscale:8080
 
-            OIDC_CLIENT_ID: ${HEADPLANE_OIDC_CLIENT_ID:?err}
-            OIDC_CLIENT_SECRET: ${HEADPLANE_OIDC_CLIENT_SECRET:?err}
-            OIDC_ISSUER: ${HEADPLANE_OIDC_ISSUER:?err}
+            OIDC_CLIENT_ID: ${HEADPLANE_OIDC_CLIENT_ID}
+            OIDC_CLIENT_SECRET: ${HEADPLANE_OIDC_CLIENT_SECRET}
+            OIDC_ISSUER: ${HEADPLANE_OIDC_ISSUER}
 
             # This is always required for Headplane to work
             COOKIE_SECRET: "${HEADPLANE_COOKIE_SECRET:?headplane_cookie_secret is required}"
