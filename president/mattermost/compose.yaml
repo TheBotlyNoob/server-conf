@@ -72,15 +72,15 @@ services:
             - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
 
             # additional settings
-            - MM_SERVICESETTINGS_SITEURL=https://${DOMAINNAME}
+            - MM_SERVICESETTINGS_SITEURL=https://chat.${DOMAINNAME}
         command: mattermost server
         expose:
             - 8080
         labels:
             traefik.enable: true
-            traefik.http.routers.mattermost.rule: Host(`mattermost.${DOMAINNAME}`)
+            traefik.http.routers.mattermost.rule: Host(`chat.${DOMAINNAME}`)
 
             homepage.group: stuff
             homepage.name: Mattermost
             homepage.icon: sh-mattermost.svg
-            homepage.href: https://mattermost.${DOMAINNAME}
+            homepage.href: https://chat.${DOMAINNAME}
