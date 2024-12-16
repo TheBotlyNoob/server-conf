@@ -1,11 +1,18 @@
+networks:
+    mattermost_backend:
+        driver: bridge
+
 services:
     mattermost_postgres:
         image: postgres:13-alpine
+        container_name: mattermost_postgres
         restart: unless-stopped
         security_opt:
             - no-new-privileges:true
         pids_limit: 100
         read_only: true
+        networks:
+            - mattermost_backend
         tmpfs:
             - /tmp
             - /var/run/postgresql
@@ -22,9 +29,12 @@ services:
 
     mattermost:
         depends_on:
-            - postgres
+            - mattermost_postgres
         image: mattermost/mattermost-enterprise-edition:9.11.2
         restart: unless-stopped
+        networks:
+            - mattermost_backend
+            - traefik
         security_opt:
             - no-new-privileges:true
         pids_limit: 200
