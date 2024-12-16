@@ -1,0 +1,56 @@
+services:
+    mattermost_postgres:
+        image: postgres:13-alpine
+        restart: unless-stopped
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 100
+        read_only: true
+        tmpfs:
+            - /tmp
+            - /var/run/postgresql
+        volumes:
+            - ${APP_ROOT}/mattermost/postgresql:/var/lib/postgresql/data
+        environment:
+            # timezone inside container
+            - TZ
+
+            # necessary Postgres options/variables
+            - POSTGRES_USER=mmuser
+            - POSTGRES_PASSWORD=${MATTERMOST_PG_PASS}
+            - POSTGRES_DB=mattermost
+
+    mattermost:
+        depends_on:
+            - postgres
+        image: mattermost/mattermost-enterprise-edition:9.11.2
+        restart: unless-stopped
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        tmpfs:
+            - /tmp
+        volumes:
+            - ${APP_ROOT}/mattermost/config:/mattermost/config:rw
+            - ${APP_ROOT}/mattermost/data:/mattermost/data:rw
+            - ${APP_ROOT}/mattermost/logs:/mattermost/logs:rw
+            - ${APP_ROOT}/mattermost/plugins:/mattermost/plugins:rw
+            - ${APP_ROOT}/mattermost/client/plugins:/mattermost/client/plugins:rw
+            - ${APP_ROOT}/bleve-indexes:/mattermost/bleve-indexes:rw
+            # When you want to use SSO with GitLab, you have to add the cert pki chain of GitLab inside Alpine
+            # to avoid Token request failed: certificate signed by unknown authority
+            # (link: https://github.com/mattermost/mattermost-server/issues/13059 and https://github.com/mattermost/docker/issues/34)
+            # - ${GITLAB_PKI_CHAIN_PATH}:/etc/ssl/certs/pki_chain.pem:ro
+        environment:
+            # timezone inside container
+            - TZ
+
+            # necessary Mattermost options/variables (see env.example)
+            - MM_SQLSETTINGS_DRIVERNAME=postgres
+            - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:${MATTERMOST_PG_PASS}@mattermost_postgres:5432/mattermost?sslmode=disable&connect_timeout=10
+
+            # necessary for bleve
+            - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
+
+            # additional settings
+            - MM_SERVICESETTINGS_SITEURL=${DOMAINNAME}
