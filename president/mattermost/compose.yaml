@@ -30,7 +30,8 @@ services:
     mattermost:
         depends_on:
             - mattermost_postgres
-        image: mattermost/mattermost-enterprise-edition:9.11.2
+        build:
+            context: ./container
         restart: unless-stopped
         networks:
             - mattermost_backend
@@ -54,6 +55,9 @@ services:
         environment:
             # timezone inside container
             - TZ
+
+            - PUID=${PUID}
+            - PGID=${PGID}
 
             - HTTP_PORT=8080
 
