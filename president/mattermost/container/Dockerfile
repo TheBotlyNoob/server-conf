@@ -11,39 +11,35 @@ ARG PGID=2000
 ARG MM_PACKAGE="https://releases.mattermost.com/${VERSION}/mattermost-${VERSION}-linux-arm64.tar.gz?src=docker"
 
 # # Install needed packages and indirect dependencies
-RUN apt-get update &&
-    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-        ca-certificates \
-        curl \
-        mime-support \
-        unrtf \
-        wv \
-        poppler-utils \
-        tidy \
-        tzdata &&
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+  ca-certificates \
+  curl \
+  mime-support \
+  unrtf \
+  wv \
+  poppler-utils \
+  tidy \
+  tzdata \
+  && rm -rf /var/lib/apt/lists/*
 
 # Set mattermost group/user and download Mattermost
-RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins &&
-    addgroup -gid ${PGID} mattermost &&
-    adduser -q --disabled-password --uid ${PUID} --gid ${PGID} --gecos "" --home /mattermost mattermost &&
-    if [ -n "$MM_PACKAGE" ]; then
-        curl $MM_PACKAGE | tar -xvz
-    else
-        echo "please set the MM_PACKAGE"
-        exit 127
-    fi &&
-    chown -R mattermost:mattermost /mattermost /mattermost/data /mattermost/plugins /mattermost/client/plugins
+RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
+  && addgroup -gid ${PGID} mattermost \
+  && adduser -q --disabled-password --uid ${PUID} --gid ${PGID} --gecos "" --home /mattermost mattermost \
+  && if [ -n "$MM_PACKAGE" ]; then curl $MM_PACKAGE | tar -xvz ; \
+  else echo "please set the MM_PACKAGE" ; exit 127 ; fi \
+  && chown -R mattermost:mattermost /mattermost /mattermost/data /mattermost/plugins /mattermost/client/plugins
 
 # We should refrain from running as privileged user
 USER mattermost
 
 #Healthcheck to make sure container is ready
 HEALTHCHECK --interval=30s --timeout=10s \
-    CMD curl -f http://localhost:8065/api/v4/system/ping || exit 1
+  CMD curl -f http://localhost:8065/api/v4/system/ping || exit 1
 
 # Configure entrypoint and command
-COPY --chown=mattermost:mattermost --chmod=765 init.sh /
+COPY --chown=mattermost:mattermost --chmod=765 ./init.sh /
 ENTRYPOINT ["/init.sh"]
 WORKDIR /mattermost
 CMD ["mattermost"]
