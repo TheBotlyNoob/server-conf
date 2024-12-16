@@ -13,6 +13,7 @@ include:
     - ./uptime-kuma/compose.yaml
     - ./frps/compose.yaml
     - ./authentik/compose.yaml
+    - ./mattermost/compose.yaml
 
 networks:
     socket_proxy:
