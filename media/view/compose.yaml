@@ -32,7 +32,7 @@ services:
         user: ${PUID}:${PGID}
         environment:
             - TZ=${TZ:-Etc/UTC}
-            - JELLYFIN_PublishedServerUrl=https://${DOMAINNAME}
+            - JELLYFIN_PublishedServerUrl=https://jellyfin.${DOMAINNAME}
         volumes:
             - ${APP_ROOT}/jellyfin/config:/config
             - ${APP_ROOT}/jellyfin/cache:/cache
