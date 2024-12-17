@@ -19,6 +19,10 @@ services:
             - ${APP_ROOT}/headscale/data:/var/lib/headscale
             - ${APP_ROOT}/headscale/sock:/var/run/headscale
 
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+
         depends_on:
             - headscale
 

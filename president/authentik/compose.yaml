@@ -16,6 +16,9 @@ services:
         shm_size: 128mb # https://hub.docker.com/_/postgres
         restart: unless-stopped
         user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         healthcheck:
             test:
                 [
@@ -40,6 +43,9 @@ services:
         image: docker.io/library/redis:alpine
         container_name: authentik_redis
         user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         command: --save 60 1 --loglevel warning
         restart: unless-stopped
         healthcheck:
@@ -60,6 +66,9 @@ services:
         restart: unless-stopped
         command: server
         user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         depends_on:
             - authentik_postgresql
             - authentik_redis
@@ -107,6 +116,9 @@ services:
         # (1000:1000 by default)
         # user: root
         user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         command: worker
         depends_on:
             - authentik_postgresql
@@ -133,6 +145,11 @@ services:
         image: ghcr.io/goauthentik/ldap
         # Optionally specify which networks the container should be
         # might be needed to reach the core authentik server
+        container_name: authentik_ldap
+        user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         networks:
             - traefik
             - authentik-backend

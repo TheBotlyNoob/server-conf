@@ -16,6 +16,9 @@ services:
             - TORRENTING_PORT=${TORRENT_PORT}
             - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:qbittorrent
             - TP_THEME=${TP_THEME}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         logging:
             driver: json-file
             options:
@@ -27,6 +30,10 @@ services:
         image: ghcr.io/cross-seed/cross-seed
         container_name: cross-seed
         user: ${PUID}:${PGID} # optional but recommended
+
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         volumes:
             - ${APP_ROOT}/cross-seed/config:/config
             - ${APP_ROOT}/qbittorrent/config/qBittorrent/BT_backup:/torrents:ro # your torrent clients .torrent cache, can and should be mounted read-only (e.g. qbit: `BT_Backup` | deluge: `state` | transmission: `transmission/torrents` | rtorrent: session dir from `.rtorrent.rc`)
@@ -42,6 +49,9 @@ services:
         container_name: autobrr
         image: ghcr.io/autobrr/autobrr:latest
         restart: unless-stopped
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         #logging:
         #  driver: json-file
         #  options:
@@ -70,6 +80,9 @@ services:
     gluetun:
         image: qmcgaw/gluetun
         container_name: gluetun
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         cap_add:
             - NET_ADMIN
         devices:

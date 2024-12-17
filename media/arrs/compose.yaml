@@ -12,6 +12,9 @@ services:
             - ${APP_ROOT}/sonarr/config:/config
             - ${APP_ROOT}/sonarr/scripts:/scripts
             - ${DATA_MOUNT_DIR}:/data
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         depends_on: []
         expose:
             - 8989
@@ -32,6 +35,9 @@ services:
     radarr:
         image: linuxserver/radarr:latest
         container_name: radarr
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         environment:
             - PUID=${PUID}
             - PGID=${PGID}
@@ -62,6 +68,9 @@ services:
     prowlarr:
         image: ghcr.io/linuxserver/prowlarr:latest
         container_name: prowlarr
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         environment:
             - PUID=${PUID}
             - PGID=${PGID}
@@ -89,6 +98,10 @@ services:
     flaresolverr:
         image: flaresolverr/flaresolverr:latest
         container_name: flaresolverr
+        user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         environment:
             - LOG_LEVEL=${LOG_LEVEL:-info}
             - LOG_HTML=${LOG_HTML:-false}

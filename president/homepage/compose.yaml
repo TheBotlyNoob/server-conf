@@ -6,6 +6,10 @@ services:
         networks:
             - traefik
             - socket_proxy
+
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         environment:
             PUID: ${PUID}
             PGID: ${PGID}

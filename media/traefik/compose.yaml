@@ -8,5 +8,8 @@ services:
         # make sure this matches headscale/traefik/container/Dockerfile
         image: traefik:3.2.2
 
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         environment:
             ROOT_DOMAINNAME: ${ROOT_DOMAINNAME:?needs root domain name}

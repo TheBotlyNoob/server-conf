@@ -3,6 +3,9 @@ services:
         image: headscale/headscale:stable
         container_name: headscale
         user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         volumes:
             - ./config:/etc/headscale
             - ${APP_ROOT}/headscale/data:/var/lib/headscale
@@ -32,6 +35,10 @@ services:
     headplane:
         build:
             context: ./container
+        user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         container_name: headplane
         restart: unless-stopped
         volumes:

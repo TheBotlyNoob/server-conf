@@ -4,6 +4,9 @@ services:
         image: fallenbagel/jellyseerr:latest
         container_name: jellyseerr
         user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         environment:
             - LOG_LEVEL=info
             - TZ=${TZ:-Etc/UTC}
@@ -29,6 +32,9 @@ services:
     jellyfin:
         image: jellyfin/jellyfin
         container_name: jellyfin
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
         user: ${PUID}:${PGID}
         environment:
             - TZ=${TZ:-Etc/UTC}
