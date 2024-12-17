@@ -55,7 +55,8 @@ services:
 
     # Use the embedded outpost (2021.8.1+) instead of the seperate Forward Auth / Proxy Provider container
     authentik_server:
-        image: ghcr.io/goauthentik/server:latest
+        build:
+            context: ./container
         container_name: authentik_server
         restart: unless-stopped
         command: server
