@@ -55,8 +55,7 @@ services:
 
     # Use the embedded outpost (2021.8.1+) instead of the seperate Forward Auth / Proxy Provider container
     authentik_server:
-        build:
-            context: ./container
+        image: ghcr.io/goauthentik/server:latest
         container_name: authentik_server
         restart: unless-stopped
         command: server
@@ -79,6 +78,7 @@ services:
             AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
         env_file: ../.env
         volumes:
+            - ./authentik/brands-api-dark-mode.py:/authentik/brands/api.py
             - "${APP_ROOT}/authentik/media:/media"
             - "${APP_ROOT}/authentik/static:/web/dist/custom" # static files hosted at https://authentik.domain.tld/static/dist/custom/
             - "${APP_ROOT}/authentik/static/background.png:/web/dist/assets/images/flow_background.jpg" # set the background image for flows
