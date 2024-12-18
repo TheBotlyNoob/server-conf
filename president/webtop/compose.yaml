@@ -4,7 +4,6 @@ services:
         container_name: webtop
         security_opt:
             - no-new-privileges:true
-        user: ${PUID}:${PGID}
         environment:
             - PUID
             - PGID
