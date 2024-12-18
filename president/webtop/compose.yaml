@@ -14,8 +14,8 @@ services:
             - ${APP_ROOT}/webtop/data:/config
         expose:
             - 3000
-        devices:
-            - /dev/dri:/dev/dri #optional
+        networks:
+            - traefik
         shm_size: "1gb" #optional
         restart: unless-stopped
         labels:
