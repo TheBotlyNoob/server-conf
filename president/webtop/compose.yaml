@@ -20,5 +20,5 @@ services:
         restart: unless-stopped
         labels:
             traefik.enable: true
-            traefik.http.routers.webtop-rtr.rule: Host(`webtop.${DOMAIN}`)
+            traefik.http.routers.webtop-rtr.rule: Host(`webtop.${DOMAINNAME}`)
             traefik.http.routers.webtop-rtr.middlewares: middlewares-authentik@file
