@@ -14,6 +14,7 @@ include:
     - ./frps/compose.yaml
     - ./authentik/compose.yaml
     - ./mattermost/compose.yaml
+    - ./webtop/compose.yaml
 
 networks:
     socket_proxy:
