@@ -5,9 +5,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ARG VERSION=10.1.3
-ARG PUID=2000
-ARG PGID=2000
+ARG VERSION=10.3.1
 ARG MM_PACKAGE="https://releases.mattermost.com/${VERSION}/mattermost-${VERSION}-linux-arm64.tar.gz?src=docker"
 
 # # Install needed packages and indirect dependencies
@@ -25,14 +23,8 @@ RUN apt-get update \
 
 # Set mattermost group/user and download Mattermost
 RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
-  && addgroup -gid ${PGID} mattermost \
-  && adduser -q --disabled-password --uid ${PUID} --gid ${PGID} --gecos "" --home /mattermost mattermost \
   && if [ -n "$MM_PACKAGE" ]; then curl $MM_PACKAGE | tar -xvz ; \
-  else echo "please set the MM_PACKAGE" ; exit 127 ; fi \
-  && chown -R mattermost:mattermost /mattermost /mattermost/data /mattermost/plugins /mattermost/client/plugins
-
-# We should refrain from running as privileged user
-USER mattermost
+  else echo "please set the MM_PACKAGE" ; exit 127 ; fi
 
 #Healthcheck to make sure container is ready
 HEALTHCHECK --interval=30s --timeout=10s \

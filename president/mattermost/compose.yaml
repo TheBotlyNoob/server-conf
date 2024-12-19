@@ -59,9 +59,6 @@ services:
             # timezone inside container
             - TZ
 
-            - PUID=${PUID}
-            - PGID=${PGID}
-
             - HTTP_PORT=8080
 
             # necessary Mattermost options/variables (see env.example)
