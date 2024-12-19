@@ -1,6 +1,8 @@
 services:
     aria:
         container_name: aria
+        build:
+            context: ./container
         restart: unless-stopped
         security_opt:
             - no-new-privileges:true
