@@ -25,8 +25,9 @@ services:
             - arrs
             - traefik
         expose:
-            - 8080
-            - 6888
+            - 8080 # qbit
+            - 6888 # aria2 RPC
+            - 9081 # ariang
         labels:
             traefik.enable: true
             traefik.http.routers.qbittorrent-rtr.rule: Host(`qbit.${DOMAINNAME}`)
