@@ -22,8 +22,6 @@ if [ -n "$RPC_SECRET" ]; then
     fi
 fi
 
-touch /session/aria2.session
-
 if [ -n "$ARIA2RPCPORT" ]; then
     echo "Changing rpc request port to $ARIA2RPCPORT"
     sed -i "s/6800/${ARIA2RPCPORT}/g" "$ariang_js_path"
@@ -34,6 +32,13 @@ if [ -n "$ARIA2HOST" ]; then
     sed -i "s/localhost/${ARIA2HOST}/g" "$ariang_js_path"
     sed -i "s/rpcHost:\"[^\"]*\"/rpcHost:\"${ARIA2HOST}\"/g" "$ariang_js_path"
 fi
+
+if [ -n "$ARIA2PROTOCOL" ]; then
+    echo "Changing rpc request protocol to $ARIA2PROTOCOL"
+    sed -i "s/\"http\"/\"${ARIA2PROTOCOL}\"/g" "$ariang_js_path"
+fi
+
+touch /session/aria2.session
 
 caddy start -config /usr/local/caddy/Caddyfile -adapter=caddyfile
 aria2c --conf-path=/config/aria2.conf "$@"
