@@ -36,4 +36,3 @@ include:
     - ./arrs/compose.yaml
     - ./downloader/compose.yaml
     - ./view/compose.yaml
-    - ./aria/compose.yaml

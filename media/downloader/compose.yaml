@@ -25,7 +25,7 @@ services:
             - arrs
             - traefik
         expose:
-            - 8080
+            - 8080    - .//compose.yaml
             - 6888
         labels:
             traefik.enable: true
@@ -42,3 +42,7 @@ services:
             traefik.http.services.aria2-web-svc.loadbalancer.server.port: 8080
 
         restart: unless-stopped
+
+include:
+    - ./aria/compose.yaml
+    - ./qbit/compose.yaml
