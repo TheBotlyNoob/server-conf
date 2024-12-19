@@ -1,0 +1,84 @@
+services:
+    qbittorrent:
+        container_name: qbittorrent
+        image: lscr.io/linuxserver/qbittorrent:latest
+        user: ${PUID}:${PGID}
+        volumes:
+            - ${DATA_MOUNT_DIR}:/data
+            - ${QBITTORRENT_INCOMPLETE_MOUNT}:/downloads
+            - ${APP_ROOT}/qbittorrent/config:/config
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ:-Etc/UTC}
+            - WEBBUI_PORT=8080
+            - TORRENTING_PORT=${TORRENT_PORT}
+            - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:qbittorrent
+            - TP_THEME=${TP_THEME}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        logging:
+            driver: json-file
+            options:
+                max-size: 10m
+        network_mode: "service:gluetun"
+        restart: unless-stopped
+
+        labels:
+            homepage.group: internal
+            homepage.name: qBittorrent
+            homepage.icon: sh-qbittorrent.svg
+            homepage.href: https://qbit.${DOMAINNAME}
+
+    cross-seed:
+        image: ghcr.io/cross-seed/cross-seed
+        container_name: cross-seed
+        user: ${PUID}:${PGID} # optional but recommended
+
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        volumes:
+            - ${APP_ROOT}/cross-seed/config:/config
+            - ${APP_ROOT}/qbittorrent/config/qBittorrent/BT_backup:/torrents:ro # your torrent clients .torrent cache, can and should be mounted read-only (e.g. qbit: `BT_Backup` | deluge: `state` | transmission: `transmission/torrents` | rtorrent: session dir from `.rtorrent.rc`)
+            - ${APP_ROOT}/cross-seed/torrents:/cross-seeds
+            # will need to mirror your torrent client's path (like Arr's do)
+        networks:
+            arrs:
+                ipv4_address: 10.125.0.96 # connect to cross-seed from bittorrent with this ip
+        command: daemon # this enables the daemon, change to search to specifically run a search ONLY
+        restart: unless-stopped # make sure to not enable it in search mode, otherwise it will keep rerunning constantly
+
+# due to storage constraints, autobrr is disabled for now :(
+# autobrr:
+#     container_name: autobrr
+#     image: ghcr.io/autobrr/autobrr:latest
+#     restart: unless-stopped
+#     security_opt:
+#         - no-new-privileges:true
+#     pids_limit: 200
+#     #logging:
+#     #  driver: json-file
+#     #  options:
+#     #    max-file: ${DOCKERLOGGING_MAXFILE}
+#     #    max-size: ${DOCKERLOGGING_MAXSIZE}
+#     user: ${PUID}:${PGID}
+#     environment:
+#         - TZ=${TZ:-Etc/UTC}
+#     volumes:
+#         - ${APP_ROOT}/autobrr/config:/config
+#     networks:
+#         - arrs
+#         - traefik
+#     expose:
+#         - 7474
+#     labels:
+#         traefik.enable: true
+#         traefik.http.routers.autobrr-rtr.rule: Host(`autobrr.${DOMAINNAME}`)
+#         traefik.http.routers.autobrr-rtr.middlewares: middlewares-authentik@file
+
+#         homepage.group: internal
+#         homepage.name: AutoBRR
+#         homepage.icon: sh-autobrr.svg
+#         homepage.href: https://autobrr.${DOMAINNAME}

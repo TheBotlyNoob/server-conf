@@ -1,0 +1,10 @@
+{
+    auto_https off
+    admin off
+}
+
+:8080 {
+    root * /usr/local/www/ariang
+    file_server
+    encode gzip
+}

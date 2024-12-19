@@ -1,0 +1,30 @@
+services:
+    aria:
+        container_name: aria
+        restart: unless-stopped
+        security_opt:
+            - no-new-privileges:true
+        user: ${PUID}:${PGID}
+        logging:
+            options:
+                max-size: 1m
+        environment:
+            TZ: ${TZ}
+
+            RPC_SECRET: ${ARIA2_RPC_SECRET:?}
+            EMBED_RPC_SECRET: true
+
+            ARIA2HOST: rpc.aria.${DOMAINNAME}
+            ARIA2RPCPORT: 443
+        volumes:
+            - ./config:/config
+            - ${APP_ROOT}/aria/session:/session
+            - ${APP_ROOT}/aria/data:/data
+            - ${DATA_MOUNT_DIR}/games:/downloads
+        command: --rpc-secret=${ARIA2_RPC_SECRET}
+        network_mode: "service:gluetun"
+        labels:
+            homepage.group: internal
+            homepage.name: Aria2
+            homepage.icon: mdi-download-box
+            homepage.href: https://aria.${DOMAINNAME}
