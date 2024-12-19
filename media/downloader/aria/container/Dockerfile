@@ -29,7 +29,7 @@ RUN wget --no-check-certificate https://github.com/mayswind/AriaNg/releases/down
     -O ariang.zip \
     && unzip ariang.zip \
     && rm ariang.zip \
-    && chmod -R 755 ./
+    && chmod -R 777 ./
 
 COPY aria2.conf /config-copy/aria2.conf
 COPY --chmod=555 start.sh /
