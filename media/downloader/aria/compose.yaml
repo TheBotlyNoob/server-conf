@@ -10,6 +10,7 @@ services:
             - no-new-privileges:true
         user: ${PUID}:${PGID}
         logging:
+            driver: json-file
             options:
                 max-size: 1m
         environment:
