@@ -25,21 +25,24 @@ services:
             - arrs
             - traefik
         expose:
-            - 8080    - .//compose.yaml
+            - 8080
             - 6888
         labels:
             traefik.enable: true
             traefik.http.routers.qbittorrent-rtr.rule: Host(`qbit.${DOMAINNAME}`)
             traefik.http.routers.qbittorrent-rtr.middlewares: middlewares-authentik@file
+            traefik.http.routers.qbittorrent-rtr.service: qbittorrent-svc
             traefik.http.services.qbittorrent-svc.loadbalancer.server.port: 8080
 
             traefik.http.routers.aria2-rpc-rtr.rule: Host(`rpc.aria.${DOMAINNAME}`)
             traefik.http.routers.aria2-rpc-rtr.middlewares: middlewares-authentik@file
+            traefik.http.routers.aria2-rpc-rtr.service: aria2-rpc-svc
             traefik.http.services.aria2-rpc-svc.loadbalancer.server.port: 6800
 
             traefik.http.routers.aria2-web-rtr.rule: Host(`aria.${DOMAINNAME}`)
             traefik.http.routers.aria2-web-rtr.middlewares: middlewares-authentik@file
-            traefik.http.services.aria2-web-svc.loadbalancer.server.port: 8080
+            traefik.http.routers.aria2-web-rtr.service: aria2-web-svc
+            traefik.http.services.aria2-web-svc.loadbalancer.server.port: 9081
 
         restart: unless-stopped
 

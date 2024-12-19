@@ -4,7 +4,7 @@ ARG ARIANG_VERSION
 ARG BUILD_DATE
 ARG VCS_REF
 
-ENV ARIA2RPCPORT=8080
+ENV ARIA2RPCPORT=443
 
 LABEL maintainer="hurlenko" \
     org.label-schema.build-date=$BUILD_DATE \
@@ -38,7 +38,7 @@ COPY Caddyfile /usr/local/caddy/
 VOLUME /data
 VOLUME /config
 
-EXPOSE 8080
+EXPOSE 9081
 EXPOSE 6800
 
 ENTRYPOINT ["/start.sh"]

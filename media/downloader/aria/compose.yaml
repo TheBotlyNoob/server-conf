@@ -13,6 +13,9 @@ services:
             driver: json-file
             options:
                 max-size: 1m
+        expose:
+            - 9081
+            - 6800
         environment:
             TZ: ${TZ}
 

@@ -3,7 +3,7 @@
     admin off
 }
 
-:8080 {
+:9081 {
     root * /usr/local/www/ariang
     file_server
     encode gzip
