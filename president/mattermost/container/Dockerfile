@@ -6,7 +6,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
 ARG VERSION=10.3.1
-ARG MM_PACKAGE="https://releases.mattermost.com/${VERSION}/mattermost-${VERSION}-linux-arm64.tar.gz?src=docker"
+ARG ARCH=arm64
+ARG MM_PACKAGE="https://releases.mattermost.com/${VERSION}/mattermost-${VERSION}-linux-${ARCH}.tar.gz?src=docker"
 
 # # Install needed packages and indirect dependencies
 RUN apt-get update \
