@@ -11,16 +11,12 @@ networks:
     socket_proxy:
         name: socket_proxy
         driver: bridge
-        ipam:
-            config:
-                - subnet: 172.16.224.0/24
 
-    traefik:
-        name: traefik
+    traefik-tailscale:
         driver: bridge
-        ipam:
-            config:
-                - subnet: 10.255.224.0/24
+
+    traefik-external:
+        driver: bridge
 
 # homepage is on root domain
 
@@ -32,7 +28,6 @@ include:
     - ./watchtower/compose.yaml
     - ./traefik/compose.yaml
 
-    - ./frpc/compose.yaml
     - ./arrs/compose.yaml
     - ./downloader/compose.yaml
     - ./view/compose.yaml

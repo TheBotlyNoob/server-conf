@@ -19,13 +19,14 @@ services:
         expose:
             - 8989
         networks:
-            - traefik
+            - traefik-tailscale
             - arrs
         restart: unless-stopped
         labels:
+            expose.external: false
+
             traefik.enable: true
             traefik.http.routers.sonarr-rtr.rule: Host(`sonarr.${DOMAINNAME}`)
-            traefik.http.routers.sonarr-rtr.middlewares: middlewares-authentik@file
 
             homepage.group: internal
             homepage.name: Sonarr
@@ -50,15 +51,16 @@ services:
             - ${DATA_MOUNT_DIR}:/data
         depends_on: []
         networks:
-            - traefik
+            - traefik-tailscale
             - arrs
         expose:
             - 7676
         restart: unless-stopped
         labels:
+            expose.external: false
+
             traefik.enable: true
             traefik.http.routers.radarr-rtr.rule: Host(`radarr.${DOMAINNAME}`)
-            traefik.http.routers.radarr-rtr.middlewares: middlewares-authentik@file
 
             homepage.group: internal
             homepage.name: Radarr
@@ -80,15 +82,16 @@ services:
         volumes:
             - ${APP_ROOT}/prowlarr/config:/config
         networks:
-            - traefik
+            - traefik-tailscale
             - arrs
         expose:
             - 9696
         restart: unless-stopped
         labels:
+            expose.external: false
+
             traefik.enable: true
             traefik.http.routers.prowlarr-rtr.rule: Host(`prowlarr.${DOMAINNAME}`)
-            traefik.http.routers.prowlarr-rtr.middlewares: middlewares-authentik@file
 
             homepage.group: internal
             homepage.name: Prowlarr

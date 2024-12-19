@@ -17,19 +17,10 @@ include:
 
 networks:
     socket_proxy:
-        name: socket_proxy
         driver: bridge
-        ipam:
-            config:
-                - subnet: 172.16.224.0/24
 
     traefik:
-        name: traefik
         driver: bridge
-        ipam:
-            config:
-                - subnet: 10.255.224.0/24
 
     headscale:
-        name: headscale
         driver: bridge

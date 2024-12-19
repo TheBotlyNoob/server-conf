@@ -1,6 +1,26 @@
 name: traefik
 services:
-    traefik:
+    tailscale-node:
+        image: tailscale/tailscale:latest
+        hostname: tailscale-node
+        environment:
+            - TS_AUTHKEY=tskey-client-notAReal-OAuthClientSecret1Atawk
+            - TS_EXTRA_ARGS=--advertise-tags=tag:container
+            - TS_STATE_DIR=/var/lib/tailscale
+            - TS_USERSPACE=false
+        volumes:
+            - ${PWD}/tailscale-nginx/state:/var/lib/tailscale
+        networks:
+            - traefik-tailscale
+            - socket_proxy
+        devices:
+            - /dev/net/tun:/dev/net/tun
+        cap_add:
+            - net_admin
+            - sys_module
+        restart: unless-stopped
+
+    traefik-tailscale:
         extends:
             file: ../../common/traefik/compose.yaml
             service: traefik
@@ -8,8 +28,33 @@ services:
         # make sure this matches headscale/traefik/container/Dockerfile
         image: traefik:3.2.2
 
+        container_name: traefik-tailscale
+
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        network_mode: service:tailscale-node
+        environment:
+            TRAEFIK_PROVIDERS_DOCKER_CONSTRAINTS: "Label(`expose.external`, `false`)"
+            ROOT_DOMAINNAME: ${ROOT_DOMAINNAME:?needs root domain name}
+
+    traefik-external:
+        extends:
+            file: ../../common/traefik/compose.yaml
+            service: traefik
+
+        # make sure this matches headscale/traefik/container/Dockerfile
+        image: traefik:3.2.2
+
+        container_name: traefik-external
+
+        networks:
+            - traefik-external
+            - socket_proxy
+
         security_opt:
             - no-new-privileges:true
         pids_limit: 200
         environment:
+            TRAEFIK_PROVIDERS_DOCKER_CONSTRAINTS: "Label(`expose.external`, `true`)"
             ROOT_DOMAINNAME: ${ROOT_DOMAINNAME:?needs root domain name}

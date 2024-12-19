@@ -23,24 +23,24 @@ services:
             - FIREWALL_VPN_INPUT_PORTS=${TORRENT_PORT}
         networks:
             - arrs
-            - traefik
+            - traefik-tailscale
         expose:
             - 8080 # qbit
             - 6888 # aria2 RPC
             - 9081 # ariang
         labels:
+            expose.external: false
             traefik.enable: true
+
             traefik.http.routers.qbittorrent-rtr.rule: Host(`qbit.${DOMAINNAME}`)
-            traefik.http.routers.qbittorrent-rtr.middlewares: middlewares-authentik@file
             traefik.http.routers.qbittorrent-rtr.service: qbittorrent-svc
             traefik.http.services.qbittorrent-svc.loadbalancer.server.port: 8080
 
-            traefik.http.routers.aria2-rpc-rtr.rule: Host(`aria-rpc.${DOMAINNAME}`)
+            traefik.http.routers.aria2-rpc-rtr.rule: Host(`aria.${DOMAINNAME}`) && PathPrefix(`/jsonrpc`)
             traefik.http.routers.aria2-rpc-rtr.service: aria2-rpc-svc
             traefik.http.services.aria2-rpc-svc.loadbalancer.server.port: 6800
 
             traefik.http.routers.aria2-web-rtr.rule: Host(`aria.${DOMAINNAME}`)
-            traefik.http.routers.aria2-web-rtr.middlewares: middlewares-authentik@file
             traefik.http.routers.aria2-web-rtr.service: aria2-web-svc
             traefik.http.services.aria2-web-svc.loadbalancer.server.port: 9081
 

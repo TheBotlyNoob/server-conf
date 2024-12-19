@@ -12,8 +12,6 @@ services:
             - no-new-privileges=true
         networks:
             - socket_proxy
-            #socket_proxy:
-            #  ipv4_address: 172.16.224.254
         privileged: true # true for VM.  false for unprivileged LXC container.
         #depends_on:
         #  - traefik

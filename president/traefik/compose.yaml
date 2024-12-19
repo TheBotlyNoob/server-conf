@@ -8,6 +8,9 @@ services:
             service: traefik
         build:
             context: ./container
+        container_name: traefik
+        networks:
+            - traefik
         ports:
             - name: websecure
               host_ip: 0.0.0.0

@@ -12,7 +12,6 @@ services:
     # -- Updated 2024-June-04
     # ------------------------------
     traefik:
-        container_name: traefik
         restart: unless-stopped
         user: ${PUID}:${PGID}
         security_opt:
@@ -20,16 +19,7 @@ services:
         depends_on:
             - socket-proxy # Comment out if not using socket-proxy
         networks:
-            # This is ONLY defined this way so that Homepage can reach this container via DNS name due to StrictSNI.
-            # Meaning this container INTERNAL TO DOCKER is only traefik, by adding the alias it is now
-            # traefik AND traefik.domain.tld WITHOUT reaching to a DNS server
-            # Allows containers to reach each other internally without asking out
-            traefik:
-                aliases:
-                    - traefik.${DOMAINNAME}
-                #ipv4_address: 10.255.224.2
-            socket_proxy:
-                #ipv4_address: 172.16.224.2
+            - socket_proxy
         ports:
             - name: web
               host_ip: 0.0.0.0 # All interfaces, not a specific one
