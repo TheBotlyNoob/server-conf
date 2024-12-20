@@ -15,6 +15,9 @@ services:
         ports:
             - 80:80
             - 443:443
+        volumes:
+            - "${APP_ROOT}/traefik/logs:/logs"
+            - "${APP_ROOT}/traefik/data:/data" # acme.json defined in traefik.yaml
         environment:
             PROXY_SUBDOMAINS: ${PROXY_SUBDOMAINS:?needs proxy subdomains}
 

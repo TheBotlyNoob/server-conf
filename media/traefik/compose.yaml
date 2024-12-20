@@ -47,6 +47,9 @@ services:
             ROOT_DOMAINNAME: ${ROOT_DOMAINNAME:?needs root domain name}
         labels:
             traefik.http.routers.traefik-rtr.rule: Host(`traefik.${INTERNAL_DOMAINNAME}`)
+        volumes:
+            - "${APP_ROOT}/traefik-tailscale/logs:/logs"
+            - "${APP_ROOT}/traefik-tailscale/data:/data" # acme.json defined in traefik.yaml
 
     traefik-external:
         extends:
@@ -69,6 +72,10 @@ services:
         expose:
             - 80
             - 443
+
+        volumes:
+            - "${APP_ROOT}/traefik-external/logs:/logs"
+            - "${APP_ROOT}/traefik-external/data:/data" # acme.json defined in traefik.yaml
 
         environment:
             TRAEFIK_PROVIDERS_DOCKER_CONSTRAINTS: "Label(`expose.external`, `true`)"

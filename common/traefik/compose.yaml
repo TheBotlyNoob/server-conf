@@ -109,8 +109,6 @@ services:
         volumes:
             - "./config:/config" # traefik.yaml
             - "./rules:/rules" # Dynamic File Provider directory
-            - "${APP_ROOT}/traefik/logs:/logs"
-            - "${APP_ROOT}/traefik/data:/data" # acme.json defined in traefik.yaml
             ## When using Docker Socket Proxy, comment out the below direct socket access
             ## Ensure traefik.yaml matches chosen method
             # - "/var/run/docker.sock:/var/run/docker.sock:ro"
