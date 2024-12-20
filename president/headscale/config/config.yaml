@@ -273,7 +273,9 @@ dns:
     # Extra DNS records
     # so far only A-records are supported (on the tailscale side)
     # See: docs/ref/dns.md
-    extra_records: []
+
+    # modified by init.sh
+    extra_records_path: "/dns-rules.json"
     #   - name: "grafana.myvpn.example.com"
     #     type: "A"
     #     value: "100.64.0.3"

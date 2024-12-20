@@ -1,6 +1,7 @@
 services:
     headscale:
-        image: headscale/headscale:stable
+        build:
+            context: ./container/headscale
         container_name: headscale
         user: ${PUID}:${PGID}
         security_opt:
@@ -34,7 +35,7 @@ services:
 
     headplane:
         build:
-            context: ./container
+            context: ./container/headplane
         user: ${PUID}:${PGID}
         security_opt:
             - no-new-privileges:true
