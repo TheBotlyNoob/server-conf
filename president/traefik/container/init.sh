@@ -18,6 +18,8 @@ http:
             loadBalancer:
                 servers:
                     - url: "https://frps-internal:$PORT"
+            tls:
+                serverName: "$SUBDOMAIN.{{ env "DOMAINNAME" }}"
 EOF
 done
 
