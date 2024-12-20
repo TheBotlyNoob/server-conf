@@ -21,7 +21,7 @@ services:
 
             ARIA2HOST: aria.${INTERNAL_DOMAINNAME}
             ARIA2RPCPORT: 443
-            ARIA2PROTOCOL: https
+            ARIA2PROTOCOL: Https
         volumes:
             - ./config:/config
             - ${APP_ROOT}/aria/session:/session
