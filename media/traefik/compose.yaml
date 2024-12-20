@@ -41,8 +41,8 @@ services:
 
             TRAEFIK_PROVIDERS_DOCKER_NETWORK: traefik-tailscale
 
-            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_MAIN: media-node.m.${DOMAINNAME:?needs domain name}
-            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS: "*.media-node.m.${DOMAINNAME:?needs domain name}"
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_MAIN: media-node.m.${ROOT_DOMAINNAME:?needs domain name}
+            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS: "*.media-node.m.${ROOT_DOMAINNAME:?needs domain name}"
 
             ROOT_DOMAINNAME: ${ROOT_DOMAINNAME:?needs root domain name}
 
