@@ -142,7 +142,7 @@ udpPacketSize = 1500
 name = "media"
 type = "tcp"
 localIP = "traefik-external"
-localPort = 443
+localPort = 80
 # If true, traffic of this proxy will be encrypted, default is false
 transport.useEncryption = true
 # Remote port listen by frps
