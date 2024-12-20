@@ -17,12 +17,8 @@ http:
         $SUBDOMAIN-subdomain-rev-proxy-svc:
             loadBalancer:
                 servers:
-                    - url: "http://frps-internal:$PORT"
+                    - url: "https://frps-internal:$PORT"
 EOF
-
-    TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS="$TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS,*.$SUBDOMAIN.$DOMAINNAME"
 done
-
-export TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_DOMAINS_0_SANS
 
 /entrypoint.sh traefik

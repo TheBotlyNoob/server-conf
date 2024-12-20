@@ -77,8 +77,6 @@ services:
         labels:
             traefik.enable: true
             traefik.http.routers.headplane-rtr.rule: Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/admin`)
-            ## Middlewares
-            traefik.http.routers.headplane-rtr.middlewares: middlewares-authentik@file
 
             homepage.group: internal
             homepage.name: Headscale
