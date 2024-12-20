@@ -28,7 +28,7 @@ services:
             - ./config:/config
             - ${APP_ROOT}/aria/session:/session
             - ${APP_ROOT}/aria/data:/data
-            - ${DATA_MOUNT_DIR}/games:/data
+            - ${DATA_MOUNT_DIR}/games/raw:/data
         command: --rpc-secret=${ARIA2_RPC_SECRET}
         network_mode: "service:gluetun"
         labels:
