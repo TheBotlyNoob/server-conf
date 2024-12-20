@@ -113,6 +113,5 @@ services:
         expose:
             - 8191
         networks:
-            - traefik
             - arrs
         restart: unless-stopped

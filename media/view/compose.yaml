@@ -15,11 +15,13 @@ services:
         volumes:
             - ${APP_ROOT}/jellyseerr/app/config:/app/config
         networks:
-            - traefik
+            - traefik-external
             - jellyfin
             - arrs
         restart: unless-stopped
         labels:
+            expose.external: true
+
             traefik.enable: true
             traefik.http.routers.jellyseerr-rtr.rule: Host(`jellyseerr.${DOMAINNAME}`)
             traefik.http.routers.jellyseerr-rtr.middlewares: middlewares-authentik@file
@@ -51,9 +53,11 @@ services:
             - "303"
         networks:
             - jellyfin
-            - traefik
+            - traefik-external
         restart: unless-stopped
         labels:
+            expose.external: true
+
             traefik.enable: true
             traefik.http.routers.jellyfin-rtr.rule: Host(`jellyfin.${DOMAINNAME}`)
 
