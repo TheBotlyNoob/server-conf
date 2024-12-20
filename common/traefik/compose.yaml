@@ -20,8 +20,6 @@ services:
             - socket-proxy # Comment out if not using socket-proxy
         ports:
             - 80:80
-        extra_hosts:
-            - "host.docker.internal:host-gateway"
         environment:
             TZ: ${TZ}
             DOMAINNAME: ${DOMAINNAME}
