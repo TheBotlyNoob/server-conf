@@ -29,4 +29,4 @@ done
 
 echo "}" >>/dns-rules.json
 
-/entrypoint.sh traefik
+/usr/local/bin/headscale serve
