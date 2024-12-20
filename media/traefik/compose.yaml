@@ -46,7 +46,7 @@ services:
 
             ROOT_DOMAINNAME: ${ROOT_DOMAINNAME:?needs root domain name}
         labels:
-            traefik.http.routers.traefik-rtr.rule: Host(`traefik.${DOMAINNAME}`)
+            traefik.http.routers.traefik-rtr.rule: Host(`traefik.${INTERNAL_DOMAINNAME}`)
 
     traefik-external:
         extends:
