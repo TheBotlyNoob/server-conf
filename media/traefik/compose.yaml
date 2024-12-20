@@ -63,6 +63,7 @@ services:
 
         expose:
             - 80
+            - 443
 
         environment:
             TRAEFIK_PROVIDERS_DOCKER_CONSTRAINTS: "Label(`expose.external`, `true`)"
