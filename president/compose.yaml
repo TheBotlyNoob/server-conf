@@ -20,6 +20,7 @@ networks:
         driver: bridge
 
     traefik:
+        name: traefik
         driver: bridge
 
     headscale:
