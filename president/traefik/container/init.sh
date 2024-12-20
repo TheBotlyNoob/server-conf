@@ -3,9 +3,8 @@
 SUBDOMAINS=$(echo "$PROXY_SUBDOMAINS" | tr "," "\n")
 
 for SUBDOMAIN in $SUBDOMAINS; do
-    _DOCKER_SOCKET_PORT=$(echo "$SUBDOMAIN" | cut -d':' -f4)
-    PORT=$(echo "$SUBDOMAIN" | cut -d':' -f3)
-    _TAILSCALE_IP=$(echo "$SUBDOMAIN" | cut -d':' -f2)
+    _DOCKER_SOCKET_PORT=$(echo "$SUBDOMAIN" | cut -d':' -f3)
+    PORT=$(echo "$SUBDOMAIN" | cut -d':' -f2)
     SUBDOMAIN=$(echo "$SUBDOMAIN" | cut -d':' -f1)
 
     cat <<EOF >/rules/"$SUBDOMAIN-subdomain-rev-proxy".yml

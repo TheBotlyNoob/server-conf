@@ -19,7 +19,7 @@ services:
             RPC_SECRET: ${ARIA2_RPC_SECRET:?}
             EMBED_RPC_SECRET: true
 
-            ARIA2HOST: aria-rpc.${DOMAINNAME}
+            ARIA2HOST: aria.${INTERNAL_DOMAINNAME}
             ARIA2RPCPORT: 443
             ARIA2PROTOCOL: https
         volumes:
@@ -33,4 +33,4 @@ services:
             homepage.group: internal
             homepage.name: Aria2
             homepage.icon: mdi-download-box
-            homepage.href: https://aria.${DOMAINNAME}
+            homepage.href: https://aria.${INTERNAL_DOMAINNAME}

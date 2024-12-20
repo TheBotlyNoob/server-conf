@@ -1,7 +1,6 @@
 services:
     headscale:
-        build:
-            context: ./container/headscale
+        image: headscale/headscale:stable
         container_name: headscale
         user: ${PUID}:${PGID}
         security_opt:

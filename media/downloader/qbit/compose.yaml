@@ -28,7 +28,7 @@ services:
             homepage.group: internal
             homepage.name: qBittorrent
             homepage.icon: sh-qbittorrent.svg
-            homepage.href: https://qbit.${DOMAINNAME}
+            homepage.href: https://qbit.${INTERNAL_DOMAINNAME}
 
     cross-seed:
         image: ghcr.io/cross-seed/cross-seed

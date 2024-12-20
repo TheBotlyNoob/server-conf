@@ -30,6 +30,7 @@ services:
             - 9081 # ariang
         labels:
             expose.external: false
+
             traefik.enable: true
 
             traefik.http.routers.qbittorrent-rtr.rule: Host(`qbit.${DOMAINNAME}`)

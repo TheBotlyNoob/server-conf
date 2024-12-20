@@ -26,12 +26,12 @@ services:
             expose.external: false
 
             traefik.enable: true
-            traefik.http.routers.sonarr-rtr.rule: Host(`sonarr.${DOMAINNAME}`)
+            traefik.http.routers.sonarr-rtr.rule: Host(`sonarr.${INTERNAL_DOMAINNAME}`)
 
             homepage.group: internal
             homepage.name: Sonarr
             homepage.icon: sh-sonarr.svg
-            homepage.href: https://sonarr.${DOMAINNAME}
+            homepage.href: https://sonarr.${INTERNAL_DOMAINNAME}
 
     radarr:
         image: linuxserver/radarr:latest
@@ -60,12 +60,12 @@ services:
             expose.external: false
 
             traefik.enable: true
-            traefik.http.routers.radarr-rtr.rule: Host(`radarr.${DOMAINNAME}`)
+            traefik.http.routers.radarr-rtr.rule: Host(`radarr.${INTERNAL_DOMAINNAME}`)
 
             homepage.group: internal
             homepage.name: Radarr
             homepage.icon: sh-radarr.svg
-            homepage.href: https://radarr.${DOMAINNAME}
+            homepage.href: https://radarr.${INTERNAL_DOMAINNAME}
 
     prowlarr:
         image: ghcr.io/linuxserver/prowlarr:latest
@@ -91,12 +91,12 @@ services:
             expose.external: false
 
             traefik.enable: true
-            traefik.http.routers.prowlarr-rtr.rule: Host(`prowlarr.${DOMAINNAME}`)
+            traefik.http.routers.prowlarr-rtr.rule: Host(`prowlarr.${INTERNAL_DOMAINNAME}`)
 
             homepage.group: internal
             homepage.name: Prowlarr
             homepage.icon: sh-prowlarr.svg
-            homepage.href: https://prowlarr.${DOMAINNAME}
+            homepage.href: https://prowlarr.${INTERNAL_DOMAINNAME}
 
     flaresolverr:
         image: flaresolverr/flaresolverr:latest
