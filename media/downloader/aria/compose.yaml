@@ -28,7 +28,7 @@ services:
             - ./config:/config
             - ${APP_ROOT}/aria/session:/session
             - ${APP_ROOT}/aria/data:/data
-            - ${DATA_MOUNT_DIR}/games:/downloads
+            - ${DATA_MOUNT_DIR}/games:/data
         command: --rpc-secret=${ARIA2_RPC_SECRET}
         network_mode: "service:gluetun"
         labels:
@@ -36,3 +36,30 @@ services:
             homepage.name: Aria2
             homepage.icon: mdi-download-box
             homepage.href: https://aria.${INTERNAL_DOMAINNAME}
+
+    game-unpackerr:
+        container_name: game-unpackerr
+        image: golift/unpackerr:latest
+        restart: unless-stopped
+        user: ${PUID}:${PGID}
+        logging:
+            driver: json-file
+            options:
+                max-size: 1m
+        environment:
+            TZ: ${TZ}
+            UN_LOG_FILE: /logs/unpackerr.log
+            UN_FOLDER_0_PATH: /data/raw
+            UN_FOLDER_0_EXTRACT_PATH: /data/uncompressed
+            UN_FOLDER_0_EXTRACT_ISOS: true
+
+        env_file: .env.unpackerr
+        volumes:
+            - ${DATA_MOUNT_DIR}/games:/data
+            - ${APP_ROOT}/unpackerr/logs:/logs
+        network_mode: "service:gluetun"
+        labels:
+            homepage.group: internal
+            homepage.name: Game Unpackerr
+            homepage.icon: mdi-gamepad-variant
+            homepage.href: https://game-unpackerr.${INTERNAL_DOMAINNAME}
