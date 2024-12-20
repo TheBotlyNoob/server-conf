@@ -2,7 +2,7 @@
 
 SUBDOMAINS=$(echo "$PROXY_SUBDOMAINS" | tr "," "\n")
 
-echo "{" >/dns-rules.json
+echo "[" >/dns-rules.json
 
 FIRST_LOOP=true
 
@@ -27,6 +27,6 @@ for SUBDOMAIN in $SUBDOMAINS; do
 EOF
 done
 
-echo "}" >>/dns-rules.json
+echo "]" >>/dns-rules.json
 
 /usr/local/bin/headscale serve
