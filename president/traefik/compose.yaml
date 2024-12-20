@@ -11,6 +11,7 @@ services:
         container_name: traefik
         networks:
             - traefik
+            - socket_proxy
         ports:
             - name: websecure
               host_ip: 0.0.0.0
