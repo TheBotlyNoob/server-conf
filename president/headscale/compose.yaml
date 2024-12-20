@@ -24,6 +24,7 @@ services:
             HEADSCALE_OIDC_ISSUER: ${HEADSCALE_OIDC_ISSUER}
 
             PROXY_SUBDOMAINS: ${PROXY_SUBDOMAINS}
+            DOMAINNAME: ${DOMAINNAME}
         command: serve
         restart: unless-stopped
         depends_on:
