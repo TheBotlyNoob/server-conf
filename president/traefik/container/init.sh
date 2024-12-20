@@ -9,6 +9,9 @@ for SUBDOMAIN in $SUBDOMAINS; do
 
     cat <<EOF >/rules/"$SUBDOMAIN-subdomain-rev-proxy".yml
 http:
+    serversTransports:
+        $SUBDOMAIN-subdomain-rev-proxy-transport:
+            serverName: $SUBDOMAIN.{{ env "DOMAINNAME" }}
     routers:
         $SUBDOMAIN-subdomain-rev-proxy-rtr:
             rule: HostRegexp(\`^(.+\.)?$SUBDOMAIN\.{{ env "DOMAINNAME" | regexQuoteMeta }}$\`)
@@ -18,8 +21,8 @@ http:
             loadBalancer:
                 servers:
                     - url: "https://frps-internal:$PORT"
-            tls:
-                serverName: "$SUBDOMAIN.{{ env "DOMAINNAME" }}"
+                serversTransport: $SUBDOMAIN-subdomain-rev-proxy-transport
+                passHostHeader: true
 EOF
 done
 
