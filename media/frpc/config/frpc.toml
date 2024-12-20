@@ -141,31 +141,6 @@ udpPacketSize = 1500
 # If global user is not empty, it will be changed to {user}.{proxy} such as 'your_name.ssh'
 name = "media"
 type = "tcp"
-localIP = "traefik"
-localPort = 80
-# If true, traffic of this proxy will be encrypted, default is false
-transport.useEncryption = true
-# Remote port listen by frps
-remotePort = 9090
-# Enable health check for the backend service, it supports 'tcp' and 'http' now.
-# frpc will connect local service's port to detect it's healthy status
-healthCheck.type = "tcp"
-# Health check connection timeout
-healthCheck.timeoutSeconds = 3
-# If continuous failed in 3 times, the proxy will be removed from frps
-healthCheck.maxFailed = 3
-# Every 10 seconds will do a health check
-healthCheck.intervalSeconds = 10
-# Additional meta info for each proxy. It will be passed to the server-side plugin for use.
-# You can add some extra information to the proxy through annotations.
-# These annotations will be displayed on the frps dashboard.
-
-
-[[proxies]]
-# 'ssh' is the unique proxy name
-# If global user is not empty, it will be changed to {user}.{proxy} such as 'your_name.ssh'
-name = "media"
-type = "tcp"
 localIP = "traefik-external"
 localPort = 80
 # If true, traffic of this proxy will be encrypted, default is false
@@ -184,7 +159,6 @@ healthCheck.intervalSeconds = 10
 # Additional meta info for each proxy. It will be passed to the server-side plugin for use.
 # You can add some extra information to the proxy through annotations.
 # These annotations will be displayed on the frps dashboard.
-
 
 [[proxies]]
 # 'ssh' is the unique proxy name
