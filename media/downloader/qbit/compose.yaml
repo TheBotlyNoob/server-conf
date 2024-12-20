@@ -2,7 +2,6 @@ services:
     qbittorrent:
         container_name: qbittorrent
         image: lscr.io/linuxserver/qbittorrent:latest
-        user: ${PUID}:${PGID}
         volumes:
             - ${DATA_MOUNT_DIR}:/data
             - ${QBITTORRENT_INCOMPLETE_MOUNT}:/downloads
