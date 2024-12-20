@@ -3,6 +3,7 @@ services:
     tailscale-node:
         image: tailscale/tailscale:latest
         hostname: tailscale-node
+        container_name: tailscale-node
         environment:
             - TS_AUTHKEY=${HEADSCALE_AUTHKEY:?needs headscale authkey}
             - TS_EXTRA_ARGS=--advertise-tags=tag:subserver --login-server https://headscale.${ROOT_DOMAINNAME}
