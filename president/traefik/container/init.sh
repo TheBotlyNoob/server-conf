@@ -18,7 +18,6 @@ http:
             loadBalancer:
                 servers:
                     - url: "http://frps-internal:$PORT"
-                serversTransport: $SUBDOMAIN-subdomain-rev-proxy-transport
 EOF
 done
 
