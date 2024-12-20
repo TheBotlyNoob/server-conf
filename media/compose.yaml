@@ -13,9 +13,11 @@ networks:
         driver: bridge
 
     traefik-tailscale:
+        name: traefik-tailscale
         driver: bridge
 
     traefik-external:
+        name: traefik-external
         driver: bridge
 
 # homepage is on root domain
