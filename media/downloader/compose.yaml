@@ -33,15 +33,15 @@ services:
 
             traefik.enable: true
 
-            traefik.http.routers.qbittorrent-rtr.rule: Host(`qbit.${DOMAINNAME}`)
+            traefik.http.routers.qbittorrent-rtr.rule: Host(`qbit.${INTERNAL_DOMAINNAME}`)
             traefik.http.routers.qbittorrent-rtr.service: qbittorrent-svc
             traefik.http.services.qbittorrent-svc.loadbalancer.server.port: 8080
 
-            traefik.http.routers.aria2-rpc-rtr.rule: Host(`aria.${DOMAINNAME}`) && PathPrefix(`/jsonrpc`)
+            traefik.http.routers.aria2-rpc-rtr.rule: Host(`aria.${INTERNAL_DOMAINNAME}`) && PathPrefix(`/jsonrpc`)
             traefik.http.routers.aria2-rpc-rtr.service: aria2-rpc-svc
             traefik.http.services.aria2-rpc-svc.loadbalancer.server.port: 6800
 
-            traefik.http.routers.aria2-web-rtr.rule: Host(`aria.${DOMAINNAME}`)
+            traefik.http.routers.aria2-web-rtr.rule: Host(`aria.${INTERNAL_DOMAINNAME}`)
             traefik.http.routers.aria2-web-rtr.service: aria2-web-svc
             traefik.http.services.aria2-web-svc.loadbalancer.server.port: 9081
 
