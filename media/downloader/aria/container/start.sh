@@ -38,6 +38,11 @@ if [ -n "$ARIA2PROTOCOL" ]; then
     sed -i "s/\"http\"/\"${ARIA2PROTOCOL}\"/g" "$ariang_js_path"
 fi
 
+if [ -n "$ARIANG_THEME" ]; then
+    echo "Changing theme to $ARIANG_THEME"
+    sed -i "s/\.currentTheme=\"[^\"]*\"/\.currentTheme=\"${ARIANG_THEME}\"/g" "$ariang_js_path"
+fi
+
 touch /session/aria2.session
 
 caddy start -config /usr/local/caddy/Caddyfile -adapter=caddyfile

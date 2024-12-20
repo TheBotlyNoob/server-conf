@@ -22,6 +22,8 @@ services:
             ARIA2HOST: aria.${INTERNAL_DOMAINNAME}
             ARIA2RPCPORT: 443
             ARIA2PROTOCOL: Https
+
+            ARIANG_THEME: dark
         volumes:
             - ./config:/config
             - ${APP_ROOT}/aria/session:/session
