@@ -60,6 +60,10 @@ services:
         security_opt:
             - no-new-privileges:true
         pids_limit: 200
+
+        expose:
+            - 80
+
         environment:
             TRAEFIK_PROVIDERS_DOCKER_CONSTRAINTS: "Label(`expose.external`, `true`)"
 
