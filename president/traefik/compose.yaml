@@ -13,13 +13,8 @@ services:
             - traefik
             - socket_proxy
         ports:
-            - name: websecure
-              host_ip: 0.0.0.0
-              target: 443
-              published: "443"
-              protocol: tcp
-              app_protocol: https
-              mode: host
+            - 80:80
+            - 443:443
         environment:
             PROXY_SUBDOMAINS: ${PROXY_SUBDOMAINS:?needs proxy subdomains}
 

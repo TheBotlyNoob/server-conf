@@ -1,0 +1,20 @@
+services:
+    frpc:
+        image: snowdreamtech/frpc
+        container_name: frpc
+        user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        networks:
+            - socket_proxy
+            - traefik
+        volumes:
+            - ./config:/etc/frp
+        restart: unless-stopped
+        environment:
+            ROOT_DOMAINNAME: ${ROOT_DOMAINNAME:?err}
+            FRP_OIDC_ISSUER: ${FRP_OIDC_ISSUER}
+            FRP_OIDC_AUDIENCE: ${FRP_OIDC_AUDIENCE}
+            FRP_OIDC_CLIENT_SECRET: ${FRP_OIDC_CLIENT_SECRET}
+            FRP_OIDC_TOKEN_ENDPOINT: ${FRP_OIDC_TOKEN_ENDPOINT}

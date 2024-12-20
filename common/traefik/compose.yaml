@@ -18,8 +18,6 @@ services:
             - no-new-privileges=true
         depends_on:
             - socket-proxy # Comment out if not using socket-proxy
-        ports:
-            - 80:80
         environment:
             TZ: ${TZ}
             DOMAINNAME: ${DOMAINNAME}
