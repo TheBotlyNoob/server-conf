@@ -166,7 +166,7 @@ healthCheck.intervalSeconds = 10
 # If global user is not empty, it will be changed to {user}.{proxy} such as 'your_name.ssh'
 name = "media"
 type = "tcp"
-localIP = "traefik"
+localIP = "traefik-external"
 localPort = 80
 # If true, traffic of this proxy will be encrypted, default is false
 transport.useEncryption = true
