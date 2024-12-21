@@ -49,8 +49,14 @@ services:
         depends_on: []
         expose:
             - 8096
-        group_add:
-            - "303"
+        runtime: nvidia
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: all
+                          capabilities: [gpu]
         networks:
             - jellyfin
             - traefik-external
