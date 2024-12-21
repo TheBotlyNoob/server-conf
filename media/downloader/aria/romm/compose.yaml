@@ -7,6 +7,9 @@ services:
         image: rommapp/romm:latest
         container_name: romm
         restart: unless-stopped
+        user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
         environment:
             - DB_HOST=romm-db
             - DB_NAME=romm # Should match MARIADB_DATABASE in mariadb
@@ -45,6 +48,9 @@ services:
         image: mariadb:latest
         container_name: romm-db
         restart: unless-stopped
+        security_opt:
+            - no-new-privileges:true
+        user: ${PUID}:${PGID}
         environment:
             - MARIADB_ROOT_PASSWORD=${ROMM_DB_PASSWORD:?} # Use a unique, secure password
             - MARIADB_DATABASE=romm
