@@ -1,7 +1,6 @@
-volumes:
-    mysql_data:
-    romm_resources:
-    romm_redis_data:
+networks:
+    romm_internal:
+        driver: bridge
 
 services:
     romm:
@@ -28,6 +27,8 @@ services:
             romm-db:
                 condition: service_healthy
                 restart: true
+        networks:
+            - romm_internal
         labels:
             expose.external: false
 
@@ -50,6 +51,8 @@ services:
             - MARIADB_USER=romm-user
         volumes:
             - ${APP_ROOT}/romm/data:/var/lib/mysql
+        networks:
+            - romm_internal
         healthcheck:
             test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
             start_period: 30s
