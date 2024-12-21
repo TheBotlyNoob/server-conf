@@ -58,3 +58,6 @@ services:
             - ${DATA_MOUNT_DIR}/games:/data
             - ${APP_ROOT}/unpackerr/logs:/logs
         network_mode: "service:gluetun"
+
+include:
+    - ./romm/compose.yaml
