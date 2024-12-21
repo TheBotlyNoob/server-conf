@@ -46,7 +46,16 @@ services:
 
             ROOT_DOMAINNAME: ${ROOT_DOMAINNAME:?needs root domain name}
         labels:
+            expose.external: false
             traefik.http.routers.traefik-rtr.rule: Host(`traefik.${INTERNAL_DOMAINNAME}`)
+            traefik.http.routers.traefik-rtr.middlewares:
+            #### Migrate individual service cert resolver to global resolution in traefik.yaml
+            #- "traefik.http.routers.traefik-rtr.tls=true"
+            #- "traefik.http.routers.traefik-rtr.tls.certresolver=le"
+            #- "traefik.http.routers.traefik-rtr.tls.domains[0].main=$DOMAINNAME"
+            #- "traefik.http.routers.traefik-rtr.tls.domains[0].sans=*.$DOMAINNAME"
+            ## Services - API
+            traefik.http.routers.traefik-rtr.service: api@internal
         volumes:
             - "${APP_ROOT}/traefik-tailscale/logs:/logs"
             - "${APP_ROOT}/traefik-tailscale/data:/data" # acme.json defined in traefik.yaml
