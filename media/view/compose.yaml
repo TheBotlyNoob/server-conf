@@ -54,9 +54,11 @@ services:
             resources:
                 reservations:
                     devices:
-                        - driver: nvidia
-                          count: all
-                          capabilities: [gpu]
+                        - driver: cdi
+                          capabilities:
+                              - gpu
+                          device_ids:
+                              - nvidia.com/gpu=all
         networks:
             - jellyfin
             - traefik-external
