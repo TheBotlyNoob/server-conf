@@ -39,6 +39,7 @@ services:
             traefik.enable: true
 
             traefik.http.routers.romm-rtr.rule: Host(`romm.${INTERNAL_DOMAINNAME}`)
+            traefik.http.services.romm-svc.loadbalancer.server.port: 8080
 
             homepage.group: media
             homepage.name: ROMM
