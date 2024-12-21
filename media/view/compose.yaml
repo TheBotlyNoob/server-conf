@@ -1,35 +1,35 @@
 services:
     # jellyseerr and jellyfin have custom themes--no themepark needed
-    jellyseerr:
-        image: fallenbagel/jellyseerr:latest
-        container_name: jellyseerr
-        user: ${PUID}:${PGID}
-        security_opt:
-            - no-new-privileges:true
-        pids_limit: 200
-        environment:
-            - LOG_LEVEL=info
-            - TZ=${TZ:-Etc/UTC}
-        expose:
-            - 5055
-        volumes:
-            - ${APP_ROOT}/jellyseerr/app/config:/app/config
-        networks:
-            - traefik-external
-            - jellyfin
-            - arrs
-        restart: unless-stopped
-        labels:
-            expose.external: true
+    # jellyseerr:
+    #     image: fallenbagel/jellyseerr:latest
+    #     container_name: jellyseerr
+    #     user: ${PUID}:${PGID}
+    #     security_opt:
+    #         - no-new-privileges:true
+    #     pids_limit: 200
+    #     environment:
+    #         - LOG_LEVEL=info
+    #         - TZ=${TZ:-Etc/UTC}
+    #     expose:
+    #         - 5055
+    #     volumes:
+    #         - ${APP_ROOT}/jellyseerr/app/config:/app/config
+    #     networks:
+    #         - traefik-external
+    #         - jellyfin
+    #         - arrs
+    #     restart: unless-stopped
+    #     labels:
+    #         expose.external: true
 
-            traefik.enable: true
-            traefik.http.routers.jellyseerr-rtr.rule: Host(`jellyseerr.${DOMAINNAME}`)
-            traefik.http.routers.jellyseerr-rtr.middlewares: middlewares-authentik@file
+    #         traefik.enable: true
+    #         traefik.http.routers.jellyseerr-rtr.rule: Host(`jellyseerr.${DOMAINNAME}`)
+    #         traefik.http.routers.jellyseerr-rtr.middlewares: middlewares-authentik@file
 
-            homepage.group: media
-            homepage.name: Jellyseerr
-            homepage.icon: sh-jellyseerr.svg
-            homepage.href: https://jellyseerr.${DOMAINNAME}
+    #         homepage.group: media
+    #         homepage.name: Jellyseerr
+    #         homepage.icon: sh-jellyseerr.svg
+    #         homepage.href: https://jellyseerr.${DOMAINNAME}
 
     jellyfin:
         image: jellyfin/jellyfin
