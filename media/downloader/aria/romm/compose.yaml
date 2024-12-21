@@ -52,9 +52,10 @@ services:
             - no-new-privileges:true
         user: ${PUID}:${PGID}
         environment:
-            - MARIADB_ROOT_PASSWORD=${ROMM_DB_PASSWORD:?} # Use a unique, secure password
+            - MARIADB_RANDOM_ROOT_PASSWORD=1 # Use a unique, secure password
             - MARIADB_DATABASE=romm
             - MARIADB_USER=romm-user
+            - MARIADB_PASSWORD=${ROMM_DB_PASSWORD:?} # Use a unique, secure password
         volumes:
             - ${APP_ROOT}/romm/data:/var/lib/mysql
         networks:
