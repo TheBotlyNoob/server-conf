@@ -49,7 +49,6 @@ services:
         depends_on: []
         expose:
             - 8096
-        runtime: nvidia
         deploy:
             resources:
                 reservations:
