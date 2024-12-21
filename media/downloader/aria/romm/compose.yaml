@@ -52,7 +52,7 @@ services:
             - no-new-privileges:true
         user: ${PUID}:${PGID}
         environment:
-            - MARIADB_PASSWORD=${ROMM_DB_PASSWORD:?} # Use a unique, secure password
+            - MARIADB_ROOT_PASSWORD=${ROMM_DB_PASSWORD:?} # Use a unique, secure password
             - MARIADB_DATABASE=romm
             - MARIADB_USER=romm-user
         volumes:
