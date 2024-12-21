@@ -22,7 +22,7 @@ services:
             # - STEAMGRIDDB_API_KEY= # https://github.com/rommapp/romm/wiki/Generate-API-Keys#steamgriddb
         volumes:
             - ${APP_ROOT}/romm/resources:/romm/resources # Resources fetched from IGDB (covers, screenshots, etc.)
-            - ${APP_ROOT}/romm/redis:/redis-data # Cached data for background tasks
+            - ${APP_ROOT}/romm/redis:/redis-data # Cached data for background taskmergerfs.balances
             - ${DATA_MOUNT_DIR}/games:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
             - ${APP_ROOT}/romm/assets:/romm/assets # Uploaded saves, states, etc.
             - ./config:/romm/config # Path where config.yml is stored
@@ -31,6 +31,7 @@ services:
                 condition: service_healthy
                 restart: true
         networks:
+            - traefik-tailscale
             - romm_internal
         labels:
             expose.external: false
