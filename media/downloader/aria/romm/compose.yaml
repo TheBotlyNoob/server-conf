@@ -24,8 +24,6 @@ services:
             - ${DATA_MOUNT_DIR}/games:/romm/library # Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
             - ${APP_ROOT}/romm/assets:/romm/assets # Uploaded saves, states, etc.
             - ./config:/romm/config # Path where config.yml is stored
-        ports:
-            - 80:8080
         depends_on:
             romm-db:
                 condition: service_healthy
