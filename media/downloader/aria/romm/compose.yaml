@@ -45,14 +45,14 @@ services:
             homepage.href: https://romm.${INTERNAL_DOMAINNAME}
 
     romm-db:
-        image: mariadb:latest
+        image: mariadb:lts
         container_name: romm-db
         restart: unless-stopped
         security_opt:
             - no-new-privileges:true
         user: ${PUID}:${PGID}
         environment:
-            - MARIADB_ROOT_PASSWORD=${ROMM_DB_PASSWORD:?} # Use a unique, secure password
+            - MARIADB_PASSWORD=${ROMM_DB_PASSWORD:?} # Use a unique, secure password
             - MARIADB_DATABASE=romm
             - MARIADB_USER=romm-user
         volumes:
