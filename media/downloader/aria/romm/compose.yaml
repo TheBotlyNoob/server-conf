@@ -35,15 +35,19 @@ services:
 
             traefik.http.routers.romm-rtr.rule: Host(`romm.${INTERNAL_DOMAINNAME}`)
 
+            homepage.group: media
+            homepage.name: ROMM
+            homepage.icon: sh-romm.svg
+            homepage.href: https://romm.${INTERNAL_DOMAINNAME}
+
     romm-db:
         image: mariadb:latest
         container_name: romm-db
         restart: unless-stopped
         environment:
-            - MARIADB_ROOT_PASSWORD= # Use a unique, secure password
+            - MARIADB_ROOT_PASSWORD=${ROMM_DB_PASSWORD:?} # Use a unique, secure password
             - MARIADB_DATABASE=romm
             - MARIADB_USER=romm-user
-            - MARIADB_PASSWORD=${ROMM_DB_PASSWORD:?}
         volumes:
             - ${APP_ROOT}/romm/data:/var/lib/mysql
         healthcheck:
