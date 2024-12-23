@@ -18,6 +18,9 @@ networks:
     socket_proxy:
         driver: bridge
 
+    socket_proxy_writable:
+        driver: bridge
+
     traefik:
         name: traefik
         driver: bridge
