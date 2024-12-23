@@ -12,6 +12,10 @@ networks:
         name: socket_proxy
         driver: bridge
 
+    socket_proxy_writable:
+        name: socket_proxy_writable
+        driver: bridge
+
     traefik-tailscale:
         name: traefik-tailscale
         driver: bridge
@@ -33,4 +37,3 @@ include:
     - ./arrs/compose.yaml
     - ./downloader/compose.yaml
     - ./view/compose.yaml
-    - ./frpc/compose.yaml

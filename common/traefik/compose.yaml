@@ -12,6 +12,7 @@ services:
     # -- Updated 2024-June-04
     # ------------------------------
     traefik:
+        image: traefik:v3.2
         restart: unless-stopped
         user: ${PUID}:${PGID}
         security_opt:

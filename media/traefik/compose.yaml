@@ -1,13 +1,13 @@
 name: traefik
 services:
-    tailscale-node:
+    internal-tailscale-node:
         image: tailscale/tailscale:latest
-        hostname: tailscale-node
-        container_name: tailscale-node
+        hostname: internal-tailscale-node
+        container_name: internal-tailscale-node
         environment:
             - TS_AUTHKEY=${HEADSCALE_AUTHKEY:?needs headscale authkey}
-            - TS_EXTRA_ARGS=--advertise-tags=tag:subserver --login-server https://headscale.${ROOT_DOMAINNAME}
-            - TS_HOSTNAME=media-node
+            - TS_EXTRA_ARGS=--advertise-tags=tag:internal --login-server https://headscale.${ROOT_DOMAINNAME}
+            - TS_HOSTNAME=internal-media-node
             - TS_STATE_DIR=/var/lib/tailscale
             - TS_USERSPACE=false
         volumes:
@@ -35,7 +35,7 @@ services:
         security_opt:
             - no-new-privileges:true
         pids_limit: 200
-        network_mode: service:tailscale-node
+        network_mode: service:internal-tailscale-node
         environment:
             TRAEFIK_PROVIDERS_DOCKER_CONSTRAINTS: "Label(`expose.external`, `false`)"
 
@@ -54,7 +54,6 @@ services:
             file: ../../common/traefik/compose.yaml
             service: traefik
 
-        # make sure this matches headscale/traefik/container/Dockerfile
         image: traefik:3.2.2
 
         container_name: traefik-external

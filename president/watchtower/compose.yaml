@@ -4,4 +4,4 @@ services:
             file: ../../common/watchtower/compose.yaml
             service: watchtower
         depends_on:
-            - socket-proxy
+            - socket-proxy-writable

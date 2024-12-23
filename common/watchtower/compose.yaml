@@ -7,9 +7,9 @@ services:
             - no-new-privileges:true
         pids_limit: 200
         networks:
-            - socket_proxy
+            - socket_proxy_writable
         environment:
-            DOCKER_HOST: tcp://socket-proxy:2375
+            DOCKER_HOST: tcp://socket-proxy-writable:2375
             WATCHTOWER_NOTIFICATION_URL: ${WATCHTOWER_NOTIFICATION_URL:?err}
             WATCHTOWER_POLL_INTERVAL: 86400
             WATCHTOWER_INCLUDE_RESTARTING: true

@@ -37,7 +37,7 @@ services:
 
     headplane:
         build:
-            context: ./container/headplane
+            context: ./container
         user: ${PUID}:${PGID}
         security_opt:
             - no-new-privileges:true

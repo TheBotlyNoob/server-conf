@@ -6,8 +6,6 @@ services:
         extends:
             file: ../../common/traefik/compose.yaml
             service: traefik
-        build:
-            context: ./container
         container_name: traefik
         networks:
             - traefik
