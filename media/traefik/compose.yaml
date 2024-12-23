@@ -5,13 +5,14 @@ services:
         hostname: internal-tailscale-node
         container_name: internal-tailscale-node
         environment:
-            - TS_AUTHKEY=${HEADSCALE_AUTHKEY:?needs headscale authkey}
+            - TS_AUTHKEY=${HEADSCALE_INTERNAL_AUTHKEY:?needs headscale authkey}
             - TS_EXTRA_ARGS=--advertise-tags=tag:internal --login-server https://headscale.${ROOT_DOMAINNAME}
             - TS_HOSTNAME=internal-media-node
             - TS_STATE_DIR=/var/lib/tailscale
             - TS_USERSPACE=false
+            - TS_AUTH_ONCE=true
         volumes:
-            - ${PWD}/tailscale-nginx/state:/var/lib/tailscale
+            - ${APP_ROOT}/tailscale-internal/state:/var/lib/tailscale
         networks:
             - traefik-tailscale
             - socket_proxy
@@ -49,6 +50,29 @@ services:
             - "${APP_ROOT}/traefik-tailscale/logs:/logs"
             - "${APP_ROOT}/traefik-tailscale/data:/data" # acme.json defined in traefik.yaml
 
+    external-tailscale-node:
+        image: tailscale/tailscale:latest
+        hostname: external-tailscale-node
+        container_name: external-tailscale-node
+        environment:
+            - TS_AUTHKEY=${HEADSCALE_EXTERNAL_AUTHKEY:?needs headscale authkey}
+            - TS_EXTRA_ARGS=--advertise-tags=tag:external --login-server https://headscale.${ROOT_DOMAINNAME}
+            - TS_HOSTNAME=external-media-node
+            - TS_STATE_DIR=/var/lib/tailscale
+            - TS_USERSPACE=false
+            - TS_AUTH_ONCE=true
+        volumes:
+            - ${APP_ROOT}/tailscale-external/state:/var/lib/tailscale
+        networks:
+            - traefik-tailscale
+            - socket_proxy
+        devices:
+            - /dev/net/tun:/dev/net/tun
+        cap_add:
+            - net_admin
+            - sys_module
+        restart: unless-stopped
+
     traefik-external:
         extends:
             file: ../../common/traefik/compose.yaml
@@ -58,9 +82,7 @@ services:
 
         container_name: traefik-external
 
-        networks:
-            - traefik-external
-            - socket_proxy
+        network_mode: service:external-tailscale-node
 
         security_opt:
             - no-new-privileges:true
