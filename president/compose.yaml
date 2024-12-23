@@ -10,7 +10,6 @@ include:
     - ./homepage/compose.yaml
     - ./headscale/compose.yaml
     - ./exit-node/compose.yaml
-    - ./uptime-kuma/compose.yaml
     - ./frps/compose.yaml
     - ./authentik/compose.yaml
     - ./mattermost/compose.yaml
