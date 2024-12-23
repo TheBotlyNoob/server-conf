@@ -54,7 +54,7 @@ services:
 
     socket-proxy-writable:
         image: tecnativa/docker-socket-proxy:0.3.0
-        container_name: socket-proxy
+        container_name: socket-proxy-writable
         restart: unless-stopped
         security_opt:
             - no-new-privileges=true
