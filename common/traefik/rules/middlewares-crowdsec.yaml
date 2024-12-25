@@ -11,7 +11,7 @@ http:
                     updateMaxFailure: 0
                     defaultDecisionSeconds: 60
                     httpTimeoutSeconds: 10
-                    crowdsecMode: live
+                    crowdsecMode: stream
                     crowdsecAppsecEnabled: false
                     crowdsecAppsecHost: crowdsec:7422
                     crowdsecAppsecFailureBlock: false
@@ -47,6 +47,7 @@ http:
                         - 10.0.20.0/24
                     clientTrustedIPs:
                         - 192.168.1.0/24
-                    forwardedHeadersCustomName: X-Custom-Header
-                    remediationHeadersCustomName: cs-remediation
+                    # forwardedHeadersCustomName: X-Custom-Header
+                    # remediationHeadersCustomName: cs-remediation
                     redisCacheEnabled: false
+                    banHTMLFilePath: /ban.html
