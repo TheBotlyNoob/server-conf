@@ -2,6 +2,6 @@ http:
     middlewares:
         middlewares-crowdsec:
             plugin:
-                crowdsec_bouncer:
+                bouncer:
                     enabled: true
                     crowdsecLapiKey: '{{ env "CROWDSEC_API_KEY" }}'
