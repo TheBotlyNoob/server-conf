@@ -97,7 +97,7 @@ services:
             ## HTTP Routers
             traefik.http.routers.authentik-rtr.rule: Host(`authentik.${DOMAINNAME}`)
             ## Individual Application forwardAuth regex (catch any subdomain using individual application forwardAuth)
-            traefik.http.routers.authentik-output-rtr.rule: HostRegexp(`{subdomain:[a-z0-9-]+}.${DOMAINNAME}`) && PathPrefix(`/outpost.goauthentik.io/`)
+            traefik.http.routers.authentik-output-rtr.rule: PathPrefix(`/outpost.goauthentik.io/`)
             ## HTTP Services
             traefik.http.routers.authentik-rtr.service: authentik-svc
             traefik.http.services.authentik-svc.loadBalancer.server.port: 9000
