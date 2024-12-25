@@ -16,6 +16,7 @@ services:
         volumes:
             - "${APP_ROOT}/traefik/logs:/logs"
             - "${APP_ROOT}/traefik/data:/data" # acme.json defined in traefik.yaml
+            - "${APP_ROOT}/traefik/plugins:/plugins-storage"
         environment:
             PROXY_SUBDOMAINS: ${PROXY_SUBDOMAINS:?needs proxy subdomains}
 
