@@ -10,11 +10,11 @@ services:
         expose:
             - "8080"
         volumes:
-            - /var/log/crowdsec:/var/log/crowdsec:ro
-            - /var/lib/crowdsec/data:/var/lib/crowdsec/data
+            - ${APP_ROOT}/crowdsec/logs:/var/log/crowdsec:ro
+            - ${APP_ROOT}/crowdsec/data:/var/lib/crowdsec/data
             - ./acquis.d/50-traefik.yaml:/etc/crowdsec/acquis.d/50-traefik.yaml
-            - /var/log/auth.log:/var/log/auth.log:ro
-            - /etc/crowdsec:/etc/crowdsec
+            - ${APP_ROOT}/crowdsec/logs/auth_log.log:/var/log/auth.log:ro
+            - ${APP_ROOT}/crowdsec/config:/etc/crowdsec
             - ${APP_ROOT}/traefik/logs:/var/log/traefik:ro
         restart: unless-stopped
         labels:
