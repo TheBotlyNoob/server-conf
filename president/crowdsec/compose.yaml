@@ -1,0 +1,23 @@
+services:
+    crowdsec:
+        image: crowdsecurity/crowdsec:latest
+        container_name: crowdsec
+        environment:
+            TZ: ${TZ}
+            PUID: ${PUID}
+            PGID: ${PGID}
+            COLLECTIONS: "crowdsecurity/traefik crowdsecurity/http-cve"
+        expose:
+            - "8080"
+        volumes:
+            - /var/log/crowdsec:/var/log/crowdsec:ro
+            - /var/lib/crowdsec/data:/var/lib/crowdsec/data
+            - ./acquis.d/50-traefik.yaml:/etc/crowdsec/acquis.d/50-traefik.yaml
+            - /var/log/auth.log:/var/log/auth.log:ro
+            - /etc/crowdsec:/etc/crowdsec
+            - ${APP_ROOT}/traefik/logs:/var/log/traefik:ro
+        restart: unless-stopped
+        labels:
+            traefik.enable: false
+        networks:
+            - traefik
