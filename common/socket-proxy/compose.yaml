@@ -84,8 +84,8 @@ services:
             - CONTAINERS=1 # Traefik, portainer, etc.
             - DISTRIBUTION=0
             - EXEC=0
-            - IMAGES=0 # Portainer
-            - INFO=0 # Portainer
+            - IMAGES=1 # Portainer
+            - INFO=1 # Portainer
             - NETWORKS=0 # Portainer
             - NODES=0
             - PLUGINS=0
