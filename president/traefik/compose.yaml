@@ -24,6 +24,8 @@ services:
             TRAEFIK_EXPERIMENTAL_PLUGINS_CROWDSEC_BOUNCER_MODULENAME: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
             TRAEFIK_EXPERIMENTAL_PLUGINS_CROWDSEC_BOUNCER_VERSION: v1.3.5
 
+            CROWDSEC_API_KEY: ${CROWDSEC_BOUNCER_LAPI_KEY:?needs crowdsec bouncer api key}
+
             TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_MIDDLEWARES: >-
                 middlewares-rate-limit@file,
                 middlewares-compress@file,
