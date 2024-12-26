@@ -1,0 +1,15 @@
+services:
+    actual-budget:
+        image: actualbudget/actual-server:latest
+        pull_policy: always
+        container_name: actual_budget
+        restart: unless-stopped
+        volumes:
+            - ${APP_ROOT}/actual_budget/data:/data
+
+        labels:
+            traefik.enable: true
+
+            expose.external: false
+
+            treafik.http.routers.actual_budget.rule: Host(`budget.${DOMAINNAME}`)
