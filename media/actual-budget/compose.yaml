@@ -7,6 +7,9 @@ services:
         volumes:
             - ${APP_ROOT}/actual_budget/data:/data
 
+        networks:
+            - traefik-tailscale
+
         labels:
             traefik.enable: true
 
