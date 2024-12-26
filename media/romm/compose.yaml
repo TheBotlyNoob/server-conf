@@ -4,7 +4,7 @@ networks:
 
 services:
     romm:
-        image: rommapp/romm:latest
+        image: rommapp/romm:3.7.0-alpha.1
         container_name: romm
         restart: unless-stopped
         user: ${PUID}:${PGID}
