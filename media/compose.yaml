@@ -39,3 +39,4 @@ include:
     - ./view/compose.yaml
     - ./frpc/compose.yaml
     - ./actual-budget/compose.yaml
+    - ./romm/compose.yaml

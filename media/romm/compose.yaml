@@ -18,6 +18,14 @@ services:
             - ROMM_AUTH_SECRET_KEY=${ROMM_SECRET_KEY:?} # Generate a key with `openssl rand -hex 32`
             - IGDB_CLIENT_ID=${IGDB_CLIENT_ID:?} # Generate an ID and SECRET in IGDB
             - IGDB_CLIENT_SECRET=${IGDB_CLIENT_ID:?} # https://api-docs.igdb.com/#account-creation
+
+            # https://github.com/rommapp/romm/wiki/OIDC-Setup-With-Authentik#step-4-configure-romm-environment-variables
+            - OIDC_ENABLED=true
+            - OIDC_CLIENT_ID=${ROMM_OIDC_CLIENT_ID:?} # Generate a client ID and secret in your OIDC provider
+            - OIDC_CLIENT_SECRET=${ROMM_OIDC_CLIENT_SECRET:?} # https://api-docs.igdb.com/#account-creation
+            - OIDC_REDIRECT_URI=${ROMM_OIDC_REDIRECT_URI:?} # The URL of your ROMM instance
+            - OIDC_SERVER_APPLICATION_URL=${ROMM_OIDC_SERVER_APPLICATION_URL:?} # The URL of your OIDC provider
+
             # - MOBYGAMES_API_KEY= # https://www.mobygames.com/info/api/
             # - STEAMGRIDDB_API_KEY= # https://github.com/rommapp/romm/wiki/Generate-API-Keys#steamgriddb
         volumes:

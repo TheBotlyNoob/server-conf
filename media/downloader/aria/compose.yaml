@@ -50,7 +50,7 @@ services:
             TZ: ${TZ}
             UN_LOG_FILE: /logs/unpackerr.log
             UN_FOLDER_0_PATH: /data/raw
-            UN_FOLDER_0_EXTRACT_PATH: /data/uncompressed
+            UN_FOLDER_0_EXTRACT_PATH: /data/roms/win
             UN_FOLDER_0_EXTRACT_ISOS: true
 
         env_file: .env.unpackerr
@@ -58,6 +58,3 @@ services:
             - ${DATA_MOUNT_DIR}/games:/data
             - ${APP_ROOT}/unpackerr/logs:/logs
         network_mode: "service:gluetun"
-
-include:
-    - ./romm/compose.yaml
