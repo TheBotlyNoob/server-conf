@@ -13,10 +13,13 @@ services:
         volumes:
             - ${APP_ROOT}/crowdsec/logs:/var/log/crowdsec:ro
             - ${APP_ROOT}/crowdsec/data:/var/lib/crowdsec/data
-            - ./acquis.d/50-traefik.yaml:/etc/crowdsec/acquis.d/50-traefik.yaml
             - ${APP_ROOT}/crowdsec/logs/auth_log.log:/var/log/auth.log:ro
             - ${APP_ROOT}/crowdsec/config:/etc/crowdsec
+
             - ${APP_ROOT}/traefik/logs:/var/log/traefik:ro
+
+            - ./config/acquis.d/50-traefik.yaml:/etc/crowdsec/acquis.d/50-traefik.yaml
+            - ./config/enrich/homepage-no-ban.yaml:/etc/crowdsec/parsers/s02-enrich/homepage-no-ban.yaml
         restart: unless-stopped
         labels:
             traefik.enable: false
