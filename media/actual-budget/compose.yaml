@@ -15,4 +15,4 @@ services:
 
             expose.external: false
 
-            treafik.http.routers.actual_budget.rule: Host(`budget.${DOMAINNAME}`)
+            treafik.http.routers.actual_budget.rule: Host(`budget.${INTERNAL_DOMAINNAME}`)
