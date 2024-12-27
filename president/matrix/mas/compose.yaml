@@ -65,10 +65,10 @@ services:
             KEY_1_RSA_KEY: ${MAS_KEY_1_RSA_KEY:?}
 
             KEY_2_KID: ${MAS_KEY_2_KID:?}
-            KEY_2_EC_KEY: ${MAS_KEY_2_RSA_KEY:?}
+            KEY_2_EC_KEY: ${MAS_KEY_2_EC_KEY:?}
 
             KEY_3_KID: ${MAS_KEY_3_KID:?}
-            KEY_3_EC_KEY: ${MAS_KEY_3_RSA_KEY:?}
+            KEY_3_EC_KEY: ${MAS_KEY_3_EC_KEY:?}
 
             CLIENT_BASIC_SECRET: ${MAS_CLIENT_BASIC_SECRET:?}
             ADMIN_BASIC_SECRET: ${MAS_ADMIN_BASIC_SECRET:?}
