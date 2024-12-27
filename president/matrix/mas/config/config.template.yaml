@@ -21,7 +21,7 @@ http:
     public_base: http://[::]:8080/
     issuer: http://[::]:8080/
 database:
-    uri: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/${POSTGRES_DB}
+    uri: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
     max_connections: 10
     min_connections: 0
     connect_timeout: 30
