@@ -1,3 +1,4 @@
 include:
     - ./cinny/compose.yaml
     - ./synapse/compose.yaml
+    - ./mas/compose.yaml
