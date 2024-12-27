@@ -2,8 +2,13 @@
 
 set -e
 
+if [ -f /config/config.yaml ]; then
+    echo "Config file already exists, skipping"
+    exit 0
+fi
+
 decode() {
-    echo "$1" | base64 -d | sed 's/^/                /g'
+    echo "$1" | base64 -d | sed 's/^/              /g'
 }
 
 KEY_1_RSA_KEY=$(decode "$KEY_1_RSA_KEY")
