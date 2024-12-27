@@ -21,9 +21,10 @@ http:
     public_base: http://[::]:8080/
     issuer: http://[::]:8080/
 database:
-    user: ${POSTGRES_USER}
+    username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
-    dbname: ${POSTGRES_DB}
+    port: 5432
+    database: ${POSTGRES_DB}
     host: ${POSTGRES_HOST}
     max_connections: 10
     min_connections: 0
