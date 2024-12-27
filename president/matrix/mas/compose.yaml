@@ -80,7 +80,7 @@ services:
             - traefik
             - mas_backend
         volumes:
-            - ./config/config.yaml:/config/config.yaml
+            - ${APP_ROOT}/matrix/mas/config:/config
 
         depends_on:
             mas_postgres:
