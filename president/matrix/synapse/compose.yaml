@@ -29,11 +29,47 @@ services:
             - POSTGRES_DB=matrix
 
             - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+            interval: 30s
+            timeout: 60s
+            retries: 5
+            start_period: 80s
+
+    matrix-config:
+        image: alpine:latest
+        container_name: matrix-config
+        user: ${PUID}:${PGID}
+        entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
+        volumes:
+            - ./config/homeserver.template.yaml:/homeserver.template.yaml
+            - ${APP_ROOT}/matrix/synapse/config:/config
+
+            - ./container/init.sh:/usr/local/bin/init.sh
+        restart: no
+        environment:
+            POSTGRES_USER: matrix-user
+            POSTGRES_PASSWORD: ${MATRIX_PG_PASS}
+            POSTGRES_DB: matrix
+            POSTGRES_HOST: matrix_postgres
+
+            REGISTRATION_SHARED_SECRET: ${MATRIX_REGISTRATION_SHARED_SECRET:?}
+            MACAROON_SECRET_KEY: ${MATRIX_MACAROON_SECRET_KEY:?}
+            FORM_SECRET: ${MATRIX_FORM_SECRET:?}
+
+            OIDC_ISSUER_URL: ${MATRIX_OIDC_ISSUER_URL:?}
+            OIDC_CLIENT_ID: ${MATRIX_OIDC_CLIENT_ID:?}
+            OIDC_CLIENT_SECRET: ${MATRIX_OIDC_CLIENT_SECRET:?}
+
+            DOMAINNAME: ${DOMAINNAME}
 
     matrix:
         image: matrixdotorg/synapse:latest
         depends_on:
-            - matrix_postgres
+            matrix_postgres:
+                condition: service_healthy
+            matrix-config:
+                condition: service_completed_successfully
         container_name: matrix
         restart: unless-stopped
         user: ${PUID}:${PGID}
@@ -52,8 +88,6 @@ services:
 
             - ./config/homeserver.template.yaml:/homeserver.template.yaml
             - ./config/log_config.yaml:/log_config.yaml
-
-            - ./container/init.sh:/usr/local/bin/init.sh
         environment:
             # timezone inside container
             TZ: ${TZ}
@@ -63,21 +97,6 @@ services:
 
             SYNAPSE_CONFIG_PATH: /config/homeserver.yaml
 
-            POSTGRES_USER: matrix-user
-            POSTGRES_PASSWORD: ${MATRIX_PG_PASS}
-            POSTGRES_DB: matrix
-            POSTGRES_HOST: matrix_postgres
-
-            REGISTRATION_SHARED_SECRET: ${MATRIX_REGISTRATION_SHARED_SECRET:?}
-            MACAROON_SECRET_KEY: ${MATRIX_MACAROON_SECRET_KEY:?}
-            FORM_SECRET: ${MATRIX_FORM_SECRET:?}
-
-            OIDC_ISSUER_URL: ${MATRIX_OIDC_ISSUER_URL:?}
-            OIDC_CLIENT_ID: ${MATRIX_OIDC_CLIENT_ID:?}
-            OIDC_CLIENT_SECRET: ${MATRIX_OIDC_CLIENT_SECRET:?}
-
-            DOMAINNAME: ${DOMAINNAME}
-        entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
         expose:
             - 8008
         labels:
