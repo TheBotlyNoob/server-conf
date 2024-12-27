@@ -1,0 +1,3 @@
+include:
+    - ./cinny/compose.yaml
+    - ./synapse/compose.yaml
