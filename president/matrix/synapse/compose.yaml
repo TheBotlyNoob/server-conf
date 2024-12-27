@@ -52,6 +52,7 @@ services:
 
             - ./container/init.sh:/usr/local/bin/init.sh
         restart: no
+        network_mode: none
         environment:
             POSTGRES_USER: matrix-user
             POSTGRES_PASSWORD: ${MATRIX_PG_PASS}

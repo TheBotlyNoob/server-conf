@@ -9,6 +9,7 @@ services:
             - ${APP_ROOT}/cinny/config:/app
 
             - ./container/init.sh:/usr/local/bin/init.sh
+        network_mode: none
         restart: no
         environment:
             DOMAINNAME: ${DOMAINNAME}
@@ -22,6 +23,9 @@ services:
             - ./config/config.template.json:/config.template.json
             # this allows the config.json file to be writable by the runtime user
             - ${APP_ROOT}/cinny/config/config.json:/app/config.json
+
+        networks:
+            - traefik
 
         depends_on:
             cinny-config:
