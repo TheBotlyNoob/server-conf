@@ -15,7 +15,7 @@ services:
             DOMAINNAME: ${DOMAINNAME}
     well_known:
         image: caddy:latest
-        container_name: well_known
+        container_name: well-known
         user: ${PUID}:${PGID}
         security_opt:
             - no-new-privileges:true
