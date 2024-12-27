@@ -12,5 +12,3 @@ fi
     cat /homeserver.template.yaml
     echo EOF
 ) | sh >/config/homeserver.yaml
-
-/start.py
