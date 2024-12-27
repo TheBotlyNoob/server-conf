@@ -2,11 +2,6 @@
 
 set -e
 
-if [ -f /config/config.yaml ]; then
-    echo "Config file already exists, skipping"
-    exit 0
-fi
-
 decode() {
     echo "$1" | base64 -d | sed 's/^/              /g'
 }
