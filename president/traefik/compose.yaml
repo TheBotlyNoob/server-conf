@@ -23,15 +23,13 @@ services:
 
             ROOT_DOMAINNAME: ${DOMAINNAME:?needs domain name}
 
-            TRAEFIK_EXPERIMENTAL_PLUGINS_BOUNCER_MODULENAME: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
-            TRAEFIK_EXPERIMENTAL_PLUGINS_BOUNCER_VERSION: v1.3.5
+            # TRAEFIK_EXPERIMENTAL_PLUGINS_BOUNCER_MODULENAME: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
+            # TRAEFIK_EXPERIMENTAL_PLUGINS_BOUNCER_VERSION: v1.3.5
 
-            CROWDSEC_API_KEY: ${CROWDSEC_BOUNCER_LAPI_KEY}
+            # CROWDSEC_API_KEY: ${CROWDSEC_BOUNCER_LAPI_KEY}
 
-            TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_MIDDLEWARES: >-
-                middlewares-rate-limit@file,
-                middlewares-compress@file,
-                middlewares-secure-headers@file,
-                middlewares-crowdsec@file
-
-            # heh... this looks disgusting
+            # TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_MIDDLEWARES: >-
+            #     middlewares-rate-limit@file,
+            #     middlewares-compress@file,
+            #     middlewares-secure-headers@file,
+            #     middlewares-crowdsec@file

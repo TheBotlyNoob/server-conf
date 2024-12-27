@@ -13,7 +13,7 @@ include:
     - ./frps/compose.yaml
     - ./authentik/compose.yaml
     - ./matrix/compose.yaml
-    - ./crowdsec/compose.yaml
+    # - ./crowdsec/compose.yaml
 
 networks:
     socket_proxy:
