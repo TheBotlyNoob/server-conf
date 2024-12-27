@@ -13,3 +13,7 @@ services:
             - ./config/Caddyfile:/Caddyfile
             - ./web:/www-template
             - ${APP_ROOT}/matrix/well_known/templates:/var/www
+
+        labels:
+            traefik.enable: true
+            traefik.http.routers.well_known-rtr.rule: Host(`${DOMAINNAME}`) && PathPrefix(`/.well-known`)
