@@ -91,3 +91,8 @@ services:
                 condition: service_healthy
             mas_config:
                 condition: service_completed_successfully
+
+        labels:
+            traefik.enable: true
+            traefik.http.routers.mas-rtr.rule: Host(`matrix-auth.${DOMAINNAME}` || (Host(`${DOMAINNAME}` && PathRegexp(`^/_matrix/client/(.*)/(login|logout|refresh)`))
+            traefik.http.routers.mas-rtr.priority: 75
