@@ -14,4 +14,4 @@ KEY_3_EC_KEY=$(decode "$KEY_3_EC_KEY")
     echo "cat <<EOF"
     cat /config.template.yaml
     echo EOF
-) | sh >/config.yaml
+) | sh >/config/config.yaml
