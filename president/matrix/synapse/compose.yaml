@@ -1,5 +1,5 @@
 networks:
-    synapse_backend:
+    matrix_backend:
         driver: bridge
 
 services:
