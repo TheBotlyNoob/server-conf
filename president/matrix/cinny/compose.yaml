@@ -26,3 +26,11 @@ services:
         depends_on:
             cinny-config:
                 condition: service_completed_successfully
+
+        labels:
+            traefik.enable: true
+            traefik.http.routers.cinny-rtr.rule: Host(`cinny.${DOMAINNAME}`)
+            homepage.group: stuff
+            homepage.name: Cinny
+            homepage.href: https://cinny.${DOMAINNAME}
+            homepage.icon: mdi-forum

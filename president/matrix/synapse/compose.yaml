@@ -106,3 +106,5 @@ services:
             - 8008
         labels:
             traefik.enable: true
+
+            traefik.http.routers.matrix-rtr.rule: Host(`matrix.${DOMAINNAME}`)
