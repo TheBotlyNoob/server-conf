@@ -32,4 +32,5 @@ services:
 
         labels:
             traefik.enable: true
+             traefik.port: 8080
             traefik.http.routers.well_known-rtr.rule: Host(`${DOMAINNAME}`) && PathPrefix(`/.well-known`)
