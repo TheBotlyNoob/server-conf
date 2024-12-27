@@ -23,6 +23,8 @@ services:
         restart: unless-stopped
         networks:
             - traefik
+        expose:
+             - 8080
         volumes:
             - ./config/Caddyfile:/etc/caddy/Caddyfile
             - ./web:/www-template
