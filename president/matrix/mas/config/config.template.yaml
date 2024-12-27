@@ -51,6 +51,23 @@ ${KEY_2_EC_KEY}
           key: |
 ${KEY_3_EC_KEY}
 
+upstream_oauth2:
+  providers:
+    - id: 01JG41VCS517HEQTFXXY83N5GF
+      human_name: Authentik
+      issuer: ${OIDC_ISSUER_URL} # TO BE FILLED
+      client_id: ${OIDC_CLIENT_ID} # TO BE FILLED
+      client_secret: ${OIDC_CLIENT_SECRET} # TO BE FILLED
+      scope: "openid profile email"
+      claims_imports:
+        localpart:
+          action: require
+          template: "{{ user.preferred_username }}"
+        displayname:
+          action: suggest
+          template: "{{ user.name }}"
+
+
 passwords:
     enabled: false
 
