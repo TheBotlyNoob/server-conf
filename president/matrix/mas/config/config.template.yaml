@@ -33,7 +33,7 @@ email:
     transport: blackhole
 secrets:
     # This must be a 32-byte long hex-encoded key
-    encryption: ${ENCRYPTION_SECRET_KEY}
+    encryption: ${ENCRYPTION_KEY}
     keys:
         - kid: ${KEY_1_KID}
           key: |
