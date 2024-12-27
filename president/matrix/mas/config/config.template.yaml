@@ -70,6 +70,7 @@ upstream_oauth2:
         email:
           action: ignore
           template: "{{ user.preferred_username }}@${DOMAINNAME}"
+          set_email_verification: always
 
 
 passwords:
