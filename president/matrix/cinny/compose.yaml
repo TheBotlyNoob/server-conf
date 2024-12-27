@@ -1,12 +1,13 @@
 services:
     cinny:
         image: ghcr.io/cinnyapp/cinny:latest
+        container_name: cinny
 
         user: ${PUID}:${PGID}
         volumes:
             - ./config/config.template.json:/config.template.json
             # this allows the config.json file to be writable by the runtime user
-            - ${APP_ROOT}/cinny/config/config.json:/app/config.json
+            # - ${APP_ROOT}/cinny/config/config.json:/app/config.json
 
             - ./container/init.sh:/usr/local/bin/init.sh
 
