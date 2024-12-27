@@ -1,6 +1,6 @@
 {
     "defaultHomeserver": 0,
-    "homeserverList": ["https://matrix.${DOMAINNAME}"],
+    "homeserverList": ["https://${DOMAINNAME}"],
     "allowCustomHomeservers": false,
 
     "hashRouter": {
