@@ -99,7 +99,7 @@ services:
 
         labels:
             traefik.enable: true
-            traefik.http.routers.mas-rtr.rule: Host(`matrix-auth.${DOMAINNAME}` || (Host(`matrix.${DOMAINNAME}` && PathRegexp(`^/_matrix/client/(.*)/(login|logout|refresh)`))
+            traefik.http.routers.mas-rtr.rule: Host(`matrix-auth.${DOMAINNAME}`) || (Host(`matrix.${DOMAINNAME}`) && PathRegexp(`^/_matrix/client/(.*)/(login|logout|refresh)`))
             traefik.http.routers.mas-rtr.priority: 75
 
             traefik.http.services.mas-svc.loadbalancer.server.port: 8080
