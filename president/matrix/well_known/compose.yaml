@@ -10,7 +10,7 @@ services:
         networks:
             - traefik
         volumes:
-            - ./config/Caddyfile:/Caddyfile
+            - ./config/Caddyfile:/etc/caddy/Caddyfile
             - ./web:/www-template
             - ${APP_ROOT}/matrix/well_known/templates:/var/www
 
