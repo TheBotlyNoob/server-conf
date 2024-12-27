@@ -61,7 +61,7 @@ experimental_features:
         enabled: true
 
         # Synapse will call '{issuer}/.well-known/openid-configuration' to get the OIDC configuration
-        issuer: http://well-known:8080
+        issuer: https://${DOMAINNAME}/
 
         # Matches the 'client_id' in the auth service config
         client_id: 0000000000000000000SYNAPSE
