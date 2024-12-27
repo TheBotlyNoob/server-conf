@@ -23,6 +23,8 @@ services:
             - ./config/config.template.json:/config.template.json
             # this allows the config.json file to be writable by the runtime user
             - ${APP_ROOT}/cinny/config/config.json:/app/config.json
+            # likewise
+            - ${APP_ROOT}/cinny/nginx-cache:/var/cache/nginx
 
         networks:
             - traefik
