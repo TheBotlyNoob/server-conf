@@ -2,11 +2,11 @@
 
 set -e
 
-for i in $(find /www-template); do
+for i in $(find /www-template -type f); do
     mkdir -p /var/www/"$(dirname "${i#/www-template/}")"
     (
         echo "cat <<EOF"
         cat "$i"
         echo EOF
-    ) | sh
+    ) | sh >"/var/www/${i#/www-template/}"
 done
