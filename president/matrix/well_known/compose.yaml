@@ -1,4 +1,18 @@
 services:
+    well_known_conf:
+        image: alpine:latest
+        container_name: well_known_conf
+        user: ${PUID}:${PGID}
+        entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
+        volumes:
+            - ./config/config.template.yaml:/config.template.yaml
+            - ${APP_ROOT}/matrix/well_known/config:/config
+
+            - ./container/init.sh:/usr/local/bin/init.sh
+        restart: no
+        network_mode: none
+        environment:
+            DOMAINNAME: ${DOMAINNAME}
     well_known:
         image: caddy:latest
         container_name: well_known
