@@ -13,7 +13,7 @@ services:
         user: ${PUID}:${PGID}
         read_only: true
         networks:
-            - mattermost_backend
+            - matrix_backend
         tmpfs:
             - /tmp
             - /var/run/postgresql
