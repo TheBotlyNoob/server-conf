@@ -92,11 +92,11 @@ experimental_features:
 password_config:
     enabled: false
 
-registration_shared_secret: ${REGISTRATION_SHARED_SECRET} # "L=anTVT84wVb,0es^H0ilN4J#R~J-eCkIgd@WM9c.OjopaMf_b"
+registration_shared_secret: ${REGISTRATION_SHARED_SECRET}
 
-macaroon_secret_key: ${MACAROON_SECRET_KEY} # "VWkKwex_Wo1rn8I-+tLN8Q0lstt+HR0AI^rWfJwv-xoB6YlzaA"
+macaroon_secret_key: ${MACAROON_SECRET_KEY}
 
-form_secret: ${FORM_SECRET} # "^WrfRj29HX-FXhLsS7J,VbgiJ@nQUj+Z059YTuL_z1nr+:0CA-"
+form_secret: ${FORM_SECRET}
 
 signing_key_path: "/data/signing.key"
 # vim:ft=yaml

@@ -67,6 +67,9 @@ services:
             OIDC_CLIENT_ID: ${MATRIX_OIDC_CLIENT_ID:?}
             OIDC_CLIENT_SECRET: ${MATRIX_OIDC_CLIENT_SECRET:?}
 
+            CLIENT_BASIC_SECRET: ${MAS_CLIENT_BASIC_SECRET:?}
+            ADMIN_BASIC_SECRET: ${MAS_ADMIN_BASIC_SECRET:?}
+
             DOMAINNAME: ${DOMAINNAME}
 
     matrix:
@@ -102,9 +105,6 @@ services:
             PGID: ${PGID}
 
             SYNAPSE_CONFIG_PATH: /config/homeserver.yaml
-
-            CLIENT_BASIC_SECRET: ${MAS_CLIENT_BASIC_SECRET:?}
-            ADMIN_BASIC_SECRET: ${MAS_ADMIN_BASIC_SECRET:?}
 
         expose:
             - 8008
