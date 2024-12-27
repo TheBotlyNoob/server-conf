@@ -6,7 +6,7 @@ services:
         entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
         volumes:
             - ./config/config.template.yaml:/config.template.yaml
-            - ${APP_ROOT}/matrix/well_known/config:/config
+            - ${APP_ROOT}/matrix/well_known/templates:/var/www
 
             - ./container/init.sh:/usr/local/bin/init.sh
         restart: no
