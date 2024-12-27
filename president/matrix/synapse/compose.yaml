@@ -111,5 +111,5 @@ services:
         labels:
             traefik.enable: true
 
-            traefik.http.routers.matrix-rtr.rule: Host(`matrix.${DOMAINNAME}`) || (Host(`${DOMAINNAME`} && (PathPrefix(`/_matrix`) || PathPrefix(`/_synapse/client`)))
+            traefik.http.routers.matrix-rtr.rule: Host(`matrix.${DOMAINNAME}`) || (Host(`${DOMAINNAME}`) && (PathPrefix(`/_matrix`) || PathPrefix(`/_synapse/client`)))
             traefik.http.routers.matrix-rtr.priority: 50
