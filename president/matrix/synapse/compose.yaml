@@ -29,12 +29,17 @@ services:
             - POSTGRES_DB=matrix
 
             - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+
         healthcheck:
-            test: ["CMD-SHELL", "pg_isready", "-d", "matrix"]
+            test:
+                [
+                    "CMD-SHELL",
+                    "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"
+                ]
+            start_period: 20s
             interval: 30s
-            timeout: 60s
             retries: 5
-            start_period: 80s
+            timeout: 5s
 
     matrix-config:
         image: alpine:latest
