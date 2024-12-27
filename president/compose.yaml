@@ -12,7 +12,7 @@ include:
     - ./exit-node/compose.yaml
     - ./frps/compose.yaml
     - ./authentik/compose.yaml
-    - ./mattermost/compose.yaml
+    - ./matrix/compose.yaml
     - ./crowdsec/compose.yaml
 
 networks:
