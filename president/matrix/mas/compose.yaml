@@ -84,6 +84,8 @@ services:
         volumes:
             - ${APP_ROOT}/matrix/mas/config:/config
 
+        command: server --config /config/config.yaml
+
         depends_on:
             mas_postgres:
                 condition: service_healthy
