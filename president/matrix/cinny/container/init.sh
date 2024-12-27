@@ -7,5 +7,3 @@ set -e
     cat /config.template.json
     echo EOF
 ) | sh >/app/config.json
-
-/docker-entrypoint.sh
