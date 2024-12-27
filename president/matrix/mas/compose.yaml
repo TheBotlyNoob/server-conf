@@ -59,6 +59,8 @@ services:
             POSTGRES_DB: mas
             POSTGRES_HOST: mas_postgres
 
+            DOMAINNAME: ${DOMAINNAME}
+
             ENCRYPTION_KEY: ${MAS_ENCRYPTION_KEY:?}
 
             KEY_1_KID: ${MAS_KEY_1_KID:?}
