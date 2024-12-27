@@ -3,7 +3,7 @@
         "base_url": "https://matrix.${DOMAINNAME}"
     },
     "org.matrix.msc2965.authentication": {
-        "issuer": "https://${DOMAINNAME/",
+        "issuer": "https://${DOMAINNAME}/",
         "account": "https://matrix-auth.${DOMAINNAME}/account"
     }
 }
