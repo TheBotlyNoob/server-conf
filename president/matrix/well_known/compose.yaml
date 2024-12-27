@@ -1,0 +1,15 @@
+services:
+    well_known:
+        image: caddy:latest
+        container_name: well_known
+        user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        restart: unless-stopped
+        networks:
+            - traefik
+        volumes:
+            - ./config/Caddyfile:/Caddyfile
+            - ./web:/www-template
+            - ${APP_ROOT}/matrix/well_known/templates:/var/www

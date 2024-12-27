@@ -1,0 +1,87 @@
+networks:
+    mas_backend:
+        driver: bridge
+
+services:
+    mas_postgres:
+        image: postgres:13-alpine
+        container_name: mas_postgres
+        restart: unless-stopped
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 100
+        user: ${PUID}:${PGID}
+        read_only: true
+        networks:
+            - mas_backend
+        tmpfs:
+            - /tmp
+            - /var/run/postgresql
+        volumes:
+            - ${APP_ROOT}/matrix/mas/postgresql:/var/lib/postgresql/data
+        environment:
+            # timezone inside container
+            - TZ
+
+            # necessary Postgres options/variables
+            - POSTGRES_USER=mas-user
+            - POSTGRES_PASSWORD=${MAS_PG_PASS}
+            - POSTGRES_DB=mas
+
+            - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+
+        healthcheck:
+            test:
+                [
+                    "CMD-SHELL",
+                    "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"
+                ]
+            start_period: 20s
+            interval: 30s
+            retries: 5
+            timeout: 5s
+
+    mas_config:
+        image: alpine:latest
+        container_name: mas_config
+        user: ${PUID}:${PGID}
+        entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
+        volumes:
+            - ./config/config.template.yaml:/config.template.yaml
+            - ${APP_ROOT}/matrix/mas/config:/config
+
+            - ./container/init.sh:/usr/local/bin/init.sh
+        restart: no
+        network_mode: none
+        environment:
+            POSTGRES_USER: mas-user
+            POSTGRES_PASSWORD: ${MAS_PG_PASS}
+            POSTGRES_DB: mas
+            POSTGRES_HOST: mas_postgres
+
+            ENCRYPTION_KEY: ${MAS_ENCRYPTION_KEY:?}
+
+            KEY_1_KID: ${MAS_KEY_1_KID:?}
+            KEY_1_RSA_KEY: ${MAS_KEY_1_RSA_KEY:?}
+
+            KEY_2_KID: ${MAS_KEY_2_KID:?}
+            KEY_2_EC_KEY: ${MAS_KEY_2_RSA_KEY:?}
+
+            KEY_3_KID: ${MAS_KEY_3_KID:?}
+            KEY_3_EC_KEY: ${MAS_KEY_3_RSA_KEY:?}
+
+            CLIENT_BASIC_SECRET: ${MAS_CLIENT_BASIC_SECRET:?}
+            ADMIN_BASIC_SECRET: ${MAS_ADMIN_BASIC_SECRET:?}
+
+    matrix_auth_service:
+        image: ghcr.io/element-hq/matrix-authentication-service:latest
+        container_name: matrix_auth_service
+        networks:
+            - traefik
+            - mas_backend
+        volumes:
+            - ./config/config.yaml:/config/config.yaml
+
+        depends_on:
+            mas_postgres:
+                condition: service_healthy

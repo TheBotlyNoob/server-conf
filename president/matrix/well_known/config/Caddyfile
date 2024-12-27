@@ -1,0 +1,14 @@
+{
+    admin off
+    auto_https off
+}
+
+:8080 {
+    handle_path /.well-known {
+        header Access-Control-Allow-Origin "*"
+        header Access-Control-Allow-Methods "OPTIONS,GET"
+
+        root * /var/www
+        file_server
+    }	
+}

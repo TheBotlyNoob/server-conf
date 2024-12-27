@@ -69,6 +69,26 @@ oidc_providers:
               localpart_template: "{{ user.preferred_username }}"
               display_name_template: "{{ user.preferred_username|capitalize }}" # TO BE FILLED: If your users have names in Authentik and you want those in Synapse, this should be replaced with user.name|capitalize.
 
+experimental_features:
+    msc3861:
+        enabled: true
+
+        # Synapse will call `{issuer}/.well-known/openid-configuration` to get the OIDC configuration
+        issuer: http://well_known:8080
+
+        # Matches the `client_id` in the auth service config
+        client_id: 0000000000000000000SYNAPSE
+        # Matches the `client_auth_method` in the auth service config
+        client_auth_method: client_secret_basic
+        # Matches the `client_secret` in the auth service config
+        client_secret: ${CLIENT_BASIC_SECRET}
+
+        # Matches the `matrix.secret` in the auth service config
+        admin_token: ${ADMIN_BASIC_SECRET}
+
+        # URL to advertise to clients where users can self-manage their account
+        account_management_url: "https://matrix-auth.${DOMAINNAME}/account"
+
 password_config:
     enabled: false
 
