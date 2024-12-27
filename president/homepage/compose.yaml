@@ -1,7 +1,6 @@
 services:
     homepage:
-        build:
-            context: ./container
+        image: gethomepage/homepage:latest
         container_name: homepage
         networks:
             - traefik
@@ -18,9 +17,11 @@ services:
         volumes:
             # NOTE: this is copied to /app/config by init.sh
             - ./config:/config # Make sure your local config directory exists
+            - ./container/init.sh:/usr/local/bin/init.sh
             - ${APP_ROOT}/homepage/logs:/app/config/logs
         expose:
             - 3000
+        entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
         labels:
             traefik.enable: true
             traefik.http.routers.homepage-rtr.rule: Host(`${DOMAINNAME}`)

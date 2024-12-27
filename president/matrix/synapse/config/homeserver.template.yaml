@@ -1,0 +1,82 @@
+# Configuration file for Synapse.
+#
+# This is a YAML file: see [1] for a quick introduction. Note in particular
+# that *indentation is important*: all the elements of a list or dictionary
+# should have the same indentation.
+#
+# [1] https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html
+#
+# For more information on how to configure Synapse, including a complete accounting of
+# each option, go to docs/usage/configuration/config_documentation.md or
+# https://element-hq.github.io/synapse/latest/usage/configuration/config_documentation.html
+
+# template config, modified at runtime by `init.sh`
+
+server_name: "${DOMAINNAME}"
+
+web_client_location: "https://cinny.${DOMAINNAME}"
+
+public_baseurl: "https://matrix.${DOMAINNAME}"
+
+pid_file: /data/homeserver.pid
+listeners:
+    - port: 8008
+      tls: false
+      type: http
+      x_forwarded: true
+      resources:
+          - names: [client]
+            compress: true
+database:
+    name: psycopg2
+    args:
+        user: ${POSTGRES_USER}
+        password: ${POSTGRES_PASSWORD}
+        dbname: ${POSTGRES_DB}
+        host: ${POSTGRES_HOST}
+        cp_min: 5
+        cp_max: 10
+
+        # seconds of inactivity after which TCP should send a keepalive message to the server
+        keepalives_idle: 10
+
+        # the number of seconds after which a TCP keepalive message that is not
+        # acknowledged by the server should be retransmitted
+        keepalives_interval: 10
+
+        # the number of TCP keepalives that can be lost before the client's connection
+        # to the server is considered dead
+        keepalives_count: 3
+
+log_config: "/log_config.yaml"
+media_store_path: /media
+
+report_stats: true
+
+oidc_providers:
+    - idp_id: authentik
+      idp_name: authentik
+      discover: true
+      issuer: ${OIDC_ISSUER_URL} # TO BE FILLED: domain and slug
+      client_id: ${OIDC_CLIENT_ID} # TO BE FILLED
+      client_secret: ${OIDC_CLIENT_SECRET} # TO BE FILLED
+      scopes:
+          - "openid"
+          - "profile"
+          - "email"
+      user_mapping_provider:
+          config:
+              localpart_template: "{{ user.preferred_username }}"
+              display_name_template: "{{ user.preferred_username|capitalize }}" # TO BE FILLED: If your users have names in Authentik and you want those in Synapse, this should be replaced with user.name|capitalize.
+
+password_config:
+    enabled: false
+
+registration_shared_secret: ${REGISTRATION_SHARED_SECRET} # "L=anTVT84wVb,0es^H0ilN4J#R~J-eCkIgd@WM9c.OjopaMf_b"
+
+macaroon_secret_key: ${MACAROON_SECRET_KEY} # "VWkKwex_Wo1rn8I-+tLN8Q0lstt+HR0AI^rWfJwv-xoB6YlzaA"
+
+form_secret: ${FORM_SECRET} # "^WrfRj29HX-FXhLsS7J,VbgiJ@nQUj+Z059YTuL_z1nr+:0CA-"
+
+signing_key_path: "/data/signing.key"
+# vim:ft=yaml

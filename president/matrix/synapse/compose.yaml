@@ -1,0 +1,83 @@
+networks:
+    synapse_backend:
+        driver: bridge
+
+services:
+    matrix_postgres:
+        image: postgres:13-alpine
+        container_name: matrix_postgres
+        restart: unless-stopped
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 100
+        user: ${PUID}:${PGID}
+        read_only: true
+        networks:
+            - mattermost_backend
+        tmpfs:
+            - /tmp
+            - /var/run/postgresql
+        volumes:
+            - ${APP_ROOT}/matrix/postgresql:/var/lib/postgresql/data
+        environment:
+            # timezone inside container
+            - TZ
+
+            # necessary Postgres options/variables
+            - POSTGRES_USER=matrix-user
+            - POSTGRES_PASSWORD=${MATRIX_PG_PASS}
+            - POSTGRES_DB=matrix
+
+            - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+
+    matrix:
+        depends_on:
+            - matrix_postgres
+        container_name: matrix
+        restart: unless-stopped
+        user: ${PUID}:${PGID}
+        networks:
+            - matrix_backend
+            - traefik
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        tmpfs:
+            - /tmp
+        volumes:
+            - ${APP_ROOT}/matrix/synapse/data:/data
+            - ${APP_ROOT}/matrix/synapse/config:/config
+            - ${APP_ROOT}/matrix/synbapse/media:/media
+
+            - ./config/homeserver.template.yaml:/homeserver.template.yaml
+            - ./config/log_config.yaml:/log_config.yaml
+
+            - ./container/init.sh:/usr/local/bin/init.sh
+        environment:
+            # timezone inside container
+            TZ: ${TZ}
+
+            PUID: ${PUID}
+            PGID: ${PGID}
+
+            SYNAPSE_CONFIG_PATH: /config/homeserver.yaml
+
+            POSTGRES_USER: matrix-user
+            POSTGRES_PASSWORD: ${MATRIX_PG_PASS}
+            POSTGRES_DB: matrix
+            POSTGRES_HOST: matrix_postgres
+
+            REGISTRATION_SHARED_SECRET: ${MATRIX_REGISTRATION_SHARED_SECRET:?}
+            MACAROON_SECRET_KEY: ${MATRIX_MACAROON_SECRET_KEY:?}
+            FORM_SECRET: ${MATRIX_FORM_SECRET:?}
+
+            OIDC_ISSUER_URL: ${MATRIX_OIDC_ISSUER_URL:?}
+            OIDC_CLIENT_ID: ${MATRIX_OIDC_CLIENT_ID:?}
+            OIDC_CLIENT_SECRET: ${MATRIX_OIDC_CLIENT_SECRET:?}
+
+            DOMAINNAME: ${DOMAINNAME}
+        entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
+        expose:
+            - 8008
+        labels:
+            traefik.enable: true

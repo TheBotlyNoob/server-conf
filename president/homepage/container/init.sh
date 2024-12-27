@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 SUBDOMAINS=$(echo "$PROXY_SUBDOMAINS" | tr "," "\n")
 
 cp -R /config /app
