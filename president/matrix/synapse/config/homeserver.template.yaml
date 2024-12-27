@@ -51,23 +51,10 @@ database:
 log_config: "/log_config.yaml"
 media_store_path: /media
 
-report_stats: true
+trusted_key_servers:
+  - server_name: "matrix.org"
 
-oidc_providers:
-    - idp_id: authentik
-      idp_name: authentik
-      discover: true
-      issuer: ${OIDC_ISSUER_URL} # TO BE FILLED: domain and slug
-      client_id: ${OIDC_CLIENT_ID} # TO BE FILLED
-      client_secret: ${OIDC_CLIENT_SECRET} # TO BE FILLED
-      scopes:
-          - "openid"
-          - "profile"
-          - "email"
-      user_mapping_provider:
-          config:
-              localpart_template: "{{ user.preferred_username }}"
-              display_name_template: "{{ user.preferred_username|capitalize }}" # TO BE FILLED: If your users have names in Authentik and you want those in Synapse, this should be replaced with user.name|capitalize.
+report_stats: true
 
 experimental_features:
     msc3861:
