@@ -4,5 +4,5 @@
     "token_endpoint": "https://matrix-auth.${DOMAINNAME}/oauth2/token",
     "jwks_uri": "https://matrix-auth.${DOMAINNAME}/oauth2/keys.json",
     "registration_endpoint": "https://matrix-auth.${DOMAINNAME}/oauth2/registration",
-    "introspection_endpoint: "https://matrix-auth.${DOMAINNAME}/oauth2/introspect"
+    "introspection_endpoint": "https://matrix-auth.${DOMAINNAME}/oauth2/introspect"
 }
