@@ -1,5 +1,6 @@
 networks:
-  - bridge_backend
+  bridge_backend:
+    driver: bridge
 
 include:
   - ./discord/compose.yaml
