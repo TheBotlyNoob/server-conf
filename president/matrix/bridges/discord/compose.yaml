@@ -3,6 +3,8 @@ services:
         extends:
             file: ../db.yaml
             service: postgres
+        volumes:
+            - ${APP_ROOT}/matrix/bridges/discord/postgresql:/var/lib/postgresql/data
         container_name: discord_postgres
         environment:
             POSTGRES_DB: discord

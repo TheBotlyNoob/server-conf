@@ -12,8 +12,6 @@ services:
         tmpfs:
             - /tmp
             - /var/run/postgresql
-        volumes:
-            - ${APP_ROOT}/matrix/postgresql:/var/lib/postgresql/data
         environment:
             # timezone inside container
             TZ: ${TZ}
