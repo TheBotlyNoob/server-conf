@@ -1,0 +1,5 @@
+networks:
+  - bridge_backend
+
+include:
+  - ./discord/compose.yaml

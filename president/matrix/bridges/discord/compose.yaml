@@ -1,0 +1,19 @@
+services:
+    discord_postgres:
+        extends:
+          file: ../db.yaml
+          service: postgres
+    container_name: discord_postgres
+    environment:
+      POSTGRES_DB: discord
+
+    mautrix-discord:
+        container_name: mautrix-discord
+        image: dock.mau.dev/mautrix/discord:latest
+        restart: unless-stopped
+        volumes:
+            - ${APP_ROOT}/matrix/bridges/discord/data:/data
+        networks:
+            - matrix
+            - bridge_backend
+

@@ -3,3 +3,4 @@ include:
     - ./synapse/compose.yaml
     - ./mas/compose.yaml
     - ./well_known/compose.yaml
+    - ./bridges/compose.yaml
