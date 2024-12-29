@@ -353,7 +353,8 @@ bridge:
     #   domain - All users on that homeserver
     #     mxid - Specific user
     permissions:
-        "*": user
+        "*": relay
+        domain: user
 
 # Logging config. See https://github.com/tulir/zeroconfig for details.
 logging:
