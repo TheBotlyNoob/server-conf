@@ -53,3 +53,6 @@ services:
             - matrix
             - bridge_backend
         command: mautrix-discord -c /data/config.yaml
+        labels:
+            traefik.enable: true
+            traefik.http.routers.discord-media-rtr.rule: Host(`discord-media.${DOMAINNAME}`)
