@@ -39,7 +39,7 @@ appservice:
         # The database type. "sqlite3-fk-wal" and "postgres" are supported.
         type: postgres
         # The database URI.
-        #   SQLite: A raw file path is supported, but `file:<path>?_txlock=immediate` is recommended.
+        #   SQLite: A raw file path is supported, but 'file:<path>?_txlock=immediate' is recommended.
         #           https://github.com/mattn/go-sqlite3#connection-string
         #   Postgres: Connection string. For example, postgres://user:password@host/database?sslmode=disable
         #             To connect via Unix socket, use something like postgres:///dbname?host=/var/run/postgresql
@@ -104,9 +104,9 @@ bridge:
     #   .Name - Guild name
     guild_name_template: "{{.Name}}"
     # Whether to explicitly set the avatar and room name for private chat portal rooms.
-    # If set to `default`, this will be enabled in encrypted rooms and disabled in unencrypted rooms.
-    # If set to `always`, all DM rooms will have explicit names and avatars set.
-    # If set to `never`, DM rooms will never have names and avatars set.
+    # If set to 'default', this will be enabled in encrypted rooms and disabled in unencrypted rooms.
+    # If set to 'always', all DM rooms will have explicit names and avatars set.
+    # If set to 'never', DM rooms will never have names and avatars set.
     private_chat_portal_meta: default
 
     # Publicly accessible base URL that Discord can use to reach the bridge, used for avatars in relay mode.
@@ -170,7 +170,7 @@ bridge:
     # Proxy for Discord connections
     proxy:
     # Should mxc uris copied from Discord be cached?
-    # This can be `never` to never cache, `unencrypted` to only cache unencrypted mxc uris, or `always` to cache everything.
+    # This can be 'never' to never cache, 'unencrypted' to only cache unencrypted mxc uris, or 'always' to cache everything.
     # If you have a media repo that generates non-unique mxc uris, you should set this to never.
     cache_media: unencrypted
     # Settings for converting Discord media to custom mxc:// URIs instead of reuploading.
@@ -182,7 +182,7 @@ bridge:
         # This server name will effectively be a real Matrix server, it just won't implement anything other than media.
         # You must either set up .well-known delegation from this domain to the bridge, or proxy the domain directly to the bridge.
         server_name: discord-media.${DOMAINNAME}
-        # Optionally a custom .well-known response. This defaults to `server_name:443`
+        # Optionally a custom .well-known response. This defaults to 'server_name:443'
         well_known_response:
         # The bridge supports MSC3860 media download redirects and will use them if the requester supports it.
         # Optionally, you can force redirects and not allow proxying at all by setting this to false.
@@ -212,7 +212,7 @@ bridge:
     # Shared secrets for https://github.com/devture/matrix-synapse-shared-secret-auth
     #
     # If set, double puppeting will be enabled automatically for local users
-    # instead of users having to find an access token and run `login-matrix`
+    # instead of users having to find an access token and run 'login-matrix'
     # manually.
     login_shared_secret_map:
         ${DOMAINNAME}: "as_token:${DOUBLE_PUPPET_AS_TOKEN}"
@@ -225,9 +225,9 @@ bridge:
         # Sent when joining a room.
         welcome: "Hello, I'm a Discord bridge bot."
         # Sent when joining a management room and the user is already logged in.
-        welcome_connected: "Use `help` for help."
+        welcome_connected: "Use 'help' for help."
         # Sent when joining a management room and the user is not logged in.
-        welcome_unconnected: "Use `help` for help or `login` to log in."
+        welcome_unconnected: "Use 'help' for help or 'login' to log in."
         # Optional extra text sent when joining a management room.
         additional_help: ""
 
@@ -303,7 +303,7 @@ bridge:
         #   cross-signed-verified - Require valid cross-signing, plus a valid user signature from the bridge bot.
         #                           Note that creating user signatures from the bridge bot is not currently possible.
         #   verified - Require manual per-device verification
-        #              (currently only possible by modifying the `trust` column in the `crypto_device` database table).
+        #              (currently only possible by modifying the 'trust' column in the 'crypto_device' database table).
         verification_levels:
             # Minimum level for which the bridge should send keys to when bridging messages from WhatsApp to Matrix.
             receive: unverified
