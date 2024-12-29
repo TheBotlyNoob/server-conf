@@ -2,5 +2,12 @@ networks:
   bridge_backend:
     driver: bridge
 
+services:
+  bridges-config:
+    image: scratch
+    depends_on:
+      discord-config:
+        condition: service_completed_successfully
+
 include:
   - ./discord/compose.yaml

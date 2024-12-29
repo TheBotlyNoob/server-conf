@@ -77,6 +77,8 @@ services:
                 condition: service_healthy
             matrix-config:
                 condition: service_completed_successfully
+            bridges-config:
+                condition: service_started
         container_name: matrix
         restart: unless-stopped
         user: ${PUID}:${PGID}

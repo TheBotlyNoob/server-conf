@@ -36,6 +36,14 @@ services:
     mautrix-discord:
         container_name: mautrix-discord
         image: dock.mau.dev/mautrix/discord:latest
+        user: ${PUID}:${PGID}
+        depends_on:
+            discord_postgres:
+                condition: service_healthy
+            discord-config:
+                condition: service_completed_successfully
+        security_opt:
+          - no-new-privileges:true
         restart: unless-stopped
         volumes:
             - ${APP_ROOT}/matrix/bridges/discord/config:/config
