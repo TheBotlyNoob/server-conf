@@ -7,9 +7,9 @@ services:
         environment:
             POSTGRES_DB: discord
 
-    matrix-config:
+    discord-config:
         image: alpine:latest
-        container_name: matrix-config
+        container_name: discord-config
         user: ${PUID}:${PGID}
         entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
         volumes:
