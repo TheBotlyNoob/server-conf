@@ -112,7 +112,7 @@ bridge:
     # Publicly accessible base URL that Discord can use to reach the bridge, used for avatars in relay mode.
     # If not set, avatars will not be bridged. Only the /mautrix-discord/avatar/{server}/{id}/{hash} endpoint is used on this address.
     # This should not have a trailing slash, the endpoint above will be appended to the provided address.
-    public_address: null
+    public_address: https://discord-media.${DOMAINNAME}
     # A random key used to sign the avatar URLs. The bridge will only accept requests with a valid signature.
     avatar_proxy_key: generate
 
