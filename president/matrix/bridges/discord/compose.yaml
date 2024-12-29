@@ -50,3 +50,4 @@ services:
         networks:
             - matrix
             - bridge_backend
+        command: mautrix-discord -c /data/config.yaml
