@@ -4,7 +4,7 @@ networks:
 
 services:
   bridges-config:
-    image: scratch
+    image: alpine:latest
     depends_on:
       discord-config:
         condition: service_completed_successfully
