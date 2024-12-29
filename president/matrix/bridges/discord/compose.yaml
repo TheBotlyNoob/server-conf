@@ -37,7 +37,7 @@ services:
 
     mautrix-discord:
         container_name: mautrix-discord
-        image: dock.mau.dev/mautrix/discord:latest
+        image: dock.mau.dev/mautrix/discord:v0.7.1
         user: ${PUID}:${PGID}
         depends_on:
             discord_postgres:
