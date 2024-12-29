@@ -27,6 +27,10 @@ listeners:
       resources:
           - names: [client]
             compress: true
+
+app_service_config_files:
+    - /registration/discord.yaml
+
 database:
     name: psycopg2
     args:
@@ -52,7 +56,7 @@ log_config: "/log_config.yaml"
 media_store_path: /media
 
 trusted_key_servers:
-  - server_name: "matrix.org"
+    - server_name: "matrix.org"
 
 report_stats: true
 

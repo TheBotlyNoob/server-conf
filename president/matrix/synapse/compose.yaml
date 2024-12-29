@@ -94,6 +94,8 @@ services:
             - ${APP_ROOT}/matrix/synapse/config:/config
             - ${APP_ROOT}/matrix/synapse/media:/media
 
+            - ${APP_ROOT}/matrix/bridges/registration:/registration:z
+
             - ./config/homeserver.template.yaml:/homeserver.template.yaml
             - ./config/log_config.yaml:/log_config.yaml
         environment:

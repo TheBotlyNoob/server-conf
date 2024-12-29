@@ -1,19 +1,44 @@
 services:
     discord_postgres:
         extends:
-          file: ../db.yaml
-          service: postgres
-    container_name: discord_postgres
-    environment:
-      POSTGRES_DB: discord
+            file: ../db.yaml
+            service: postgres
+        container_name: discord_postgres
+        environment:
+            POSTGRES_DB: discord
+
+    matrix-config:
+        image: alpine:latest
+        container_name: matrix-config
+        user: ${PUID}:${PGID}
+        entrypoint: ["/bin/sh", "/usr/local/bin/init.sh"]
+        volumes:
+            - ${APP_ROOT}/matrix/bridges/discord/config:/data
+            - ${APP_ROOT}/matrix/bridges/registration:/registration:z
+            - ./config/config.template.yaml:/config.template.yaml
+            - ./config/registration.template.yaml:/registration.template.yaml
+
+            - ./container/init.sh:/usr/local/bin/init.sh
+        restart: no
+        network_mode: none
+        environment:
+            POSTGRES_USER: bridge-user
+            POSTGRES_PASSWORD: ${MATRIX_BRIDGE_PG_PASS:?}
+            POSTGRES_DB: discord
+            POSTGRES_HOST: discord_postgres
+
+            AS_TOKEN: ${DISCORD_BRIDGE_AS_TOKEN:?}
+            HS_TOKEN: ${DISCORD_BRIDGE_HS_TOKEN:?}
+            SENDER_LOCALPART: ${DISCORD_BRIDGE_SENDER_LOCALPART:?}
+
+            DOMAINNAME: ${DOMAINNAME}
 
     mautrix-discord:
         container_name: mautrix-discord
         image: dock.mau.dev/mautrix/discord:latest
         restart: unless-stopped
         volumes:
-            - ${APP_ROOT}/matrix/bridges/discord/data:/data
+            - ${APP_ROOT}/matrix/bridges/discord/config:/config
         networks:
             - matrix
             - bridge_backend
-
