@@ -43,10 +43,10 @@ services:
             discord-config:
                 condition: service_completed_successfully
         security_opt:
-          - no-new-privileges:true
+            - no-new-privileges:true
         restart: unless-stopped
         volumes:
-            - ${APP_ROOT}/matrix/bridges/discord/config:/config
+            - ${APP_ROOT}/matrix/bridges/discord/config:/data
         networks:
             - matrix
             - bridge_backend
