@@ -50,8 +50,11 @@ services:
         volumes:
             - ${APP_ROOT}/matrix/bridges/discord/config:/data
         networks:
+            - traefik
             - matrix
             - bridge_backend
+        expose:
+            - 29334
         command: mautrix-discord -c /data/config.yaml
         labels:
             traefik.enable: true
