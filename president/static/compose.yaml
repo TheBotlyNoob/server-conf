@@ -29,8 +29,16 @@ services:
             traefik.http.routers.static-rtr.rule: Host(`${DOMAINNAME}`) && PathPrefix(`/.well-known`)
     error-pages:
         image: ghcr.io/tarampampam/error-pages:latest # using the latest tag is highly discouraged
+        user: ${PUID}:${PGID}
+        container_name: error-pages
+        restart: unless-stopped
+        pids_limit: 200
+        security_opt:
+            - no-new-privileges:true
         environment:
             TEMPLATE_NAME: connection # set the error pages template
+        networks:
+            - traefik
         labels:
             traefik.enable: true
             # use as "fallback" for any NON-registered services (with priority below normal)
