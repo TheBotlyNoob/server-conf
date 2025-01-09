@@ -2,6 +2,7 @@ http:
     middlewares:
         middlewares-status:
             errors:
-                status: 404
+                status:
+                    - 404
                 service: static-svc
                 query: /{status}.html

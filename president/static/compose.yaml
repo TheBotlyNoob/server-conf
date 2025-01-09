@@ -1,7 +1,7 @@
 services:
-    well_known:
+    static:
         image: caddy:latest
-        container_name: well-known
+        container_name: static
         user: ${PUID}:${PGID}
         security_opt:
             - no-new-privileges:true
