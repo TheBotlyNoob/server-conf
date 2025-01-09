@@ -42,7 +42,7 @@ services:
         labels:
             traefik.enable: true
             # use as "fallback" for any NON-registered services (with priority below normal)
-            traefik.http.routers.error-pages-rtr.rule: HostRegexp(`.+`)
+            traefik.http.routers.error-pages-rtr.rule: HostRegexp(`.+`) || Host(`error.${DOMAINNAME}`)
             traefik.http.routers.error-pages-rtr.priority: 10
 
             traefik.http.routers.error-pages-rtr.middlewares: middlewares-error-pages@file
