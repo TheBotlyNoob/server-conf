@@ -1,0 +1,7 @@
+http:
+    middlewares:
+        middlewares-error-pages:
+            errors:
+                status: 400-599
+                service: error-pages-service
+                query: /{status}.html

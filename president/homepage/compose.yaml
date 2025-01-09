@@ -25,5 +25,5 @@ services:
         labels:
             traefik.enable: true
             traefik.http.routers.homepage-rtr.rule: Host(`${DOMAINNAME}`)
-            traefik.http.routers.homepage-rtr.middlewares: middlewares-authentik@file,error-pages-middleware
+            traefik.http.routers.homepage-rtr.middlewares: middlewares-authentik@file,middlewares-error-pages@file
             traefik.http.routers.homepage-rte.priority: 25
