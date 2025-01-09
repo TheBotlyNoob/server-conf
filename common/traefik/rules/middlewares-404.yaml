@@ -1,0 +1,6 @@
+middlewares:
+    middlewares-404:
+        errors:
+            status: 404
+            service: static-svc
+            query: /404.html

@@ -10,15 +10,14 @@ services:
         networks:
             - traefik
         expose:
-             - 8080
+            - 8080
         environment:
             DOMAINNAME: ${DOMAINNAME}
         volumes:
             - ./config/Caddyfile:/etc/caddy/Caddyfile
             - ./web:/www-template
-            
-            - ./config/config.template.yaml:/config.template.yaml
-            - ${APP_ROOT}/matrix/well_known/templates:/var/www
+
+            - ${APP_ROOT}/static/templates:/var/www
 
             - ./container/init.sh:/usr/local/bin/init.sh
 
@@ -26,5 +25,5 @@ services:
 
         labels:
             traefik.enable: true
-            traefik.http.services.well_known-svc.loadbalancer.server.port: 8080
-            traefik.http.routers.well_known-rtr.rule: Host(`${DOMAINNAME}`) && PathPrefix(`/.well-known`)
+            traefik.http.services.static-svc.loadbalancer.server.port: 8080
+            traefik.http.routers.static-rtr.rule: Host(`${DOMAINNAME}`) && PathPrefix(`/.well-known`)
