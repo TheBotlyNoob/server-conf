@@ -117,7 +117,7 @@ services:
             traefik.enable: true
             ## HTTP Routers
             traefik.http.routers.traefik-rtr.rule: Host(`traefik.${DOMAINNAME}`)
-            traefik.http.routers.traefik-rtr.middlewares: middlewares-authentik@file
+            # traefik.http.routers.traefik-rtr.middlewares: middlewares-authentik@file
             #### Migrate individual service cert resolver to global resolution in traefik.yaml
             #- "traefik.http.routers.traefik-rtr.tls=true"
             #- "traefik.http.routers.traefik-rtr.tls.certresolver=le"
