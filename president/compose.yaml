@@ -13,6 +13,7 @@ include:
     - ./frps/compose.yaml
     - ./authentik/compose.yaml
     - ./matrix/compose.yaml
+    - ./static/compose.yaml
     # - ./crowdsec/compose.yaml
 
 networks:
