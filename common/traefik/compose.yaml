@@ -65,7 +65,7 @@ services:
             TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_MIDDLEWARES: >-
                 middlewares-rate-limit@file,
                 middlewares-compress@file,
-                middlewares-secure-headers@file,
+                middlewares-secure-headers@file
 
             TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_OPTIONS: "tls-opts@file"
             TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_CERTRESOLVER: "le"
