@@ -3,5 +3,5 @@ http:
         middlewares-error-pages:
             errors:
                 status: 400-599
-                service: error-pages-svc
+                service: error-pages-svc@docker
                 query: /{status}.html
