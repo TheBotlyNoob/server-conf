@@ -44,17 +44,17 @@ services:
             - traefik-tailscale
             - romm_internal
         labels:
-            expose.external: false
+            expose.external: true
 
             traefik.enable: true
 
-            traefik.http.routers.romm-rtr.rule: Host(`romm.${INTERNAL_DOMAINNAME}`)
+            traefik.http.routers.romm-rtr.rule: Host(`romm.${DOMAINNAME}`)
             traefik.http.services.romm-svc.loadbalancer.server.port: 8080
 
             homepage.group: media
             homepage.name: ROMM
             homepage.icon: sh-romm.svg
-            homepage.href: https://romm.${INTERNAL_DOMAINNAME}
+            homepage.href: https://romm.${DOMAINNAME}
 
     romm-db:
         image: mariadb:lts

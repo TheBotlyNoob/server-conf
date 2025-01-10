@@ -11,7 +11,7 @@ services:
             - ${APP_ROOT}/actual_budget/data:/data
 
         networks:
-            - traefik-tailscale
+            - traefik-external
 
         environment:
             ACTUAL_OPENID_DISCOVERY_URL: https://authentik.${ROOT_DOMAINNAME}
@@ -19,14 +19,16 @@ services:
             ACTUAL_OPENID_CLIENT_SECRET: ${ACTUAL_BUDGET_OIDC_CLIENT_SECRET:?}
             ACTUAL_OPENID_SERVER_HOSTNAME: https://budget.${INTERNAL_DOMAINNAME}
 
+            ACTUAL_TRUSTED_PROXIES: 0.0.0.0/0,::/0
+
         labels:
             traefik.enable: true
 
-            expose.external: false
+            expose.external: true
 
             traefik.http.routers.actual_budget-rtr.rule: Host(`budget.${INTERNAL_DOMAINNAME}`)
 
             homepage.group: internal
             homepage.name: Actual Budget
             homepage.icon: sh-actual-budget.svg
-            homepage.href: https://budget.${INTERNAL_DOMAINNAME}
+            homepage.href: https://budget.${DOMAINNAME}
