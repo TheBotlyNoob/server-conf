@@ -1,7 +1,6 @@
 services:
     actual-budget:
         image: actualbudget/actual-server:latest
-        pull_policy: always
         container_name: actual_budget
         restart: unless-stopped
         volumes:
@@ -15,4 +14,9 @@ services:
 
             expose.external: false
 
-            treafik.http.routers.actual_budget.rule: Host(`budget.${INTERNAL_DOMAINNAME}`)
+            treafik.http.routers.actual-budget-rtr.rule: Host(`budget.${INTERNAL_DOMAINNAME}`)
+
+            homepage.group: internal
+            homepage.name: Actual Budget
+            homepage.icon: sh-actual-budget.svg
+            homepage.href: https://budget.${INTERNAL_DOMAINNAME}
