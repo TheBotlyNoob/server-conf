@@ -18,7 +18,7 @@ services:
 
             - ROMM_AUTH_SECRET_KEY=${ROMM_SECRET_KEY:?} # Generate a key with `openssl rand -hex 32`
             - IGDB_CLIENT_ID=${IGDB_CLIENT_ID:?} # Generate an ID and SECRET in IGDB
-            - IGDB_CLIENT_SECRET=${IGDB_CLIENT_ID:?} # https://api-docs.igdb.com/#account-creation
+            - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET:?} # https://api-docs.igdb.com/#account-creation
 
             # https://github.com/rommapp/romm/wiki/OIDC-Setup-With-Authentik#step-4-configure-romm-environment-variables
             - OIDC_ENABLED=true
