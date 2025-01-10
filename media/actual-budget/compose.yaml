@@ -26,9 +26,9 @@ services:
 
             expose.external: true
 
-            traefik.http.routers.actual_budget-rtr.rule: Host(`budget.${INTERNAL_DOMAINNAME}`)
+            traefik.http.routers.actual_budget-rtr.rule: Host(`budget.${DOMAINNAME}`)
 
-            homepage.group: internal
+            homepage.group: stuff
             homepage.name: Actual Budget
             homepage.icon: sh-actual-budget.svg
             homepage.href: https://budget.${DOMAINNAME}
