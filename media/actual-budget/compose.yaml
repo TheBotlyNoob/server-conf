@@ -1,7 +1,11 @@
 services:
     actual-budget:
         image: actualbudget/actual-server:latest
-        container_name: actual_budget
+        container_name: actual-budget
+        user: ${PUID}:${PGID}
+        pids_limit: 200
+        security_opt:
+            - no-new-privileges:true
         restart: unless-stopped
         volumes:
             - ${APP_ROOT}/actual_budget/data:/data
@@ -14,7 +18,7 @@ services:
 
             expose.external: false
 
-            treafik.http.routers.actual-budget-rtr.rule: Host(`budget.${INTERNAL_DOMAINNAME}`)
+            traefik.http.routers.actual_budget-rtr.rule: Host(`budget.${INTERNAL_DOMAINNAME}`)
 
             homepage.group: internal
             homepage.name: Actual Budget
