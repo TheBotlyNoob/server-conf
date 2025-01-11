@@ -30,6 +30,7 @@ services:
 
 volumes:
     pingvin-data:
+        name: pingvin-data
         driver_opts:
             type: none
             device: ${APP_ROOT}/pingvin/data/pingvin.img
