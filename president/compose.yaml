@@ -14,6 +14,7 @@ include:
     - ./authentik/compose.yaml
     - ./matrix/compose.yaml
     - ./static/compose.yaml
+    - ./pingvin/compose.yaml
     # - ./crowdsec/compose.yaml
 
 networks:
