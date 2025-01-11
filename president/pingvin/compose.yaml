@@ -12,8 +12,8 @@ services:
 
             # setup OIDC on the frontend
         volumes:
-            - "${APP_ROOT}/pingvin/data:/opt/app/backend/data"
-            - "${APP_ROOT}/pingvin/data/images:/opt/app/frontend/public/img"
+            - "pingvin-data:/opt/app/backend/data"
+            - "${APP_ROOT}/pingvin/images:/opt/app/frontend/public/img"
 
         networks:
             - traefik
@@ -27,3 +27,10 @@ services:
             homepage.name: Pingvin Share
             homepage.icon: sh-pingvin-share.svg
             homepage.href: https://pingvin.${DOMAINNAME}
+
+volumes:
+    pingvin-data:
+        driver_opts:
+            type: none
+            device: ${APP_ROOT}/pingvin/data/pingvin.img
+            o: bind
