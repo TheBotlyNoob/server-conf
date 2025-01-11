@@ -35,7 +35,7 @@ volumes:
         name: pingvin-data
         driver: local
         driver_opts:
-            # type: ext4
+            type: none
             device: ${APP_ROOT}/pingvin/uploads/pingvin.img
             # https://stackoverflow.com/questions/62586541/volume-device-disk-mount-docker-compose-error-not-a-directory
             # o: bind
