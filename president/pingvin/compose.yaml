@@ -7,7 +7,10 @@ services:
             - no-new-privileges:true
         pids_limit: 200
         environment:
-            - TRUST_PROXY=true # Set to true if a reverse proxy is in front of the container
+            TRUST_PROXY: true # Set to true if a reverse proxy is in front of the container
+            API_URL: https://pingvin.${DOMAINNAME}
+
+            # setup OIDC on the frontend
         volumes:
             - "${APP_ROOT}/pingvin/data:/opt/app/backend/data"
             - "${APP_ROOT}/pingvin/data/images:/opt/app/frontend/public/img"
