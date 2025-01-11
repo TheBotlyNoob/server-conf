@@ -1,0 +1,26 @@
+services:
+    pingvin-share:
+        image: stonith404/pingvin-share # or ghcr.io/stonith404/pingvin-share
+        restart: unless-stopped
+        user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        environment:
+            - TRUST_PROXY=true # Set to true if a reverse proxy is in front of the container
+        volumes:
+            - "${APP_ROOT}/pingvin/data:/opt/app/backend/data"
+            - "${APP_ROOT}/pingvin/data/images:/opt/app/frontend/public/img"
+
+        networks:
+            - traefik
+
+        labels:
+            traefik.enable: true
+
+            traefik.http.routers.pingvin-share-rtr.rule: Host(`pingvin.${DOMAINNAME}`)
+
+            homepage.group: media
+            homepage.name: Pingvin Share
+            homepage.icon: sh-pingvin-share.svg
+            homepage.href: https://pingvin.${DOMAINNAME}
