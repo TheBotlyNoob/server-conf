@@ -1,13 +1,18 @@
 networks:
-  bridge_backend:
-    driver: bridge
+    bridge_backend:
+        driver: bridge
 
 services:
-  bridges-config:
-    image: alpine:latest
-    depends_on:
-      discord-config:
-        condition: service_completed_successfully
+    bridges-config:
+        image: alpine:latest
+        container_name: bridges-config
+        user: ${PUID}:${PGID}
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        depends_on:
+            discord-config:
+                condition: service_completed_successfully
 
 include:
-  - ./discord/compose.yaml
+    - ./discord/compose.yaml

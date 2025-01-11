@@ -1,6 +1,7 @@
 services:
     pingvin-share:
         image: stonith404/pingvin-share # or ghcr.io/stonith404/pingvin-share
+        container_name: pingvin-share
         restart: unless-stopped
         user: ${PUID}:${PGID}
         security_opt:
@@ -12,7 +13,8 @@ services:
 
             # setup OIDC on the frontend
         volumes:
-            - "pingvin-data:/opt/app/backend/data"
+            - "pingvin-data:/opt/app/backend/data/uploads"
+            - "${APP_ROOT}/pingvin/data:/opt/app/backend/data"
             - "${APP_ROOT}/pingvin/images:/opt/app/frontend/public/img"
 
         networks:
@@ -34,6 +36,6 @@ volumes:
         driver: local
         driver_opts:
             type: ext4
-            device: ${APP_ROOT}/pingvin/data/pingvin.img
+            device: ${APP_ROOT}/pingvin/uploads/pingvin.img
             # https://stackoverflow.com/questions/62586541/volume-device-disk-mount-docker-compose-error-not-a-directory
             # o: bind

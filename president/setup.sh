@@ -17,7 +17,7 @@ if [ -z "$APP_ROOT" ]; then
     exit 1
 fi
 
-disk_path="$APP_ROOT/pingvin/data"
+disk_path="$APP_ROOT/pingvin/uploads"
 mkdir -p "$disk_path"
 chown -R "$PUID:$PGID" "$disk_path"
 
