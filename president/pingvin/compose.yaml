@@ -31,7 +31,8 @@ services:
 volumes:
     pingvin-data:
         name: pingvin-data
+        driver: local
         driver_opts:
-            type: none
+            type: ext4
             device: ${APP_ROOT}/pingvin/data/pingvin.img
             o: bind
