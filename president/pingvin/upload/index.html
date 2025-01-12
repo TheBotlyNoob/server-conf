@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="color-scheme" content="light dark" />
+
+        <title>RomM & Pingvin Integration</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+        />
+
+        <style>
+            .hidden {
+                display: none;
+            }
+        </style>
+
+        <script>
+            // @ts-check
+
+            /**
+             * Format bytes as human-readable text.
+             *
+             * @param bytes Number of bytes.
+             * @param si True to use metric (SI) units, aka powers of 1000. False to use
+             *           binary (IEC), aka powers of 1024.
+             * @param dp Number of decimal places to display.
+             *
+             * @return Formatted string.
+             */
+            function humanFileSize(bytes, si = false, dp = 1) {
+                const thresh = si ? 1000 : 1024;
+
+                if (Math.abs(bytes) < thresh) {
+                    return bytes + " B";
+                }
+
+                const units = si
+                    ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+                    : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+                let u = -1;
+                const r = 10 ** dp;
+
+                do {
+                    bytes /= thresh;
+                    ++u;
+                } while (
+                    Math.round(Math.abs(bytes) * r) / r >= thresh &&
+                    u < units.length - 1
+                );
+
+                return bytes.toFixed(dp) + " " + units[u];
+            }
+
+            /**
+             * @param {number} rom
+             */
+            async function downloadRom(rom) {
+                const response = await fetch(`/api/beginDownload`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        id: rom
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    console.error(error);
+                    alert("failed to download rom: " + error.error);
+                    return;
+                }
+
+                downloadInfoPollers[rom] = setInterval(
+                    () => getDownloadInfo(rom),
+                    1000
+                );
+            }
+
+            let downloadInfoPollers = {};
+
+            async function getDownloadInfo(id) {
+                const infoElem = document.getElementById(
+                    `rom-${id}-download-info`
+                );
+
+                if (!infoElem) {
+                    console.error(`rom-${id}-download-info not found`);
+                    return;
+                }
+
+                const state = await fetch(`/api/downloadStatus?id=${id}`, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then((res) => res.json())
+                    .then((data) => data.state);
+
+                if (state) {
+                    if (state.shareData) {
+                        clearInterval(downloadInfoPollers[id]);
+                        downloadInfoPollers[id] = null;
+                        infoElem.innerHTML = `
+                            <p>Expiry: ${new Date(
+                                state.shareData.pingvinExpiry
+                            ).toLocaleString()}</p>
+                            <p>Download Link: <a href="${
+                                state.shareData.pingvinShareUrl
+                            }">${state.shareData.pingvinShareUrl}</a></p>
+                        `;
+                    } else if (state.uploadData) {
+                        infoElem.innerHTML = `
+                            <p>Upload Status:</p>
+                            <ul>
+                                ${Object.entries(state.uploadData.files).map(
+                                    ([file, { progress }]) =>
+                                        `<li>${file} - ${(
+                                            progress * 100
+                                        ).toFixed(3)}%</li>`
+                                )}
+                            </ul>
+                        `;
+                        if (!downloadInfoPollers[id]) {
+                            downloadInfoPollers = setInterval(
+                                () => getDownloadInfo(id),
+                                1000
+                            );
+                        }
+                    } else if (state.error) {
+                        infoElem.innerHTML = `
+                            <p>Error: ${state.error.message}</p>
+                        `;
+                    }
+                } else {
+                    infoElem.innerHTML = `
+                        <button onclick="downloadRom(${id})">Upload</button>
+                    `;
+                }
+            }
+
+            async function main() {
+                const romList = document.getElementById("rom-list");
+
+                if (!romList) {
+                    console.error("rom-list not found");
+                    return;
+                }
+
+                const response = await fetch("/api/roms");
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    console.error(error);
+                    alert("failed to fetch roms: " + error.error);
+                    return;
+                }
+
+                const roms = await response.json();
+
+                romList.removeAttribute("aria-busy");
+
+                for (const rom of roms) {
+                    const li = document.createElement("li");
+
+                    let html = `
+                        <details>
+                            <summary>${rom.name}</summary>
+                            <p>${rom.summary}</p>
+                            <p>Files:</p>
+                            <ul>
+                                ${rom.files
+                                    .sort((a, b) => a.size - b.size)
+                                    .map(
+                                        (file) =>
+                                            `<li>${
+                                                file.filename
+                                            } (${humanFileSize(
+                                                file.size
+                                            )})</li>`
+                                    )
+                                    .join("")}
+                            </ul>
+
+                            <p>Total Size: ${humanFileSize(
+                                rom.file_size_bytes
+                            )}</p>
+                    `;
+
+                    html += `
+                            <div id="rom-${rom.id}-download-info"></div>
+                        </details>
+
+                        <hr />
+                    `;
+
+                    li.id = `rom-${rom.id}`;
+                    li.innerHTML = html;
+
+                    romList.appendChild(li);
+
+                    getDownloadInfo(rom.id);
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", main);
+        </script>
+    </head>
+    <body>
+        <main class="container">
+            <ul id="rom-list" aria-busy="true"></ul>
+        </main>
+    </body>
+</html>
