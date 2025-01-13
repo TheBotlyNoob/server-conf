@@ -34,6 +34,9 @@ interface ServerConfig {
     chunkSize: number;
 
     allowsPassword: boolean;
+
+    username: string;
+    password: string;
 }
 
 interface RawConfig {
@@ -123,7 +126,7 @@ export async function login(
     });
 
     if (!signIn.ok) {
-        console.log("response:", await signIn.text());
+        console.error("error response:", await signIn.text());
         throw new Error("Failed to sign in");
     }
 
@@ -137,17 +140,40 @@ export async function login(
         shareIdLength,
         maxSize,
         chunkSize,
-        allowsPassword
+        allowsPassword,
+
+        username,
+        password
     };
 }
 
-async function checkIdAvailability(config: ServerConfig, id: string) {
+async function checkIdAvailability(
+    config: ServerConfig,
+    id: string,
+    retry?: boolean
+) {
     const response = await authenticatedFetch(
         config,
         config.host + "/api/shares/isShareIdAvailable/" + id
     );
 
     if (!response.ok) {
+        console.error("error response:", await response.text());
+
+        if ((response.status === 403 || response.status === 401) && !retry) {
+            console.log("retrying");
+            // attempt to re-login and retry
+            const newConfig = await login(
+                config.host,
+                config.username,
+                config.password
+            );
+
+            config.accessToken = newConfig.accessToken;
+
+            return checkIdAvailability(config, id, true);
+        }
+
         throw new Error("Failed to check id availability");
     }
 
@@ -160,7 +186,8 @@ async function createShare(
         id?: string;
         expiration: string;
         name: string;
-    }
+    },
+    retry?: boolean
 ) {
     console.log("creating share", meta);
 
@@ -220,7 +247,23 @@ async function createShare(
     );
 
     if (!response.ok) {
-        throw new Error("Failed to create share");
+        console.error("error response:", await response.text());
+
+        if ((response.status === 403 || response.status === 401) && !retry) {
+            console.log("retrying");
+            // attempt to re-login and retry
+            const newConfig = await login(
+                config.host,
+                config.username,
+                config.password
+            );
+
+            config.accessToken = newConfig.accessToken;
+
+            return createShare(config, meta, true);
+        } else {
+            throw new Error("Failed to create share");
+        }
     }
 
     return meta.id;
@@ -235,7 +278,8 @@ async function handleChunk(
         name: string;
         data: Uint8Array;
     },
-    fileId?: string | null
+    fileId?: string | null,
+    retry?: boolean
 ) {
     console.log("uploading chunk", chunkIndex, "of", totalChunks);
     console.log("fileid:", fileId);
@@ -264,8 +308,36 @@ async function handleChunk(
     );
 
     if (!response.ok) {
-        console.log("response:", await response.text(), "file:", chunk.name);
-        throw new Error("Failed to upload file");
+        console.log(
+            "error response:",
+            await response.text(),
+            "file:",
+            chunk.name
+        );
+
+        if ((response.status === 403 || response.status === 401) && !retry) {
+            console.log("retrying");
+            // attempt to re-login and retry
+            const newConfig = await login(
+                config.host,
+                config.username,
+                config.password
+            );
+
+            config.accessToken = newConfig.accessToken;
+
+            return handleChunk(
+                config,
+                shareId,
+                chunkIndex,
+                totalChunks,
+                chunk,
+                fileId,
+                true
+            );
+        } else {
+            throw new Error("Failed to upload file");
+        }
     }
 
     const json = await response.json();
@@ -388,7 +460,11 @@ async function uploadFile(
     return fileId;
 }
 
-async function completeShare(config: ServerConfig, id: string) {
+async function completeShare(
+    config: ServerConfig,
+    id: string,
+    retry?: boolean
+) {
     const response = await authenticatedFetch(
         config,
         config.host + "/api/shares/" + id + "/complete",
@@ -398,8 +474,22 @@ async function completeShare(config: ServerConfig, id: string) {
     );
 
     if (!response.ok) {
-        console.log("response:", await response.text());
-        throw new Error("Failed to complete share");
+        console.error("error response:", await response.text());
+        if ((response.status === 403 || response.status === 401) && !retry) {
+            console.log("retrying");
+            // attempt to re-login and retry
+            const newConfig = await login(
+                config.host,
+                config.username,
+                config.password
+            );
+
+            config.accessToken = newConfig.accessToken;
+
+            return completeShare(config, id, true);
+        } else {
+            throw new Error("Failed to complete share");
+        }
     }
 
     return response.json() as Promise<{
@@ -560,14 +650,30 @@ export async function getFile(
     }
 }
 
-export async function getShares(config: ServerConfig) {
+export async function getShares(config: ServerConfig, retry?: boolean) {
     const response = await authenticatedFetch(
         config,
         config.host + "/api/shares"
     );
 
     if (!response.ok) {
-        throw new Error("Failed to get shares");
+        console.error("error response:", await response.text());
+
+        if ((response.status === 403 || response.status === 401) && !retry) {
+            console.log("retrying");
+            // attempt to re-login and retry
+            const newConfig = await login(
+                config.host,
+                config.username,
+                config.password
+            );
+
+            config.accessToken = newConfig.accessToken;
+
+            return getShares(config, true);
+        } else {
+            throw new Error("Failed to get shares");
+        }
     }
 
     return await response.json().then((json) => json as ShareData[]);
