@@ -101,10 +101,15 @@
                     .then((res) => res.json())
                     .then((data) => data.state);
 
+                const clear = () => {
+                    clearInterval(downloadInfoPollers[id]);
+                    downloadInfoPollers[id] = null;
+                };
+
                 if (state) {
                     if (state.shareData) {
-                        clearInterval(downloadInfoPollers[id]);
-                        downloadInfoPollers[id] = null;
+                        clear();
+
                         infoElem.innerHTML = `
                             <p>Expiry: ${new Date(
                                 state.shareData.pingvinExpiry
@@ -117,12 +122,14 @@
                         infoElem.innerHTML = `
                             <p>Upload Status:</p>
                             <ul>
-                                ${Object.entries(state.uploadData.files).map(
-                                    ([file, { progress }]) =>
-                                        `<li>${file} - ${(
-                                            progress * 100
-                                        ).toFixed(3)}%</li>`
-                                )}
+                                ${Object.entries(state.uploadData.files)
+                                    .map(
+                                        ([file, { progress }]) =>
+                                            `<li>${file} - ${(
+                                                progress * 100
+                                            ).toFixed(3)}%</li>`
+                                    )
+                                    .join("")}
                             </ul>
                         `;
                         if (!downloadInfoPollers[id]) {
@@ -132,11 +139,15 @@
                             );
                         }
                     } else if (state.error) {
+                        clear();
+
                         infoElem.innerHTML = `
                             <p>Error: ${state.error.message}</p>
+                            <button onclick="downloadRom(${id})">Retry</button>
                         `;
                     }
                 } else {
+                    clear();
                     infoElem.innerHTML = `
                         <button onclick="downloadRom(${id})">Upload</button>
                     `;

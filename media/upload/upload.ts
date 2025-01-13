@@ -300,92 +300,88 @@ async function uploadFile(
         return;
     }
 
-    // TODO: parallel
     const chunks = Math.ceil(file.byteLength / config.chunkSize);
-
     let chunkIndex = 0;
 
-    let currentChunk = new Uint8Array(config.chunkSize);
-    let currentChunkOffset = 0;
+    let chunkInFlight = false;
 
-    let chunkPromises: Promise<string>[] = [];
+    let finishedPromiseRes: (value: void) => void;
+    const finishedPromise = new Promise<void>((res) => {
+        finishedPromiseRes = res;
+    });
 
     let fileId: string | null = null;
 
-    const readData = async (data: Buffer) => {
-        for (
-            let i = 0;
-            i < data.length;
-            i += Math.min(data.length - i, config.chunkSize)
-        ) {
-            const chunk = data.slice(
-                i,
-                i + Math.min(data.length - i, config.chunkSize)
-            );
+    const readData = () => {
+        console.log("readData called");
 
-            console.log("got chunk", chunk.length);
+        if (chunkInFlight) {
+            return;
+        }
+        chunkInFlight = true;
+
+        const chunk: Buffer | null = file.data.read(config.chunkSize);
+
+        console.log("chunk", chunk);
+
+        if (!chunk) {
+            chunkInFlight = false;
+            return;
+        }
+
+        console.log("got chunk", chunk.length);
+
+        console.log(chunk.length);
+
+        if (chunk.length === config.chunkSize || chunkIndex === chunks - 1) {
+            const currentChunkIndex = chunkIndex;
+            chunkIndex++;
 
             console.log(
-                chunk.length,
-                currentChunkOffset,
-                currentChunk.byteLength
+                "uploading chunk",
+                currentChunkIndex,
+                "total chunks:",
+                chunks
             );
 
-            const toWrite = Math.min(
-                chunk.length,
-                currentChunk.byteLength - currentChunkOffset
+            const promise = handleChunk(
+                config,
+                shareId,
+                currentChunkIndex,
+                chunks,
+                {
+                    name: file.name,
+                    data: chunk
+                },
+                fileId
             );
 
-            currentChunk.set(chunk.slice(0, toWrite), currentChunkOffset);
-            currentChunkOffset += toWrite;
-
-            if (
-                currentChunkOffset === config.chunkSize ||
-                chunkIndex === chunks - 1
-            ) {
-                const currentChunkIndex = chunkIndex;
-                chunkIndex++;
-
-                console.log(
-                    "uploading chunk",
-                    currentChunkIndex,
-                    "total chunks:",
-                    chunks
-                );
-
-                const promise = handleChunk(
-                    config,
-                    shareId,
-                    currentChunkIndex,
-                    chunks,
-                    {
-                        name: file.name,
-                        data: currentChunk.slice(0, currentChunkOffset)
-                    },
-                    fileId
-                );
-
-                chunkPromises.push(promise);
-
+            (async () => {
                 fileId = await promise;
+                console.log("fileId", fileId);
+
                 onProgress(chunkIndex / chunks);
 
-                currentChunkOffset = 0;
-            }
+                chunkInFlight = false;
+
+                if (chunkIndex === chunks) {
+                    finishedPromiseRes();
+                } else {
+                    readData();
+                }
+            })();
+        } else {
+            throw new Error("Invalid chunk size");
         }
     };
 
-    file.data.on("data", (chunk) => {
-        file.data.pause();
-
-        readData(Buffer.from(chunk)).then(() => file.data.resume());
-    });
+    file.data.on("readable", readData);
 
     await new Promise((res) => {
         file.data.on("end", res);
     });
 
-    await Promise.all(chunkPromises);
+    await finishedPromise;
 
     console.log("all chunks read", file.name);
 
@@ -433,16 +429,26 @@ export async function createShareAndUploadFiles(
 
     console.log("created share", shareId);
 
+    let inFlightFiles: Promise<void>[] = [];
+
     for (const file of files) {
         console.log("uploading", file.name);
 
-        await uploadFile(config, shareId, file, (progress) => {
-            console.log("progress", progress * 100);
-            file.onProgress?.(progress);
-        });
+        if (inFlightFiles.length === MAX_PARALLEL_FILES) {
+            await inFlightFiles[0];
+            inFlightFiles = inFlightFiles.slice(1);
+        }
+        inFlightFiles.push(
+            uploadFile(config, shareId, file, (progress) => {
+                console.log("progress", progress * 100);
+                file.onProgress?.(progress);
+            }) as Promise<void>
+        );
 
         console.log("upload complete");
     }
+
+    await Promise.all(inFlightFiles);
 
     console.log("completing share");
 

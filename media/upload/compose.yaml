@@ -1,0 +1,37 @@
+services:
+    upload-to-pingvin:
+        build:
+            context: .
+        container_name: upload-to-pingvin
+        security_opt:
+            - no-new-privileges:true
+        pids_limit: 200
+        user: ${PUID}:${PGID}
+        environment:
+            ROMM_USERNAME: ${PINGVIN_UPLOAD_ROMM_USERNAME}
+            ROMM_PASSWORD: ${PINGVIN_UPLOAD_ROMM_PASSWORD}
+            ROMM_HOST: https://romm.${DOMAINNAME}
+
+            PINGVIN_USERNAME: ${PINGVIN_UPLOAD_PINGVIN_USERNAME}
+            PINGVIN_PASSWORD: ${PINGVIN_UPLOAD_PINGVIN_PASSWORD}
+            PINGVIN_HOST: https://pingvin.${ROOT_DOMAINNAME}
+
+            ROMM_ROOT: /data
+        volumes:
+            - ${DATA_MOUNT_DIR}/games:/data
+        expose:
+            - 3000
+
+        networks:
+            - traefik-tailscale
+        restart: unless-stopped
+        labels:
+            expose.external: false
+
+            traefik.enable: true
+            traefik.http.routers.romm-to-pingvin-rtr.rule: Host(`romm-to-pingvin.${INTERNAL_DOMAINNAME}`)
+
+            homepage.group: internal
+            homepage.name: RomM -> Pingvin
+            homepage.icon: mdi-cloud-arrow-up-outline
+            homepage.href: https://romm-to-pingvin.${INTERNAL_DOMAINNAME}
