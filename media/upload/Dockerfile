@@ -15,6 +15,7 @@ COPY package.json .
 RUN npm install --omit=dev
 
 COPY --from=build /app/dist ./dist
+COPY --from=build /app/index.html .
 
 EXPOSE 3000
 CMD ["node", "dist/web.js"]
