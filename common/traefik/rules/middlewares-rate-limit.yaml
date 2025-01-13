@@ -11,4 +11,4 @@ http:
         middlewares-rate-limit:
             rateLimit:
                 average: 200
-                burst: 100
+                burst: 150
