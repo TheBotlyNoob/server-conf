@@ -10,7 +10,7 @@ services:
         environment:
             ROMM_USERNAME: ${PINGVIN_UPLOAD_ROMM_USERNAME}
             ROMM_PASSWORD: ${PINGVIN_UPLOAD_ROMM_PASSWORD}
-            ROMM_HOST: http://romm
+            ROMM_HOST: http://romm:8080
 
             PINGVIN_USERNAME: ${PINGVIN_UPLOAD_PINGVIN_USERNAME}
             PINGVIN_PASSWORD: ${PINGVIN_UPLOAD_PINGVIN_PASSWORD}
