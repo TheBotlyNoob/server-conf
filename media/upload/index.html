@@ -75,10 +75,7 @@
                     return;
                 }
 
-                downloadInfoPollers[rom] = setInterval(
-                    () => getDownloadInfo(rom),
-                    1000
-                );
+                setTimeout(() => getDownloadInfo(rom), 5000);
             }
 
             let downloadInfoPollers = {};
@@ -101,15 +98,8 @@
                     .then((res) => res.json())
                     .then((data) => data.state);
 
-                const clear = () => {
-                    clearInterval(downloadInfoPollers[id]);
-                    downloadInfoPollers[id] = null;
-                };
-
                 if (state) {
                     if (state.shareData) {
-                        clear();
-
                         infoElem.innerHTML = `
                             <p>Expiry: ${new Date(
                                 state.shareData.pingvinExpiry
@@ -132,22 +122,17 @@
                                     .join("")}
                             </ul>
                         `;
-                        if (!downloadInfoPollers[id]) {
-                            downloadInfoPollers = setInterval(
-                                () => getDownloadInfo(id),
-                                1000
-                            );
-                        }
+                        downloadInfoPollers = setTimeout(
+                            () => getDownloadInfo(id),
+                            1000
+                        );
                     } else if (state.error) {
-                        clear();
-
                         infoElem.innerHTML = `
                             <p>Error: ${state.error.message}</p>
                             <button onclick="downloadRom(${id})">Retry</button>
                         `;
                     }
                 } else {
-                    clear();
                     infoElem.innerHTML = `
                         <button onclick="downloadRom(${id})">Upload</button>
                     `;
