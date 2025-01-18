@@ -4,12 +4,12 @@
 }
 
 :8080 {
-    handle_path /.well-known/* {
+    handle {
         header Access-Control-Allow-Origin "*"
         header Access-Control-Allow-Methods "OPTIONS,GET"
 
         root * /var/www
         file_server
     }
-    respond 404
+    respond "404 not found" 404
 }
