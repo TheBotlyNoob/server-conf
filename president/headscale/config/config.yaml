@@ -275,7 +275,7 @@ dns:
     # See: docs/ref/dns.md
 
     # modified by init.sh
-    extra_records_path: "/dns-rules.json"
+    # extra_records_path: "/dns-rules.json"
     #   - name: "grafana.myvpn.example.com"
     #     type: "A"
     #     value: "100.64.0.3"
