@@ -49,7 +49,7 @@ services:
             - "./config:/etc/headscale"
 
             # Headplane stores its data in this directory
-            - "{APP_ROOT}/headplane/data:/var/lib/headplane"
+            - "${APP_ROOT}/headplane/data:/var/lib/headplane"
         depends_on:
             - headscale
         environment:
