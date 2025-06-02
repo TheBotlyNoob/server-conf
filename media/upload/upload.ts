@@ -450,7 +450,7 @@ async function uploadFile(
     file.data.on("readable", readData);
 
     await new Promise((res) => {
-        file.data.on("end", res);
+        file.data.on("end", () => res(null));
     });
 
     await finishedPromise;
