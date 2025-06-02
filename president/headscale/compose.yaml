@@ -46,7 +46,7 @@ services:
         container_name: headplane
         restart: unless-stopped
         volumes:
-            - "./config:/etc/headscale"
+            - "./config:/etc/headplane"
 
             # Headplane stores its data in this directory
             - "${APP_ROOT}/headplane/data:/var/lib/headplane"
