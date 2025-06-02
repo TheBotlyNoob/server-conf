@@ -80,8 +80,6 @@ services:
             - socket_proxy
         labels:
             traefik.enable: true
-            traefik.http.routers.headplane-rtr.rule: Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/admin`)
-
             homepage.group: internal
             homepage.name: Headscale
             homepage.icon: sh-headscale.svg
