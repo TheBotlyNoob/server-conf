@@ -1,6 +1,6 @@
 services:
     headscale:
-        image: headscale/headscale:stable
+        image: headscale/headscale:0.26.0
         container_name: headscale
         user: ${PUID}:${PGID}
         security_opt:
@@ -32,12 +32,13 @@ services:
         expose:
             - 8080
         labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.headscale-rtr.rule=Host(`headscale.${DOMAINNAME}`)"
+            traefik.enable: true
+            traefik.http.routers.headscale-rtr.rule: Host(`headscale.${DOMAINNAME}`)
+            # This is needed for Headplane to find it and signal it
+            me.tale.headplane.target: headscale
 
     headplane:
-        build:
-            context: ./container
+        image: ghcr.io/tale/headplane:0.6.0
         user: ${PUID}:${PGID}
         security_opt:
             - no-new-privileges:true
@@ -45,10 +46,10 @@ services:
         container_name: headplane
         restart: unless-stopped
         volumes:
-            - ./config:/etc/headscale
-            - ${APP_ROOT}/headscale/data:/var/lib/headscale
-            - ${APP_ROOT}/headscale/sock:/var/run/headscale
-            - ${APP_ROOT}/headplane/cache:/var/cache/headplane
+            - "./config:/etc/headscale"
+
+            # Headplane stores its data in this directory
+            - "{APP_ROOT}/headplane/data:/var/lib/headplane"
         depends_on:
             - headscale
         environment:
