@@ -5,7 +5,7 @@ services:
         user: ${PUID}:${PGID}
         environment:
             TS_EXTRA_ARGS: --advertise-tags=tag:internal --advertise-exit-node --login-server=https://headscale.${DOMAINNAME}
-            TS_AUTHKEY: ${TAILSCALE_EXIT_NODE_PREAUTH_KEY:?generate a preauthkey for the tailscale exit node}
+            TS_AUTHKEY: ${TAILSCALE_EXIT_NODE_PREAUTH_KEY}
             TS_HOSTNAME: outside
             TS_STATE_DIR: /var/lib/tailscale
             TS_USERSPACE: true
@@ -13,10 +13,6 @@ services:
         volumes:
             - ${APP_ROOT}/tailscale/data:/var/lib/tailscale
             - ${APP_ROOT}/tailscale/cache:/var/cache/tailscale
-            # headscale stuff
-            - ../headscale/config:/etc/headscale
-            - ${APP_ROOT}/headscale/data:/var/lib/headscale
-            - ${APP_ROOT}/headscale/sock:/var/run/headscale
 
         security_opt:
             - no-new-privileges:true
