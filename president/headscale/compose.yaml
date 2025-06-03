@@ -7,7 +7,7 @@ services:
             - no-new-privileges:true
         pids_limit: 200
         volumes:
-            - ./config:/etc/headscale
+            - ./config/headscale:/etc/headscale
             - ${APP_ROOT}/headscale/data:/var/lib/headscale
             - ${APP_ROOT}/headscale/sock:/var/run/headscale
         networks:
@@ -46,25 +46,19 @@ services:
         container_name: headplane
         restart: unless-stopped
         volumes:
-            - "./config:/etc/headscale"
+            - "./config/headscale:/etc/headscale"
+            - "./config/headplane:/etc/headplane"
 
             # Headplane stores its data in this directory
             - "${APP_ROOT}/headplane/data:/var/lib/headplane"
         depends_on:
             - headscale
         environment:
-            HEADSCALE_PUBLIC_URL: https://headscale.${DOMAINNAME}
-            HEADSCALE_URL: http://headscale:8080
-
-            OIDC_CLIENT_ID: ${HEADPLANE_OIDC_CLIENT_ID}
-            OIDC_CLIENT_SECRET: ${HEADPLANE_OIDC_CLIENT_SECRET}
-            OIDC_ISSUER: ${HEADPLANE_OIDC_ISSUER}
-
             HEADPLANE_HEADSCALE__URL: https://headscale.${DOMAINNAME}
 
-            HEADPLANE_OIDC__CLIENT_ID: ${HEADSCALE_OIDC_CLIENT_ID}
-            HEADPLANE_OIDC__CLIENT_SECRET: ${HEADSCALE_OIDC_CLIENT_SECRET}
-            HEADPLANE_OIDC__ISSUER: ${HEADSCALE_OIDC_ISSUER}
+            HEADPLANE_OIDC__CLIENT_ID: ${HEADPLANE_OIDC_CLIENT_ID}
+            HEADPLANE_OIDC__CLIENT_SECRET: ${HEADPLANE_OIDC_CLIENT_SECRET}
+            HEADPLANE_OIDC__ISSUER: ${HEADPLANE_OIDC_ISSUER}
 
             # This is always required for Headplane to work
             HEADPLANE_SERVER__COOKIE_SECRET: "${HEADPLANE_COOKIE_SECRET:?headplane_cookie_secret is required}"
