@@ -14,10 +14,10 @@ services:
             - traefik-external
 
         environment:
-            ACTUAL_OPENID_DISCOVERY_URL: https://authentik.${ROOT_DOMAINNAME}
+            ACTUAL_OPENID_DISCOVERY_URL: https://authentik.${DOMAINNAME}
             ACTUAL_OPENID_CLIENT_ID: ${ACTUAL_BUDGET_OIDC_CLIENT_ID:?}
             ACTUAL_OPENID_CLIENT_SECRET: ${ACTUAL_BUDGET_OIDC_CLIENT_SECRET:?}
-            ACTUAL_OPENID_SERVER_HOSTNAME: https://budget.${INTERNAL_DOMAINNAME}
+            ACTUAL_OPENID_SERVER_HOSTNAME: https://budget.${DOMAINNAME}
 
             ACTUAL_TRUSTED_PROXIES: 0.0.0.0/0,::/0
 
