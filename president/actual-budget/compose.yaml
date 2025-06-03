@@ -21,7 +21,7 @@ services:
 
             ACTUAL_LOGIN_METHOD: openid
 
-            ACTUAL_TRUSTED_PROXIES: 10.120.0.0/24 0.0.0.0/0,::/0
+            ACTUAL_TRUSTED_PROXIES: 10.120.0.0/24
 
         labels:
             traefik.enable: true
