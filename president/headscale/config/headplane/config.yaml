@@ -62,7 +62,7 @@ integration:
         enabled: true
         # To connect to your Tailnet, you need to generate a pre-auth key
         # This can be done via the web UI or through the `headscale` CLI.
-        # pre_authkey: "<your-preauth-key>"
+        pre_authkey: "overridden"
 
         # Optionally change the name of the agent in the Tailnet.
         # host_name: "headplane-agent"
@@ -139,7 +139,7 @@ oidc:
     # with systemd's `LoadCredential` straightforward:
     # client_secret_path: "${CREDENTIALS_DIRECTORY}/oidc_client_secret"
 
-    disable_api_key_login: false
+    disable_api_key_login: true
     token_endpoint_auth_method: "client_secret_post"
 
     # If you are using OIDC, you need to generate an API key
