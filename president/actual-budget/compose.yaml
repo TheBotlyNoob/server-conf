@@ -19,12 +19,12 @@ services:
             ACTUAL_OPENID_CLIENT_SECRET: ${ACTUAL_BUDGET_OIDC_CLIENT_SECRET}
             ACTUAL_OPENID_SERVER_HOSTNAME: https://budget.${DOMAINNAME}
 
-            ACTUAL_TRUSTED_PROXIES: 0.0.0.0/0,::/0
+            ACTUAL_LOGIN_METHOD: openid
+
+            ACTUAL_TRUSTED_PROXIES: 10.120.0.0/24 0.0.0.0/0,::/0
 
         labels:
             traefik.enable: true
-
-            expose.external: true
 
             traefik.http.routers.actual_budget-rtr.rule: Host(`budget.${DOMAINNAME}`)
 

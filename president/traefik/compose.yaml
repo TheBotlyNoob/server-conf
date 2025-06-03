@@ -8,8 +8,9 @@ services:
             service: traefik
         container_name: traefik
         networks:
-            - traefik
-            - socket_proxy
+            traefik:
+                ipv4_address: 10.120.0.84
+            socket_proxy:
         ports:
             - 80:80
             - 443:443

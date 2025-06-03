@@ -28,6 +28,9 @@ networks:
     traefik:
         name: traefik
         driver: bridge
+        ipam:
+            config:
+                - subnet: 10.120.0.0/24
 
     headscale:
         driver: bridge
