@@ -46,7 +46,7 @@ services:
         container_name: headplane
         restart: unless-stopped
         volumes:
-            - "./config:/etc/headplane"
+            - "./config:/etc/headscale"
 
             # Headplane stores its data in this directory
             - "${APP_ROOT}/headplane/data:/var/lib/headplane"
@@ -60,26 +60,19 @@ services:
             OIDC_CLIENT_SECRET: ${HEADPLANE_OIDC_CLIENT_SECRET}
             OIDC_ISSUER: ${HEADPLANE_OIDC_ISSUER}
 
-            HEADPLANE_HEADSCALE__SERVER_URL: https://headscale.${DOMAINNAME}
-
-            HEADPLANE_DNS__BASE_DOMAIN: m.${DOMAINNAME}
+            HEADPLANE_HEADSCALE__URL: https://headscale.${DOMAINNAME}
 
             HEADPLANE_OIDC__CLIENT_ID: ${HEADSCALE_OIDC_CLIENT_ID}
             HEADPLANE_OIDC__CLIENT_SECRET: ${HEADSCALE_OIDC_CLIENT_SECRET}
             HEADPLANE_OIDC__ISSUER: ${HEADSCALE_OIDC_ISSUER}
 
             # This is always required for Headplane to work
-            COOKIE_SECRET: "${HEADPLANE_COOKIE_SECRET:?headplane_cookie_secret is required}"
+            HEADPLANE_SERVER__COOKIE_SECRET: "${HEADPLANE_COOKIE_SECRET:?headplane_cookie_secret is required}"
+
+            HEADPLANE_OIDC__HEADSCALE_API_KEY: "${HEADSCALE_API_KEY:?generate headscale api key}"
+            HEADPLANE_INTEGRATION_AGENT__PRE_AUTHKEY: "${HEADPLANE_AGENT_PREAUTH_KEY:?generate headplane agent preauth key}"
 
             DOCKER_SOCK: "tcp://socket-proxy:2375"
-            HEADSCALE_INTEGRATION: "docker"
-            HEADSCALE_CONTAINER: "headscale"
-            DISABLE_API_KEY_LOGIN: "true"
-            HOST: "0.0.0.0"
-            PORT: "3000"
-
-            # Only set this to false if you aren't behind a reverse proxy
-            COOKIE_SECURE: "true"
 
             HEADPLANE_LOAD_ENV_OVERRIDES: true
         expose:

@@ -1,12 +1,11 @@
 services:
     tailscale-exit-node:
-        build:
-            context: ./container
-
+        image: tailscale/tailscale:stable
         container_name: tailscale-exit-node
         user: ${PUID}:${PGID}
         environment:
-            TS_EXTRA_ARGS: --advertise-tags=tag:internal --advertise-exit-node
+            TS_EXTRA_ARGS: --advertise-tags=tag:internal --advertise-exit-node --login-server=https://headscale.${DOMAINNAME}
+            TS_AUTHKEY: ${TAILSCALE_EXIT_NODE_PREAUTH_KEY:?generate a preauthkey for the tailscale exit node}
             TS_HOSTNAME: outside
             TS_STATE_DIR: /var/lib/tailscale
             TS_USERSPACE: true
