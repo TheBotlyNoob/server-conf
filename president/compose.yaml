@@ -11,6 +11,7 @@ include:
     - ./headscale/compose.yaml
     - ./exit-node/compose.yaml
     - ./frps/compose.yaml
+    - ./actual-budget/compose.yaml
     - ./authentik/compose.yaml
     - ./matrix/compose.yaml
     - ./static/compose.yaml
