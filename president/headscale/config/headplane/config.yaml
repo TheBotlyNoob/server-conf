@@ -128,7 +128,7 @@ integration:
 # OIDC Configuration for simpler authentication
 # (This is optional, but recommended for the best experience)
 oidc:
-    issuer: "overridden"
+    issuer: "http://overridden"
     client_id: "overridden"
 
     # The client secret for the OIDC client
