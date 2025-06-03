@@ -60,6 +60,8 @@ services:
             HEADPLANE_OIDC__CLIENT_SECRET: ${HEADPLANE_OIDC_CLIENT_SECRET}
             HEADPLANE_OIDC__ISSUER: ${HEADPLANE_OIDC_ISSUER}
 
+            HEADPLANE_OIDC__REDIRECT_URI: https://headscale.${DOMAINNAME}/admin/oidc/callback
+
             # This is always required for Headplane to work
             HEADPLANE_SERVER__COOKIE_SECRET: "${HEADPLANE_COOKIE_SECRET:?headplane_cookie_secret is required}"
 
@@ -77,6 +79,9 @@ services:
             - socket_proxy
         labels:
             traefik.enable: true
+            traefik.http.routers.headplane-rtr.rule: Host(`headscale.${DOMAINNAME}`) && PathPrefix(`/admin`)
+            ## Middlewares
+            traefik.http.routers.headplane-rtr.middlewares: middlewares-authentik@file
             homepage.group: internal
             homepage.name: Headscale
             homepage.icon: sh-headscale.svg
