@@ -40,7 +40,7 @@ headscale:
     # Headplane internally validates the Headscale configuration
     # to ensure that it changes the configuration in a safe way.
     # If you want to disable this validation, set this to false.
-    config_strict: true
+    config_strict: false
 
     # If you are using `dns.extra_records_path` in your Headscale
     # configuration, you need to set this to the path for Headplane
