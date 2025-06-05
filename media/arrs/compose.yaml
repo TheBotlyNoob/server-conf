@@ -54,7 +54,7 @@ services:
             - traefik-tailscale
             - arrs
         expose:
-            - 7676
+            - 7878
         restart: unless-stopped
         labels:
             expose.external: false
