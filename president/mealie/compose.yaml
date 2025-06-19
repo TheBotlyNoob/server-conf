@@ -1,5 +1,5 @@
 services:
-    actual-budget:
+    mealie:
         image: ghcr.io/mealie-recipes/mealie:v2.8.0
         container_name: mealie
         user: ${PUID}:${PGID}
