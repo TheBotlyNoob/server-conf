@@ -3,7 +3,6 @@ services:
         image: ghcr.io/mealie-recipes/mealie:v2.8.0
         container_name: mealie
         user: ${PUID}:${PGID}
-        pids_limit: 200
         security_opt:
             - no-new-privileges:true
         restart: unless-stopped
@@ -12,6 +11,7 @@ services:
         deploy:
             resources:
                 limits:
+                    pids: 200
                     memory: 1000M #
 
         networks:
