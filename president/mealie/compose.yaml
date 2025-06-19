@@ -8,6 +8,7 @@ services:
         restart: unless-stopped
         volumes:
             - ${APP_ROOT}/mealie/data:/app/data
+            - ${APP_ROOT}/mealie/nltk_data:/nltk_data
         deploy:
             resources:
                 limits:
