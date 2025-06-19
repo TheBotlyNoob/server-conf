@@ -31,11 +31,13 @@ services:
             PGID: ${PGID}
             TZ: ${TZ}
             BASE_URL: https://mealie.${DOMAINNAME}
+        expose:
+            - 9000
 
         labels:
             traefik.enable: true
 
-            traefik.http.routers.actual_budget-rtr.rule: Host(`mealie.${DOMAINNAME}`)
+            traefik.http.routers.mealie-rtr.rule: Host(`mealie.${DOMAINNAME}`)
 
             homepage.group: stuff
             homepage.name: Mealie
