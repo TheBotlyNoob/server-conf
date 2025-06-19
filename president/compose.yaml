@@ -15,6 +15,7 @@ include:
     - ./authentik/compose.yaml
     - ./matrix/compose.yaml
     - ./static/compose.yaml
+    - ./mealie/compose.yaml
     - ./pingvin/compose.yaml
     # - ./crowdsec/compose.yaml
 
