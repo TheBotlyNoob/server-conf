@@ -22,6 +22,9 @@ services:
         networks:
             - immich-backend
             - traefik
+        environment:
+            TZ: ${TZ}
+            REDIST_URL: "immich_redist"
         restart: always
         healthcheck:
             disable: false
