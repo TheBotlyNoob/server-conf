@@ -17,6 +17,7 @@ include:
     - ./static/compose.yaml
     - ./mealie/compose.yaml
     - ./pingvin/compose.yaml
+    - ./immich/compose.yaml
     # - ./crowdsec/compose.yaml
 
 networks:
