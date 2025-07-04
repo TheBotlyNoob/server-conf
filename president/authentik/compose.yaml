@@ -36,8 +36,8 @@ services:
 
         environment:
             POSTGRES_PASSWORD: ${AUTHENTIK_PG_PASS:?database password required}
-            POSTGRES_USER: ${PG_USER:-authentik}
-            POSTGRES_DB: ${PG_DB:-authentik}
+            POSTGRES_USER: authentik
+            POSTGRES_DB: authentik
 
     authentik_redis:
         image: docker.io/library/redis:alpine
