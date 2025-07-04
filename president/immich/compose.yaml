@@ -24,7 +24,11 @@ services:
             - traefik
         environment:
             TZ: ${TZ}
-            REDIST_URL: "immich_redist"
+            REDIS_HOSTNAME: "immich_redist"
+            DB_HOSTNAME: "immich_postgres"
+            DB_USERNAME: immich
+            DB_PASSWORD: ${IMMICH_PG_PASS:?}
+            DB_DATABASE_NAME: immich
         restart: always
         healthcheck:
             disable: false
